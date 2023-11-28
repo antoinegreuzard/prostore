@@ -24,7 +24,7 @@ const AboutUs = ({ navigationItems, landing }) => {
       <PageMeta
         title={'About | uNFT Marketplace'}
         description={
-          'uNFT Marketplace built with Cosmic CMS, Next.js, and the Stripe API'
+          'uNFT Marketplace built with Cosmic CMS, Next.js'
         }
       />
       <div className={cn('section', styles.section)}>
