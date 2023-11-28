@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react'
 import cn from 'classnames'
-import toast from 'react-hot-toast'
 import { useStateContext } from '../../utils/context/StateContext'
 import Layout from '../../components/Layout'
 import HotBid from '../../components/HotBid'
@@ -9,6 +8,7 @@ import Dropdown from '../../components/Dropdown'
 import Modal from '../../components/Modal'
 import OAuth from '../../components/OAuth'
 import Image from '../../components/Image'
+import { PageMeta } from '../../components/Meta'
 import {
   getDataBySlug,
   getAllDataByType,
@@ -34,13 +34,19 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
     async user => {
       !cosmicUser.hasOwnProperty('id') && setVisibleAuthModal(true)
 
-      if (!user && !user?.hasOwnProperty('id')) return
+      if (!user && !user?.hasOwnProperty('id')) return false
     },
     [cosmicUser]
   )
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
+      <PageMeta
+        title={itemInfo[0]?.title + ' | uNFT Marketplace'}
+        description={
+          'uNFT Marketplace built with Cosmic CMS, Next.js'
+        }
+      />
       <div className={cn('section', styles.section)}>
         <div className={cn('container', styles.container)}>
           <div className={styles.bg}>

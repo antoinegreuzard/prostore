@@ -1,7 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import cn from 'classnames'
-import { useStateContext } from '../utils/context/StateContext'
 import Layout from '../components/Layout'
 import Image from 'next/image'
 import chooseBySlug from '../utils/chooseBySlug'
