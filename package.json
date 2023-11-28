@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@cosmicjs/sdk": "^1.0.9",
-    "@stripe/stripe-js": "^1.31.0",
     "@vercel/analytics": "^1.1.1",
     "classnames": "^2.3.1",
     "formidable": "^3.5.0",
@@ -28,7 +27,6 @@
     "sass": "^1.52.1",
     "serve": "^13.0.2",
     "sharp": "^0.30.7",
-    "stripe": "^9.2.0",
     "use-dark-mode": "^2.3.1",
     "webpack": "^5.73.0"
   },

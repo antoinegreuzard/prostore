@@ -144,7 +144,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
       <PageMeta
         title={'Discover | uNFT Marketplace'}
         description={
-          'uNFT Marketplace built with Cosmic CMS, Next.js, and the Stripe API'
+          'uNFT Marketplace built with Cosmic CMS, Next.js'
         }
       />
       <div className={cn('section-pt80', styles.section)}>

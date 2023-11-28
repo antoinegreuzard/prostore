@@ -14,7 +14,6 @@ import {
   getAllDataByType,
   getDataByCategory,
 } from '../../lib/cosmic'
-import getStripe from '../../lib/getStripe'
 
 import styles from '../../styles/pages/Item.module.sass'
 
@@ -31,10 +30,6 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
     : ['Not Available']
   const [option, setOption] = useState(counts[0])
 
-  const handleAddToCart = () => {
-    cosmicUser?.hasOwnProperty('id') ? handleCheckout() : handleOAuth()
-  }
-
   const handleOAuth = useCallback(
     async user => {
       !cosmicUser.hasOwnProperty('id') && setVisibleAuthModal(true)
@@ -43,31 +38,6 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
     },
     [cosmicUser]
   )
-
-  const handleCheckout = async () => {
-    const addCart = await onAdd(itemInfo[0], option)
-
-    if (addCart?.length) {
-      const stripe = await getStripe()
-
-      const response = await fetch('/api/stripe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(addCart),
-      })
-
-      if (response.statusCode === 500) return
-
-      const data = await response.json()
-      toast.loading('Redirecting...', {
-        position: 'bottom-right',
-      })
-
-      stripe.redirectToCheckout({ sessionId: data.id })
-    }
-  }
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
@@ -132,7 +102,6 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
               <div className={styles.btns}>
                 <button
                   className={cn('button', styles.button)}
-                  onClick={handleAddToCart}
                 >
                   Buy Now
                 </button>
