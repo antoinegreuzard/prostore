@@ -8,9 +8,6 @@ dependencies:
   '@cosmicjs/sdk':
     specifier: ^1.0.9
     version: 1.0.9
-  '@stripe/stripe-js':
-    specifier: ^1.31.0
-    version: 1.31.0
   '@vercel/analytics':
     specifier: ^1.1.1
     version: 1.1.1
@@ -62,9 +59,6 @@ dependencies:
   sharp:
     specifier: ^0.30.7
     version: 0.30.7
-  stripe:
-    specifier: ^9.2.0
-    version: 9.2.0
   use-dark-mode:
     specifier: ^2.3.1
     version: 2.3.1(react@18.1.0)
@@ -2144,10 +2138,6 @@ packages:
     resolution: {integrity: sha512-OAPJUAtgeINhh/TAlUID4QTs53Njm7xzddaVlEs/SXwgtiD1tW22zAB/W1wdqfrpmikgaWQ9Fw6Ws+hsiRm5Vg==}
     dependencies:
       '@sinonjs/commons': 1.8.3
-    dev: false
-
-  /@stripe/stripe-js@1.31.0:
-    resolution: {integrity: sha512-drlXsNvd/s9S1+Ghja0aDB81N3Wr/6iRAZ7MOzKv7AtKxVdvGpOwESw3z1lHl/Wx/rvPpA7whKdB3W2CnVSArw==}
     dev: false
 
   /@surma/rollup-plugin-off-main-thread@2.2.3:
@@ -9423,14 +9413,6 @@ packages:
   /strip-json-comments@3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
-
-  /stripe@9.2.0:
-    resolution: {integrity: sha512-VfL88AOZjZLZyfY6z9k8eACor5z1gRd/YohO0bAMZX9nqMIHXDeolMo6zo6mIZJs7aIrj3ESSDzqHKl0Gkumlg==}
-    engines: {node: ^8.1 || >=10.*}
-    dependencies:
-      '@types/node': 17.0.40
-      qs: 6.10.3
-    dev: false
 
   /style-loader@3.3.1(webpack@5.73.0):
     resolution: {integrity: sha512-GPcQ+LDJbrcxHORTRes6Jy2sfvK2kS6hpSfI/fXhPt+spVzxF6LJ1dHLN9zIGmVaaP044YKaIatFaufENRiDoQ==}
