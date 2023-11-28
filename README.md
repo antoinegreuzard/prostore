@@ -17,8 +17,6 @@ This template uses the following technologies:
   internationalization, out of the box.
 - [Cosmic](https://www.cosmicjs.com/) - fast, fully managed [headless CMS](https://www.cosmicjs.com/headless-cms) that
   enables us to quickly manage and create website content including UGC (user-generated content).
-- [Stripe](https://stripe.com/) - payments infrastructure that provides API tools to receive one-time and subscription
-  payments.
 
 ### Links
 
@@ -40,8 +38,8 @@ pnpm install
 
 ### Environment variables
 
-You'll need to create a `.env` file in the root of the project and add the access keys for Cosmic and Stripe. This can
-be done by copying the `.env.example`.
+You'll need to create a `.env` file in the root of the project and add the access keys for Cosmic. This can be done by
+copying the `.env.example`.
 
 ```bash
 cp .env.example .env
@@ -50,8 +48,6 @@ cp .env.example .env
 **Cosmic**: Go to [Cosmic](https://app.cosmicjs.com/) and from the Bucket that you installed the app template go to
 _Bucket Settings > API Access_ and get your API access keys.
 
-**Stripe**: Log in to [Stripe](https://dashboard.stripe.com/) and get your keys in the **for developers** section.
-
 Add your keys to the `.env` file like so:
 
 ```bash
@@ -59,9 +55,6 @@ Add your keys to the `.env` file like so:
 NEXT_PUBLIC_COSMIC_BUCKET_SLUG=your_cosmic_slug
 NEXT_PUBLIC_COSMIC_READ_KEY=your_cosmic_read_key
 COSMIC_WRITE_KEY=your_cosmic_write_key
-
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_key
-STRIPE_SECRET_KEY=your_stripe_secret_key
 ```
 
 ### Then run the development server
@@ -76,7 +69,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 <p>Use the following button to deploy to <a href="https://vercel.com/" rel="noopener noreferrer" target="_blank">Vercel</a>. You will need to add your environment variables before deployment.</p>
 <p>
-<a href="https://vercel.com/import/git?c=1&s=https://github.com/cosmicjs/unft-marketplace&env=NEXT_PUBLIC_COSMIC_BUCKET_SLUG,NEXT_PUBLIC_COSMIC_READ_KEY,COSMIC_WRITE_KEY,NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,STRIPE_SECRET_KEY&envDescription=Required%20to%20connect%20the%20app%20with%20Cosmic&envLink=https://vercel.link/cms-cosmic-env" rel="noopener noreferrer" target="_blank"><img src="https://cdn.cosmicjs.com/d3f0d5e0-c064-11ea-9a05-6f8a16b0b14c-deploy-to-vercel.svg" style="width: 100px;" class="fr-fic fr-dib fr-fil"></a>
+<a href="https://vercel.com/import/git?c=1&s=https://github.com/cosmicjs/unft-marketplace&env=NEXT_PUBLIC_COSMIC_BUCKET_SLUG,NEXT_PUBLIC_COSMIC_READ_KEY,COSMIC_WRITE_KEY,&envDescription=Required%20to%20connect%20the%20app%20with%20Cosmic&envLink=https://vercel.link/cms-cosmic-env" rel="noopener noreferrer" target="_blank"><img src="https://cdn.cosmicjs.com/d3f0d5e0-c064-11ea-9a05-6f8a16b0b14c-deploy-to-vercel.svg" style="width: 100px;" class="fr-fic fr-dib fr-fil"></a>
 </p>
 
 Check out the [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
