@@ -11,6 +11,9 @@ dependencies:
   '@stripe/stripe-js':
     specifier: ^1.31.0
     version: 1.31.0
+  '@vercel/analytics':
+    specifier: ^1.1.1
+    version: 1.1.1
   classnames:
     specifier: ^2.3.1
     version: 2.3.1
@@ -2677,6 +2680,12 @@ packages:
       react: '>=16.8.0'
     dependencies:
       react: 18.1.0
+    dev: false
+
+  /@vercel/analytics@1.1.1:
+    resolution: {integrity: sha512-+NqgNmSabg3IFfxYhrWCfB/H+RCUOCR5ExRudNG2+pcRehq628DJB5e1u1xqwpLtn4pAYii4D98w7kofORAGQA==}
+    dependencies:
+      server-only: 0.0.1
     dev: false
 
   /@webassemblyjs/ast@1.11.1:
@@ -9080,6 +9089,10 @@ packages:
       update-check: 1.5.2
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /server-only@0.0.1:
+    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
     dev: false
 
   /setprototypeof@1.1.0:
