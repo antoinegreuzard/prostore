@@ -29,10 +29,6 @@ This template uses the following technologies:
 git clone https://github.com/cosmicjs/unft-marketplace
 cd unft-marketplace
 pnpm install
-# or
-yarn
-# or
-npm install
 ```
 
 ### Environment variables
@@ -62,11 +58,7 @@ STRIPE_SECRET_KEY=your_stripe_secret_key
 ### Then run the development server
 
 ```bash
-pnpm dev
-# OR
-yarn dev
-# OR
-npm run dev
+pnpm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
