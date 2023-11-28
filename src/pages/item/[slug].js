@@ -18,7 +18,7 @@ import {
 import styles from '../../styles/pages/Item.module.sass'
 
 const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
-  const { onAdd, cartItems, cosmicUser } = useStateContext()
+  const { cosmicUser } = useStateContext()
 
   const [activeIndex, setActiveIndex] = useState(0)
   const [visibleAuthModal, setVisibleAuthModal] = useState(false)
