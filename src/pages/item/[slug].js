@@ -102,7 +102,6 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
               <div className={styles.btns}>
                 <button
                   className={cn('button', styles.button)}
-                  onClick={}
                 >
                   Buy Now
                 </button>
