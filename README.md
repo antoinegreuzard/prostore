@@ -1,6 +1,8 @@
 ## Next.js Marketplace
 
-Now updated to connect to the new dashboard and [Cosmic JavaScript SDK](https://www.npmjs.com/package/@cosmicjs/sdk). [Read the article](https://www.cosmicjs.com/blog/4-steps-to-update-the-nextjs-marketplace-template) to learn about the latest updates.
+Now updated to connect to the new dashboard
+and [Cosmic JavaScript SDK](https://www.npmjs.com/package/@cosmicjs/sdk). [Read the article](https://www.cosmicjs.com/blog/4-steps-to-update-the-nextjs-marketplace-template)
+to learn about the latest updates.
 
 The Next.js Marketplace is a template that you can use to start your own digital art marketplace. Download for free.
 
@@ -10,9 +12,13 @@ The Next.js Marketplace is a template that you can use to start your own digital
 
 This template uses the following technologies:
 
-- [Next.js](https://nextjs.org/) - scalable and high-performance **React.js** framework for modern web development. Provides a large set of features, such as hybrid rendering, route prefetching, automatic image optimization, and internationalization, out of the box.
-- [Cosmic](https://www.cosmicjs.com/) - fast, fully managed [headless CMS](https://www.cosmicjs.com/headless-cms) that enables us to quickly manage and create website content including UGC (user-generated content).
-- [Stripe](https://stripe.com/) - payments infrastructure that provides API tools to receive one-time and subscription payments.
+- [Next.js](https://nextjs.org/) - scalable and high-performance **React.js** framework for modern web development.
+  Provides a large set of features, such as hybrid rendering, route prefetching, automatic image optimization, and
+  internationalization, out of the box.
+- [Cosmic](https://www.cosmicjs.com/) - fast, fully managed [headless CMS](https://www.cosmicjs.com/headless-cms) that
+  enables us to quickly manage and create website content including UGC (user-generated content).
+- [Stripe](https://stripe.com/) - payments infrastructure that provides API tools to receive one-time and subscription
+  payments.
 
 ### Links
 
@@ -22,28 +28,27 @@ This template uses the following technologies:
 
 ## Getting started
 
-1. First, install the [template](https://www.cosmicjs.com/marketplace/templates/unft-marketplace) into your Cosmic account to get the demo content ready.
+1. First, install the [template](https://www.cosmicjs.com/marketplace/templates/unft-marketplace) into your Cosmic
+   account to get the demo content ready.
 2. Then download and install the code on your machine.
 
 ```bash
 git clone https://github.com/cosmicjs/unft-marketplace
 cd unft-marketplace
 pnpm install
-# or
-yarn
-# or
-npm install
 ```
 
 ### Environment variables
 
-You'll need to create a `.env` file in the root of the project and add the access keys for Cosmic and Stripe. This can be done by copying the `.env.example`.
+You'll need to create a `.env` file in the root of the project and add the access keys for Cosmic and Stripe. This can
+be done by copying the `.env.example`.
 
 ```bash
 cp .env.example .env
 ```
 
-**Cosmic**: Go to [Cosmic](https://app.cosmicjs.com/) and from the Bucket that you installed the app template go to _Bucket Settings > API Access_ and get your API access keys.
+**Cosmic**: Go to [Cosmic](https://app.cosmicjs.com/) and from the Bucket that you installed the app template go to
+_Bucket Settings > API Access_ and get your API access keys.
 
 **Stripe**: Log in to [Stripe](https://dashboard.stripe.com/) and get your keys in the **for developers** section.
 
@@ -63,10 +68,6 @@ STRIPE_SECRET_KEY=your_stripe_secret_key
 
 ```bash
 pnpm dev
-# OR
-yarn dev
-# OR
-npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
