@@ -52,7 +52,7 @@ const Headers = ({ navigation }) => {
             <Image
               width={256}
               height={120}
-              objectFit='contain'
+              objectFit='cover'
               className={styles.pic}
               src={navigation['logo']?.imgix_url}
               alt="Logo"
