@@ -110,7 +110,6 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
             </div>
           </div>
         </div>
-        <HotBid classSection="section" info={categoriesGroup['groups'][0]} />
         <Discover
           info={categoriesGroup['groups']}
           type={categoriesGroup['type']}
