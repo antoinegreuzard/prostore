@@ -50,12 +50,14 @@ const OAuth = ({ className, handleClose, handleOAuth, disable }) => {
           body: JSON.stringify({ email, password }),
         })
         const cosmicUser = await auth.json()
+        console.log(cosmicUser['user'])
         if (cosmicUser?.hasOwnProperty('user')) {
           setCosmicUser(cosmicUser['user'])
           setToken({
             id: cosmicUser['user']['id'],
             first_name: cosmicUser['user']['first_name'],
-            avatar_url: cosmicUser['user']['avatar_url'],
+            avatar_url: cosmicUser['user']['avatar'],
+            email: cosmicUser['user']['email'],
           })
 
           setFillFiledMessage('Félécitations !')
