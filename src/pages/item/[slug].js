@@ -51,11 +51,6 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
         <div className={cn('container', styles.container)}>
           <div className={styles.bg}>
             <div className={styles.preview}>
-              <div className={styles.categories}>
-                <div className={cn('status-purple', styles.category)}>
-                  {itemInfo[0]?.metadata?.color}
-                </div>
-              </div>
               <div className={styles.image}>
                 <Image
                   size={{ width: '100%', height: '100%' }}
