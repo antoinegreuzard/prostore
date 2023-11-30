@@ -109,7 +109,7 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
                 <button
                   className={cn('button', styles.button)}
                 >
-                  Buy Now
+                  Contacter le vendeur
                 </button>
               </div>
             </div>

@@ -175,17 +175,6 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                   </button>
                 </form>
               </div>
-              <div className={styles.sorting}>
-                <div className={styles.dropdown}>
-                  <div className={styles.label}>Couleur</div>
-                  <Dropdown
-                    className={styles.dropdown}
-                    value={option}
-                    setValue={getDataByFilterOptions}
-                    options={OPTIONS}
-                  />
-                </div>
-              </div>
               <div className={styles.range}>
                 <div className={styles.label}>échelle de prix</div>
                 <div className={styles.prices}>
