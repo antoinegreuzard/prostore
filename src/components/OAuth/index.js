@@ -104,7 +104,7 @@ const OAuth = ({ className, handleClose, handleOAuth, disable }) => {
             className={styles.input}
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder="E-mail"
             onChange={handleChange}
             value={email}
             required
@@ -115,7 +115,7 @@ const OAuth = ({ className, handleClose, handleOAuth, disable }) => {
             className={styles.input}
             type="password"
             name="password"
-            placeholder="Password"
+            placeholder="Mot de passe"
             onChange={handleChange}
             value={password}
             required
