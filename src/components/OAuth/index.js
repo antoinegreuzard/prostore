@@ -58,15 +58,15 @@ const OAuth = ({ className, handleClose, handleOAuth, disable }) => {
             avatar_url: cosmicUser['user']['avatar_url'],
           })
 
-          setFillFiledMessage('Congrats!')
+          setFillFiledMessage('Félécitations !')
           handleOAuth(cosmicUser['user'])
           setFields(registerFields)
           handleClose()
         } else {
-          setFillFiledMessage('Please first register in Cosmic')
+          setFillFiledMessage('Merci de s\'enregistrer sur CosmicJS')
         }
       } else {
-        setFillFiledMessage('Please fill all fields')
+        setFillFiledMessage('Merci de remplir tous les champs')
       }
       setLoading(false)
     },
@@ -83,15 +83,15 @@ const OAuth = ({ className, handleClose, handleOAuth, disable }) => {
   return (
     <div className={cn(className, styles.transfer)}>
       <div className={cn('h4', styles.title)}>
-        Authentication with{' '}
+        Se connecter avec{' '}
         <AppLink target="_blank" href={`https://www.cosmicjs.com`}>
-          Cosmic
+          CosmicJS
         </AppLink>
       </div>
       <div className={styles.text}>
-        To create an item you need to register an account at{' '}
+        Pour publier un article, vous devez vous créer préalablement un compte sur la plateforme{' '}
         <AppLink target="_blank" href={`https://www.cosmicjs.com`}>
-          Cosmic
+          CosmicJS
         </AppLink>
       </div>
       <div className={styles.error}>{fillFiledMessage}</div>
@@ -121,13 +121,13 @@ const OAuth = ({ className, handleClose, handleOAuth, disable }) => {
         </div>
         <div className={styles.btns}>
           <button type="submit" className={cn('button', styles.button)}>
-            {loading ? <Loader /> : 'Continue'}
+            {loading ? <Loader /> : 'Se connecter'}
           </button>
           <button
             onClick={disable ? handleGoHome : handleClose}
             className={cn('button-stroke', styles.button)}
           >
-            {disable ? 'Return Home Page' : 'Cancel'}
+            {disable ? 'Retourner sur la page d\'accueil' : 'Annuler'}
           </button>
         </div>
       </form>

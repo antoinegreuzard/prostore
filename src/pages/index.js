@@ -58,12 +58,6 @@ const Home = ({
         info={categoriesGroup['groups']}
         type={categoriesGroup['type']}
       />
-      <Selection info={categoriesGroup['groups']} type={categoryTypes} />
-      <Intro info={chooseBySlug(landing, 'introduction')} />
-      <Discover
-        info={categoriesGroup['groups']}
-        type={categoriesGroup['type']}
-      />
     </Layout>
   )
 }

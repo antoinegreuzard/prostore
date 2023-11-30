@@ -52,7 +52,7 @@ const Headers = ({ navigation }) => {
             <Image
               width={256}
               height={120}
-              objectFit='cover'
+              objectFit="cover"
               className={styles.pic}
               src={navigation['logo']?.imgix_url}
               alt="Logo"
@@ -73,9 +73,6 @@ const Headers = ({ navigation }) => {
               ))}
             </nav>
           </div>
-          <div className={styles.version}>
-            <Theme className="theme-big" />
-          </div>
           <AppLink
             aria-label="search"
             aria-hidden="true"
@@ -83,7 +80,7 @@ const Headers = ({ navigation }) => {
             href={`/search`}
           >
             <Icon name="search" size="20" />
-            Search
+            Rechercher
           </AppLink>
           {cosmicUser?.['id'] ? (
             <User className={styles.user} user={cosmicUser} />
@@ -94,7 +91,7 @@ const Headers = ({ navigation }) => {
               className={cn('button-small', styles.button, styles.login)}
               onClick={() => setVisibleAuthModal(true)}
             >
-              Login
+              Se connecter
             </button>
           )}
           <button

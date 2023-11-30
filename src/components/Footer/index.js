@@ -24,9 +24,9 @@ const Footers = ({ navigation }) => {
                 objectFit="cntain"
               />
             </AppLink>
-            <div className={styles.info}>The New Creative Economy.</div>
+            <div className={styles.info}>Marché de Noël EDS du campus de Lyon</div>
             <div className={styles.version}>
-              <div className={styles.details}>Dark theme</div>
+              <div className={styles.details}>Mode sombre</div>
               <Theme className="theme-big" />
             </div>
           </div>
@@ -35,44 +35,12 @@ const Footers = ({ navigation }) => {
           </div>
           <div className={styles.col}>
             <AppLink href={`https://www.cosmicjs.com/features`}>
-              <p className={styles.category}>About Cosmic</p>
-            </AppLink>
-            <AppLink href={`https://docs.cosmicjs.com/`}>
-              <p className={styles.text}>Documentation</p>
-            </AppLink>
-            <AppLink href={`https://www.cosmicjs.com/contact`}>
-              <p className={styles.text}>Contact Us</p>
+              <p className={styles.category}>Réseaux Epitech Digital School</p>
             </AppLink>
             <SocialMedia className={styles.form} />
-            <AppLink
-              href={`https://cosmicjs.us5.list-manage.com/subscribe/post?u=15433aab34aefd5450c23fd94&id=028c29b6ca`}
-            >
-              <button
-                aria-hidden="true"
-                className={cn('button', styles.button)}
-              >
-                Subscribe Newsletter
-              </button>
-            </AppLink>
           </div>
         </div>
-      </div>
-      <div>
-        <div className={styles.copyright} aria-hidden="true">
-          <span className={styles.cosmicGroup}>
-            <p className={styles.powered}>Powered by </p>
-            <a href="https://www.cosmicjs.com">
-              <Image
-                className={styles.cosmic}
-                size={{ width: '110px', height: '90px' }}
-                src="/cosmic.svg"
-                alt="Cosmic Logo"
-                objectFit="contain"
-              />
-            </a>
-          </span>
-        </div>
-      </div>
+      </div>  
     </footer>
   )
 }

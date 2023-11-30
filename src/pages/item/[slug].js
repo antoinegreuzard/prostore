@@ -42,9 +42,9 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
       <PageMeta
-        title={itemInfo[0]?.title + ' | uNFT Marketplace'}
+        title={itemInfo[0]?.title + ' | Marché de Noël EDS du campus de Lyon'}
         description={
-          'uNFT Marketplace built with Cosmic CMS, Next.js'
+          'Marché de Noël EDS du campus de Lyon'
         }
       />
       <div className={cn('section', styles.section)}>

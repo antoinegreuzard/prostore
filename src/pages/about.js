@@ -21,10 +21,8 @@ const AboutUs = ({ navigationItems, landing }) => {
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
       <PageMeta
-        title={'About | uNFT Marketplace'}
-        description={
-          'uNFT Marketplace built with Cosmic CMS, Next.js'
-        }
+        title={'About | Marché de Noël EDS du campus de Lyon'}
+        description={'Marché de Noël EDS du campus de Lyon'}
       />
       <div className={cn('section', styles.section)}>
         <div className={cn('container', styles.container)}>
@@ -50,7 +48,7 @@ const AboutUs = ({ navigationItems, landing }) => {
               onClick={() => handleClick(`/search`)}
               className={cn('button-stroke', styles.form)}
             >
-              Start your search
+              Rechercher un article
             </button>
           </div>
         </div>

@@ -41,7 +41,7 @@ export async function getAllDataByType(dataType = 'categories') {
   }
 }
 
-export async function getDataBySlug(slug, type= 'products') {
+export async function getDataBySlug(slug, type = 'products') {
   try {
     const data = await cosmic.objects
       .find({

@@ -17,7 +17,7 @@ const User = ({ className, user }) => {
 
   const items = [
     {
-      title: 'Disconnect',
+      title: 'Déconnexion',
       icon: 'exit',
       callback: () => {
         setCosmicUser({})

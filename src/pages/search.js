@@ -142,9 +142,9 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
       <PageMeta
-        title={'Discover | uNFT Marketplace'}
+        title={'Search | Marché de Noël EDS du campus de Lyon'}
         description={
-          'uNFT Marketplace built with Cosmic CMS, Next.js'
+          'Marché de Noël EDS du campus de Lyon'
         }
       />
       <div className={cn('section-pt80', styles.section)}>
@@ -152,10 +152,10 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
           <div className={styles.row}>
             <div className={styles.filters}>
               <div className={styles.top}>
-                <div className={styles.title}>Search</div>
+                <div className={styles.title}>Recherche</div>
               </div>
               <div className={styles.form}>
-                <div className={styles.label}>Search keyword</div>
+                <div className={styles.label}>Mots clés</div>
                 <form
                   className={styles.search}
                   action=""
@@ -167,7 +167,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     name="search"
-                    placeholder="Search..."
+                    placeholder="Rechercher..."
                     required
                   />
                   <button className={styles.result}>
@@ -177,7 +177,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
               </div>
               <div className={styles.sorting}>
                 <div className={styles.dropdown}>
-                  <div className={styles.label}>Select color</div>
+                  <div className={styles.label}>Couleur</div>
                   <Dropdown
                     className={styles.dropdown}
                     value={option}
@@ -187,7 +187,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                 </div>
               </div>
               <div className={styles.range}>
-                <div className={styles.label}>Price range</div>
+                <div className={styles.label}>échelle de prix</div>
                 <div className={styles.prices}>
                   <input
                     className={styles.input}
@@ -198,7 +198,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                     placeholder="MIN"
                     required
                   />
-                  <p className={styles.separator}>to</p>
+                  <p className={styles.separator}>à</p>
                   <input
                     className={styles.input}
                     type="text"
@@ -219,7 +219,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                   })}
                   onClick={() => handleCategoryChange('')}
                 >
-                  All
+                  Tous
                 </button>
                 {categoriesTypeData &&
                   Object.entries(categoriesTypeData)?.map((item, index) => (
@@ -240,7 +240,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                     <Card className={styles.card} item={x} key={index} />
                   ))
                 ) : (
-                  <p className={styles.inform}>Try another category!</p>
+                  <p className={styles.inform}>Merci de sélectionner une autre catégorie</p>
                 )}
               </div>
             </div>
