@@ -19,7 +19,7 @@ const Selection = ({ info, type }) => {
         className={cn('button-stroke', styles.search)}
         onClick={() => handleClick('/search')}
       >
-        Rechercher un article
+        Rechercher un cadeau
       </button>
       <div className={cn('section-pb', styles.section)}>
         <div className={cn('container', styles.container)}>

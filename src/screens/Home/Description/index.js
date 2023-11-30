@@ -25,14 +25,14 @@ const Description = ({ info }) => {
               onClick={() => handleClick(`/search`)}
               className={cn('button-stroke', styles.button)}
             >
-              Rechercher un article
+              Rechercher un cadeau
             </button>
             <button
               aria-hidden="true"
               onClick={() => handleClick('/upload-details')}
               className={cn('button', styles.button)}
             >
-              Publier un article
+              Publier un cadeau
             </button>
           </div>
         </div>

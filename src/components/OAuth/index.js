@@ -91,7 +91,7 @@ const OAuth = ({ className, handleClose, handleOAuth, disable }) => {
         </AppLink>
       </div>
       <div className={styles.text}>
-        Pour publier un article, vous devez vous créer préalablement un compte sur la plateforme{' '}
+        Pour publier un cadeau, vous devez vous créer préalablement un compte sur la plateforme{' '}
         <AppLink target="_blank" href={`https://www.cosmicjs.com`}>
           CosmicJS
         </AppLink>

@@ -35,7 +35,7 @@ const NotFound = ({ navigationItems }) => {
               onClick={() => handleClick(`/search`)}
               className={cn('button-stroke', styles.form)}
             >
-              Rechercher un article
+              Rechercher un cadeau
             </button>
           </div>
         </div>

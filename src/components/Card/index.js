@@ -37,7 +37,7 @@ const Card = ({ className, item }) => {
             <p>{item?.title}</p>
             <p className={styles.count}>
               {item?.metadata?.count > 0
-                ? `${item?.metadata?.count} Article(s)`
+                ? `${item?.metadata?.count} cadeau(x)`
                 : 'Non disponible'}
             </p>
           </div>

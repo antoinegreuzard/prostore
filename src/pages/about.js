@@ -48,7 +48,7 @@ const AboutUs = ({ navigationItems, landing }) => {
               onClick={() => handleClick(`/search`)}
               className={cn('button-stroke', styles.form)}
             >
-              Rechercher un article
+              Rechercher un cadeau
             </button>
           </div>
         </div>

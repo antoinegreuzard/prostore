@@ -11,7 +11,7 @@ const Group = ({ className, item }) => {
   return (
     <div className={cn(className, styles.group, { [styles.active]: visible })}>
       <div className={styles.head} onClick={() => setVisible(!visible)}>
-        {'Catégories de article' || item[0]?.title}
+        {'Catégories de cadeau' || item[0]?.title}
         <Icon name="arrow-bottom" size="10" />
       </div>
       <div className={styles.menu}>
