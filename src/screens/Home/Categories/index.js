@@ -83,7 +83,7 @@ const Categories = ({ info, type }) => {
                                 styles.counter
                               )}
                             >
-                              <span>{category[key]?.length}</span> article(s)
+                              <span>{category[key]?.length}</span> cadeau(x)
                             </div>
                           </div>
                         </div>
