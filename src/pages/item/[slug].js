@@ -75,8 +75,8 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
               </div>
               <div className={styles.counter}>
                 {itemInfo[0]?.metadata?.count > 0
-                  ? `${itemInfo[0]?.metadata?.count} in stock`
-                  : 'Not Available'}
+                  ? `${itemInfo[0]?.metadata?.count} en stock`
+                  : 'Non disponible'}
               </div>
             </div>
             <div className={styles.info}>
