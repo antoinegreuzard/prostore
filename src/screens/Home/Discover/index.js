@@ -135,10 +135,10 @@ const Discover = ({ info, type }) => {
       <div className={cn('container', styles.container)}>
         <div className={styles.head}>
           <div className={styles.stage}>
-            Create, explore, & collect digital art.
+            Le marché de Noël des étudiants de Epitech Digital School Lyon
           </div>
           <div className={styles.header}>
-            <h3 className={cn('h3', styles.title)}>Discover</h3>
+            <h3 className={cn('h3', styles.title)}>Articles disponibles</h3>
             <button
               onClick={() => handleClick(`/search?category=${activeIndex}`)}
               className={cn('button-stroke', styles.button)}
@@ -146,40 +146,6 @@ const Discover = ({ info, type }) => {
               Rechercher un cadeau
             </button>
           </div>
-        </div>
-        <div className={styles.top}>
-          <div className={styles.dropdown}>
-            <Dropdown
-              className={styles.dropdown}
-              value={option}
-              setValue={getDataByFilterOptions}
-              options={OPTIONS}
-            />
-          </div>
-          <div className={styles.nav}>
-            {type &&
-              Object.entries(type)?.map((item, index) => (
-                <button
-                  className={cn(styles.link, {
-                    [styles.active]: item[0] === activeIndex,
-                  })}
-                  onClick={() => handleCategoryChange(item[0])}
-                  key={index}
-                >
-                  {item[1]}
-                </button>
-              ))}
-          </div>
-          <button
-            className={cn(styles.filter, { [styles.active]: visible })}
-            onClick={() => setVisible(!visible)}
-          >
-            <div className={styles.text}>Filter</div>
-            <div className={styles.toggle}>
-              <Icon name="filter" size="18" />
-              <Icon name="close" size="10" />
-            </div>
-          </button>
         </div>
         <div className={cn(styles.filters, { [styles.active]: visible })}>
           <div className={styles.sorting}>

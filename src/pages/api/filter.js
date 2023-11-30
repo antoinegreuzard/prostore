@@ -25,14 +25,6 @@ export default async function filterHandler(req, res) {
     }
   }
 
-  if (
-    typeof color !== 'undefined' &&
-    color !== 'undefined' &&
-    color?.toLocaleLowerCase() !== 'any color'
-  ) {
-    queryParam = { ...queryParam, 'metadata.color': color }
-  }
-
   if (typeof category !== 'undefined' && category !== 'undefined') {
     queryParam = { ...queryParam, 'metadata.categories': category }
   }

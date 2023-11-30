@@ -29,7 +29,7 @@ const Preview = ({ className, onClose, info, image }) => {
                 <div className={styles.price}>${info?.price}</div>
               </div>
               <div className={styles.line}>
-                <div className={styles.counter}>{info?.count} in stock</div>
+                <div className={styles.counter}>{info?.count} en stock</div>
               </div>
             </div>
             <div className={styles.foot}>

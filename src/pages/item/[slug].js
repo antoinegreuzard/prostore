@@ -51,11 +51,6 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
         <div className={cn('container', styles.container)}>
           <div className={styles.bg}>
             <div className={styles.preview}>
-              <div className={styles.categories}>
-                <div className={cn('status-purple', styles.category)}>
-                  {itemInfo[0]?.metadata?.color}
-                </div>
-              </div>
               <div className={styles.image}>
                 <Image
                   size={{ width: '100%', height: '100%' }}
@@ -71,12 +66,12 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
             <h1 className={cn('h3', styles.title)}>{itemInfo[0]?.title}</h1>
             <div className={styles.cost}>
               <div className={cn('status-stroke-green', styles.price)}>
-                {`$${itemInfo[0]?.metadata?.price}`}
+                {`${itemInfo[0]?.metadata?.price} €`}
               </div>
               <div className={styles.counter}>
                 {itemInfo[0]?.metadata?.count > 0
-                  ? `${itemInfo[0]?.metadata?.count} in stock`
-                  : 'Not Available'}
+                  ? `${itemInfo[0]?.metadata?.count} en stock`
+                  : 'Non disponible'}
               </div>
             </div>
             <div className={styles.info}>
@@ -109,13 +104,12 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
                 <button
                   className={cn('button', styles.button)}
                 >
-                  Buy Now
+                  Contacter le vendeur
                 </button>
               </div>
             </div>
           </div>
         </div>
-        <HotBid classSection="section" info={categoriesGroup['groups'][0]} />
         <Discover
           info={categoriesGroup['groups']}
           type={categoriesGroup['type']}

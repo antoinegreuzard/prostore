@@ -10,8 +10,9 @@
     justify-content: space-between
     +m
         display: block
+
     .button
-        width: 180px
+        width: auto
         +t
             width: 160px
         +m
@@ -25,6 +26,7 @@
     margin-bottom: 32px
     +m
         display: block
+
     .dropdown
         width: 180px
         +t
@@ -51,16 +53,19 @@
     +button-2
     color: $neutrals4
     transition: all .2s
+
     &:hover
         color: $neutrals3
         +dark
             color: $neutrals6
+
     &.active
         background: $neutrals3
         color: $neutrals8
         +dark
             background: $neutrals8
             color: $neutrals2
+
     &:nth-child(n+5)
         +d
             display: none
@@ -79,14 +84,16 @@
     line-height: 48px
     color: $neutrals8
     transition: background .2s, box-shadow .2s
-    -webkit-tap-highlight-color: rgba(0,0,0,0)
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
     +m
         width: 100%
+
     &.active
         .toggle
             svg
                 &:first-child
                     display: none
+
                 &:nth-child(2)
                     display: inline-block
 
@@ -98,21 +105,26 @@
     padding-right: 10px
     background: none
     font-size: 0
+
     svg
         fill: $neutrals8
+
         &:first-child
             width: 18px
             height: 18px
+
         &:nth-child(2)
             display: none
             width: 10px
             height: 10px
+
 .filters
     display: none
     padding: 32px 0
     border-top: 1px solid $neutrals6
     +dark
         border-color: $neutrals3
+
     &.active
         display: block
 
@@ -153,13 +165,14 @@
     display: flex
     align-items: center
     justify-content: space-between
+
     .separator
         margin: 0 8px
         font-weight: 600
 
 .button
     width: 100%
-    margin: 12px auto
+    margin: 12px 0 0 auto
 
 .scale
     display: flex
@@ -215,6 +228,7 @@
         color: $neutrals8
     +placeholder
         color: $neutrals4
+
     &:focus
         border-color: $neutrals4
 

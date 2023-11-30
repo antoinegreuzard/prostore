@@ -1,10 +1,6 @@
 const handleQueryParams = ({ color, min, max, category, search }) => {
   let queryParam = { category }
 
-  if (color && color?.toLocaleLowerCase() !== 'any color') {
-    queryParam = { ...queryParam, color }
-  }
-
   if (min && Number(min) > 0) {
     queryParam = { ...queryParam, min }
   }

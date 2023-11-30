@@ -167,24 +167,13 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     name="search"
-                    placeholder="Rechercher..."
+                    placeholder="TODO: mettre texte"
                     required
                   />
                   <button className={styles.result}>
                     <Icon name="search" size="16" />
                   </button>
                 </form>
-              </div>
-              <div className={styles.sorting}>
-                <div className={styles.dropdown}>
-                  <div className={styles.label}>Couleur</div>
-                  <Dropdown
-                    className={styles.dropdown}
-                    value={option}
-                    setValue={getDataByFilterOptions}
-                    options={OPTIONS}
-                  />
-                </div>
               </div>
               <div className={styles.range}>
                 <div className={styles.label}>échelle de prix</div>

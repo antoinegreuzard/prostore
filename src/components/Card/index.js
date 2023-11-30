@@ -20,12 +20,6 @@ const Card = ({ className, item }) => {
           />
           <div className={styles.control}>
             <div className={styles.category}>{item?.title}</div>
-            <button
-              className={cn(styles.favorite, { [styles.active]: visible })}
-              onClick={() => setVisible(!visible)}
-            >
-              <Icon name="heart" size="20" />
-            </button>
             <button className={cn('button-small', styles.button)}>
               <span>{`${item?.metadata?.categories[0]?.title}`}</span>
               <Icon name="scatter-up" size="16" />
