@@ -138,7 +138,7 @@ const Discover = ({ info, type }) => {
             Le marché de Noël des étudiants de Epitech Digital School Lyon
           </div>
           <div className={styles.header}>
-            <h3 className={cn('h3', styles.title)}>Articles disponibles</h3>
+            <h3 className={cn('h3', styles.title)}>Cadeaux disponibles</h3>
             <button
               onClick={() => handleClick(`/search?category=${activeIndex}`)}
               className={cn('button-stroke', styles.button)}

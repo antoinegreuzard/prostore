@@ -152,7 +152,7 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
                   className={cn('button button-red', styles.button)}
                   onClick={deleteProduct}
                   >
-                  Supprimer l'article
+                  Supprimer le cadeau
                 </button>
               </div>
             </div>
