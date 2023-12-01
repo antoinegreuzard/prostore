@@ -34,7 +34,7 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
     ? Array(itemInfo[0]?.metadata?.count)
         .fill(1)
         .map((_, index) => index + 1)
-    : ['Not Available']
+    : ['Non disponible']
   const [option, setOption] = useState(counts[0])
 
   const handleOAuth = useCallback(
@@ -47,12 +47,10 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
   )
 
   useEffect(() => {
-    if (cosmicUser?.id === itemInfo[0]?.modified_by && itemInfo) {
+    if (cosmicUser.id && itemInfo && cosmicUser?.id === itemInfo[0]?.modified_by) {
       setShowDeleteButton(true);
     }
   }, [cosmicUser, itemInfo]);
-
-  console.log(cosmicUser?.id, itemInfo[0]?.modified_by)
 
   const deleteProduct = useCallback(
     async e => {

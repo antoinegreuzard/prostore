@@ -48,7 +48,7 @@ export async function getDataBySlug(slug, type = 'products') {
         slug,
         type: type,
       })
-      .props('title,slug,id,metadata,created_at,modified_by,created_by')
+      .props("slug,title,metadata,id,type,created_by,modified_by")
       .depth(1)
     return data.objects
   } catch (error) {
