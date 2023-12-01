@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import cn from 'classnames'
 import AppLink from '../AppLink'
 import Group from './Group'
@@ -21,7 +21,7 @@ const Footers = ({ navigation }) => {
                 src={navigation['logo']?.imgix_url}
                 srcDark={navigation['logo']?.imgix_url}
                 alt="Logo"
-                objectFit="cntain"
+                objectFit="contain"
               />
             </AppLink>
             <div className={styles.info}>Marché de Noël EDS du campus de Lyon</div>
@@ -31,12 +31,10 @@ const Footers = ({ navigation }) => {
             </div>
           </div>
           <div className={styles.col}>
-            <Group className={styles.group} item={navigation?.['menu']} />
+            <Group className={styles.group} />
           </div>
           <div className={styles.col}>
-            <AppLink href={`https://www.cosmicjs.com/features`}>
-              <p className={styles.category}>Réseaux Epitech Digital School</p>
-            </AppLink>
+            <p className={styles.category}>Réseaux Epitech Digital School</p>
             <SocialMedia className={styles.form} />
           </div>
         </div>

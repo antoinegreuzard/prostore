@@ -2,11 +2,8 @@ import { useEffect, useCallback } from 'react'
 import { useStateContext } from '../utils/context/StateContext'
 import Layout from '../components/Layout'
 import {
-  Intro,
-  Selection,
   HotBid,
   Categories,
-  Discover,
   Description,
 } from '../screens/Home'
 import chooseBySlug from '../utils/chooseBySlug'
