@@ -137,7 +137,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
       isMount = false
     }
 
-  }, [debouncedSearchTerm, debouncedMinTerm, debouncedMaxTerm])
+  }, [activeIndex, categoryData, handleFilterDataByParams, debouncedSearchTerm, debouncedMinTerm, debouncedMaxTerm])
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
@@ -147,7 +147,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
           'Marché de Noël EDS du campus de Lyon'
         }
       />
-      <div className={cn('section-pt80', styles.section)}>
+      <div className={cn('section-pt80 section-pb80', styles.section)}>
         <div className={cn('container', styles.container)}>
           <div className={styles.row}>
             <div className={styles.filters}>
