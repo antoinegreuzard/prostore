@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import cn from 'classnames'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/router';
@@ -26,6 +26,7 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
   const [activeIndex, setActiveIndex] = useState(0)
   const [visibleAuthModal, setVisibleAuthModal] = useState(false)
   const [fillFiledMessage, setFillFiledMessage] = useState(false)
+  const [showDeleteButton, setShowDeleteButton] = useState(false);
 
   const idProduct = itemInfo[0].id
 
@@ -44,6 +45,14 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
     },
     [cosmicUser]
   )
+
+  useEffect(() => {
+    if (cosmicUser?.id === itemInfo[0]?.modified_by && itemInfo) {
+      setShowDeleteButton(true);
+    }
+  }, [cosmicUser, itemInfo]);
+
+  console.log(cosmicUser?.id, itemInfo[0]?.modified_by)
 
   const deleteProduct = useCallback(
     async e => {
@@ -76,7 +85,7 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
         setTimeout(() => {push('/search')}, 3000)
       }
     },
-    [handleOAuth, cosmicUser, idProduct]
+    [fillFiledMessage, setFillFiledMessage, push, handleOAuth, cosmicUser, idProduct]
     );
 
   return (
@@ -140,21 +149,25 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
                   options={counts}
                 />
               </div>
-              <div className={styles.btns}>
-                <button
-                  className={cn('button', styles.button)}
-                >
-                  Contacter le vendeur
-                </button>
-              </div>
-              <div className={styles.btns}>
-                <button
-                  className={cn('button button-red', styles.button)}
-                  onClick={deleteProduct}
-                  >
-                  Supprimer le cadeau
-                </button>
-              </div>
+              {!showDeleteButton && (
+                <div className={styles.btns}>
+                  <button
+                    className={cn('button', styles.button)}
+                    >
+                    Contacter le vendeur
+                  </button>
+                </div>
+                )}
+              {showDeleteButton && (
+                <div className={styles.btns}>
+                  <button
+                    className={cn('button button-red', styles.button)}
+                    onClick={deleteProduct}
+                    >
+                    Supprimer le cadeau
+                  </button>
+                </div>
+                )}
             </div>
           </div>
         </div>

@@ -24,7 +24,6 @@ const Upload = ({ navigationItems, categoriesType }) => {
   const { categories, navigation, cosmicUser } = useStateContext()
   const { push } = useRouter()
 
-  const [color, setColor] = useState(OPTIONS[1])
   const [uploadMedia, setUploadMedia] = useState('')
   const [uploadFile, setUploadFile] = useState('')
   const [chooseCategory, setChooseCategory] = useState('')
@@ -109,7 +108,7 @@ const Upload = ({ navigationItems, categoriesType }) => {
       e.preventDefault()
       !cosmicUser.hasOwnProperty('id') && handleOAuth()
 
-      if (cosmicUser && title && color && count && price && uploadMedia) {
+      if (cosmicUser && title && count && price && uploadMedia) {
         fillFiledMessage && setFillFiledMessage(false)
 
         const response = await fetch('/api/create', {
@@ -123,7 +122,6 @@ const Upload = ({ navigationItems, categoriesType }) => {
             description,
             price,
             count,
-            color,
             categories: [chooseCategory],
             image: uploadMedia['name'],
           }),
@@ -147,7 +145,6 @@ const Upload = ({ navigationItems, categoriesType }) => {
     },
     [
       chooseCategory,
-      color,
       cosmicUser,
       count,
       description,
@@ -173,15 +170,15 @@ const Upload = ({ navigationItems, categoriesType }) => {
           <div className={styles.wrapper}>
             <div className={styles.head}>
               <div className={cn('h2', styles.title)}>
-                Create single collectible
+                Publier un cadeau
               </div>
             </div>
             <form className={styles.form} action="" onSubmit={submitForm}>
               <div className={styles.list}>
                 <div className={styles.item}>
-                  <div className={styles.category}>Upload file</div>
+                  <div className={styles.category}>Téléverser un fichier</div>
                   <div className={styles.note}>
-                    Drag or choose your file to upload
+                    Choisir ou glisser-déposer un fichier à upload
                   </div>
                   <div className={styles.file}>
                     <input
@@ -198,14 +195,14 @@ const Upload = ({ navigationItems, categoriesType }) => {
                   </div>
                 </div>
                 <div className={styles.item}>
-                  <div className={styles.category}>Item Details</div>
+                  <div className={styles.category}>Informations sur la cadeau</div>
                   <div className={styles.fieldset}>
                     <TextInput
                       className={styles.field}
                       label="Item title"
                       name="title"
                       type="text"
-                      placeholder="e. g. Readable Title"
+                      placeholder="e. g. Titre du cadeau"
                       onChange={handleChange}
                       value={title}
                       required
@@ -222,23 +219,12 @@ const Upload = ({ navigationItems, categoriesType }) => {
                     />
                     <div className={styles.row}>
                       <div className={styles.col}>
-                        <div className={styles.field}>
-                          <div className={styles.label}>Colors</div>
-                          <Dropdown
-                            className={styles.dropdown}
-                            value={color}
-                            setValue={setColor}
-                            options={OPTIONS}
-                          />
-                        </div>
-                      </div>
-                      <div className={styles.col}>
                         <TextInput
                           className={styles.field}
                           label="Price"
                           name="price"
                           type="text"
-                          placeholder="e. g. Price"
+                          placeholder="e. g. Prix"
                           onChange={handleChange}
                           value={price}
                           required
@@ -250,7 +236,7 @@ const Upload = ({ navigationItems, categoriesType }) => {
                           label="Count"
                           name="count"
                           type="text"
-                          placeholder="e. g. Count"
+                          placeholder="e. g. Stock"
                           onChange={handleChange}
                           value={count}
                           required
@@ -261,8 +247,8 @@ const Upload = ({ navigationItems, categoriesType }) => {
                 </div>
               </div>
               <div className={styles.options}>
-                <div className={styles.category}>Choose collection</div>
-                <div className={styles.text}>Choose an exiting Categories</div>
+                <div className={styles.category}>Choisir une catégorie</div>
+                <div className={styles.text}>Choisir une catégorie parmis celles qui existent</div>
                 <Cards
                   className={styles.cards}
                   category={chooseCategory}
@@ -276,19 +262,19 @@ const Upload = ({ navigationItems, categoriesType }) => {
                   onClick={previewForm}
                   type="button"
                 >
-                  Preview
+                  Prévisualiser
                 </button>
                 <button
                   className={cn('button', styles.button)}
                   onClick={submitForm}
                   type="submit"
                 >
-                  <span>Create item</span>
+                  <span>Publier le cadeau</span>
                   <Icon name="arrow-next" size="10" />
                 </button>
                 {fillFiledMessage && (
                   <div className={styles.saving}>
-                    <span>Please fill all fields</span>
+                    <span>Merci de remplir tous les champs obligatoires</span>
                     <Loader className={styles.loader} />
                   </div>
                 )}
@@ -297,7 +283,7 @@ const Upload = ({ navigationItems, categoriesType }) => {
           </div>
           <Preview
             className={cn(styles.preview, { [styles.active]: visiblePreview })}
-            info={{ title, color, count, description, price }}
+            info={{ title, count, description, price }}
             image={uploadMedia?.['imgix_url']}
             onClose={() => setVisiblePreview(false)}
           />
