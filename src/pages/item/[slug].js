@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react'
 import cn from 'classnames'
+import toast from 'react-hot-toast'
+import { useRouter } from 'next/router';
 import { useStateContext } from '../../utils/context/StateContext'
 import Layout from '../../components/Layout'
-import HotBid from '../../components/HotBid'
 import Discover from '../../screens/Home/Discover'
 import Dropdown from '../../components/Dropdown'
 import Modal from '../../components/Modal'
@@ -17,11 +18,16 @@ import {
 
 import styles from '../../styles/pages/Item.module.sass'
 
+
 const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
   const { cosmicUser } = useStateContext()
+  const { push } = useRouter()
 
   const [activeIndex, setActiveIndex] = useState(0)
   const [visibleAuthModal, setVisibleAuthModal] = useState(false)
+  const [fillFiledMessage, setFillFiledMessage] = useState(false)
+
+  const idProduct = itemInfo[0].id
 
   const counts = itemInfo?.[0]?.metadata?.count
     ? Array(itemInfo[0]?.metadata?.count)
@@ -38,6 +44,40 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
     },
     [cosmicUser]
   )
+
+  const deleteProduct = useCallback(
+    async e => {
+      e.preventDefault();
+      // Vérifiez si l'utilisateur est connecté
+      !cosmicUser.hasOwnProperty('id') && handleOAuth()
+
+      fillFiledMessage && setFillFiledMessage(false)
+
+      // Vérifiez si l'ID du produit est disponible
+      if (!cosmicUser && !idProduct) {
+        setFillFiledMessage(true);
+        return;
+      }
+
+      // Appel API pour supprimer le produit
+      const response = await fetch('/api/delete', {
+        method: 'DELETE',
+        body: idProduct,
+      });
+
+      // Gérer la réponse de l'API
+      let deleteItem;
+      deleteItem = await response.json();
+
+      console.log(deleteItem)
+
+      if (deleteItem.message) {
+        toast.success(`Le cadeau a bien été supprimé`, { position: 'bottom-right' });
+        setTimeout(() => {push('/search')}, 3000)
+      }
+    },
+    [handleOAuth, cosmicUser, idProduct]
+    );
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
@@ -105,6 +145,14 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
                   className={cn('button', styles.button)}
                 >
                   Contacter le vendeur
+                </button>
+              </div>
+              <div className={styles.btns}>
+                <button
+                  className={cn('button button-red', styles.button)}
+                  onClick={deleteProduct}
+                  >
+                  Supprimer l'article
                 </button>
               </div>
             </div>

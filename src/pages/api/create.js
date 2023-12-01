@@ -27,6 +27,6 @@ export default async function createHandler(
     })
     res.status(200).json(data)
   } catch (error) {
-    res.status(404).json(error.message)
+    res.status(error.status).json(error.message)
   }
 }

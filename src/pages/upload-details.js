@@ -133,7 +133,7 @@ const Upload = ({ navigationItems, categoriesType }) => {
 
         if (createdItem['object']) {
           toast.success(
-            `Successfully created ${createdItem['object']['title']} item`,
+            `Le cadeau ${createdItem['object']['title']} a bien été créé`,
             {
               position: 'bottom-right',
             }
