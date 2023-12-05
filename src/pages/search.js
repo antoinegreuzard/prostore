@@ -39,8 +39,6 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
   const debouncedMinTerm = useDebounce(min, 600)
   const debouncedMaxTerm = useDebounce(max, 600)
 
-
-
   const handleChange = ({ target: { name, value } }) => {
     setRangeValues(prevFields => ({
       ...prevFields,
