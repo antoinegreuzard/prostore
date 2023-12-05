@@ -26,7 +26,7 @@ export default async function filterHandler(req, res) {
   }
 
   if (typeof category !== 'undefined' && category !== 'undefined') {
-    queryParam = { ...queryParam, 'metadata.categories': category, 'metadata.ishidden': false }
+    queryParam = { ...queryParam, 'metadata.categories': category }
   }
 
   if (search && typeof search !== 'undefined' && search !== 'undefined') {
