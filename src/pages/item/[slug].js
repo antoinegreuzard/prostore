@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react'
 import cn from 'classnames'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/router';
+import { createBucketClient } from '@cosmicjs/sdk'
 import { useStateContext } from '../../utils/context/StateContext'
 import Layout from '../../components/Layout'
 import Discover from '../../screens/Home/Discover'
@@ -18,6 +19,10 @@ import {
 
 import styles from '../../styles/pages/Item.module.sass'
 
+const cosmic = createBucketClient({
+  bucketSlug: process.env.NEXT_PUBLIC_COSMIC_BUCKET_SLUG,
+  readKey: process.env.NEXT_PUBLIC_COSMIC_READ_KEY,
+})
 
 const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
   const { cosmicUser } = useStateContext()
@@ -27,6 +32,7 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
   const [visibleAuthModal, setVisibleAuthModal] = useState(false)
   const [fillFiledMessage, setFillFiledMessage] = useState(false)
   const [showDeleteButton, setShowDeleteButton] = useState(false);
+  const [vendorEmail, setVendorEmail] = useState('');
 
   const idProduct = itemInfo[0].id
 
@@ -47,9 +53,14 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
   )
 
   useEffect(() => {
+    let email = '';
     if (cosmicUser.id && itemInfo && cosmicUser?.id === itemInfo[0]?.modified_by) {
       setShowDeleteButton(true);
+      email = ''
+    } else {
+      email = cosmicUser?.email;
     }
+    setVendorEmail(email); // Mise à jour de vendorEmail
   }, [cosmicUser, itemInfo]);
 
   const deleteProduct = useCallback(
@@ -76,8 +87,6 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
       let deleteItem;
       deleteItem = await response.json();
 
-      console.log(deleteItem)
-
       if (deleteItem.message) {
         toast.success(`Le cadeau a bien été supprimé`, { position: 'bottom-right' });
         setTimeout(() => {push('/search')}, 3000)
@@ -85,6 +94,10 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
     },
     [fillFiledMessage, setFillFiledMessage, push, handleOAuth, cosmicUser, idProduct]
     );
+
+  const handleMailto = async () => {
+    window.location.href = `mailto:${vendorEmail}`;
+  }
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
@@ -151,6 +164,7 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
                 <div className={styles.btns}>
                   <button
                     className={cn('button', styles.button)}
+                    onClick={handleMailto}
                     >
                     Contacter le vendeur
                   </button>

@@ -50,7 +50,6 @@ const OAuth = ({ className, handleClose, handleOAuth, disable }) => {
           body: JSON.stringify({ email, password }),
         })
         const cosmicUser = await auth.json()
-        console.log(cosmicUser['user'])
         if (cosmicUser?.hasOwnProperty('user')) {
           setCosmicUser(cosmicUser['user'])
           setToken({

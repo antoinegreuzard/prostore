@@ -23,8 +23,6 @@ const Group = ({ className }) => {
     fetchCategories();
     }, []);
 
-  console.log(categories)
-
   return (
     <div className={cn(className, styles.group, { [styles.active]: visible })}>
       <div className={styles.head} onClick={() => setVisible(!visible)}>
