@@ -91,7 +91,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
     async category => {
       setActiveIndex(category)
     },
-    [handleFilterDataByParams]
+    []
   )
 
   const handleSubmit = e => {
