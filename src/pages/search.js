@@ -154,7 +154,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     name="search"
-                    placeholder="Mots clést"
+                    placeholder="Mots clés"
                     required
                   />
                   <button className={styles.result}>
