@@ -7,14 +7,13 @@ const cosmic = createBucketClient({
 })
 
 export default async function createHandler(
-  { body: { title, description, price, count, color, image, categories } },
+  { body: { title, description, price, count, image, categories } },
   res
 ) {
   const metadata = {
     description,
     price: Number(price),
     count: Number(count),
-    color,
     image,
     categories,
   }

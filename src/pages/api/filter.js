@@ -7,7 +7,7 @@ const cosmic = createBucketClient({
 
 export default async function filterHandler(req, res) {
   const {
-    query: { min, max, color, category, search },
+    query: { min, max, category, search },
   } = req
 
   let queryParam = {}
@@ -26,7 +26,7 @@ export default async function filterHandler(req, res) {
   }
 
   if (typeof category !== 'undefined' && category !== 'undefined') {
-    queryParam = { ...queryParam, 'metadata.categories': category }
+    queryParam = { ...queryParam, 'metadata.categories': category, 'metadata.ishidden': false }
   }
 
   if (search && typeof search !== 'undefined' && search !== 'undefined') {
@@ -37,7 +37,7 @@ export default async function filterHandler(req, res) {
     const data = await cosmic.objects
       .find({
         ...queryParam,
-        type: 'products',
+        type: 'products'
       })
       .props('title,slug,id,metadata,created_at')
       .depth(1)

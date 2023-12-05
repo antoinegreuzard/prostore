@@ -1,4 +1,4 @@
-const handleQueryParams = ({ color, min, max, category, search }) => {
+const handleQueryParams = ({ min, max, category, search }) => {
   let queryParam = { category }
 
   if (min && Number(min) > 0) {

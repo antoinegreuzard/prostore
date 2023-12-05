@@ -34,6 +34,7 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
   const [showDeleteButton, setShowDeleteButton] = useState(false);
   const [vendorEmail, setVendorEmail] = useState('');
 
+  console.log(itemInfo[0])
   const idProduct = itemInfo[0].id
 
   const counts = itemInfo?.[0]?.metadata?.count

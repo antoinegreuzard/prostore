@@ -70,13 +70,11 @@ const Discover = ({ info, type }) => {
   const handleFilterDataByParams = useCallback(
     async ({
       category = activeIndex,
-      color = option,
       min = debouncedMinTerm,
       max = debouncedMaxTerm,
     }) => {
       const params = handleQueryParams({
         category,
-        color,
         min: min.trim(),
         max: max.trim(),
       })
@@ -108,8 +106,7 @@ const Discover = ({ info, type }) => {
 
   const getDataByFilterOptions = useCallback(
     async color => {
-      setOption(color)
-      handleFilterDataByParams({ color })
+      handleFilterDataByParams()
     },
     [handleFilterDataByParams]
   )

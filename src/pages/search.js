@@ -9,10 +9,8 @@ import { getAllDataByType, getDataByCategory } from '../lib/cosmic'
 import Layout from '../components/Layout'
 import Icon from '../components/Icon'
 import Card from '../components/Card'
-import Dropdown from '../components/Dropdown'
 import priceRange from '../utils/constants/priceRange'
 import handleQueryParams from '../utils/queryParams'
-import { OPTIONS } from '../utils/constants/appConstants'
 
 import styles from '../styles/pages/Search.module.sass'
 import { PageMeta } from '../components/Meta'
@@ -41,7 +39,6 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
   const [activeIndex, setActiveIndex] = useState(
     query['category'] || ''
   )
-  const [option, setOption] = useState(query['color'] || OPTIONS[0])
 
   const handleChange = ({ target: { name, value } }) => {
     setRangeValues(prevFields => ({
@@ -53,16 +50,14 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
   const handleFilterDataByParams = useCallback(
     async ({
       category = activeIndex,
-      color = option,
       min = debouncedMinTerm,
       max = debouncedMaxTerm,
       search = debouncedSearchTerm,
     }) => {
       const params = handleQueryParams({
         category,
-        color,
         min: min.trim(),
-        max: max.trim(),
+        max: max,
         search: search.toLowerCase().trim(),
       })
 
@@ -88,23 +83,15 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
       debouncedMinTerm,
       debouncedMaxTerm,
       fetchData,
-      option,
       push,
     ]
   )
 
-  const getDataByFilterOptions = useCallback(
-    async color => {
-      setOption(color)
-      handleFilterDataByParams({ color })
-    },
-    [handleFilterDataByParams]
-  )
+  const getDataByFilterOptions = useCallback()
 
   const handleCategoryChange = useCallback(
     async category => {
       setActiveIndex(category)
-      handleFilterDataByParams({ category })
     },
     [handleFilterDataByParams]
   )
@@ -167,7 +154,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     name="search"
-                    placeholder="TODO: mettre texte"
+                    placeholder="Mots clést"
                     required
                   />
                   <button className={styles.result}>
@@ -229,7 +216,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                     <Card className={styles.card} item={x} key={index} />
                   ))
                 ) : (
-                  <p className={styles.inform}>Merci de sélectionner une autre catégorie</p>
+                  <p className={styles.inform}>Merci de sélectionner d'autres filtres</p>
                 )}
               </div>
             </div>
