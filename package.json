@@ -11,9 +11,11 @@
   "dependencies": {
     "@cosmicjs/sdk": "^1.0.9",
     "@vercel/analytics": "^1.1.1",
+    "bcryptjs": "^2.4.3",
     "classnames": "^2.3.1",
     "formidable": "^3.5.0",
     "fs": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.2",
     "next": "12.1.6",
     "next-connect": "^0.12.2",
     "react": "18.1.0",
