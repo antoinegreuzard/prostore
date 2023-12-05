@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import cn from 'classnames'
 import { useRouter } from 'next/router'
 import { useStateContext } from '../utils/context/StateContext'
@@ -26,6 +26,9 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
   const categoriesTypeData = categoriesGroup['type'] || categories['type']
 
   const [search, setSearch] = useState(query['search'] || '')
+  const [activeIndex, setActiveIndex] = useState(
+    query['category'] || ''
+    )
   const debouncedSearchTerm = useDebounce(search, 600)
 
   const [{ min, max }, setRangeValues] = useState(
@@ -36,9 +39,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
   const debouncedMinTerm = useDebounce(min, 600)
   const debouncedMaxTerm = useDebounce(max, 600)
 
-  const [activeIndex, setActiveIndex] = useState(
-    query['category'] || ''
-  )
+
 
   const handleChange = ({ target: { name, value } }) => {
     setRangeValues(prevFields => ({
@@ -90,9 +91,10 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
   const handleCategoryChange = useCallback(
     async category => {
       setActiveIndex(category)
+      handleFilterDataByParams({ category })
     },
     [handleFilterDataByParams]
-  )
+    )
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -111,6 +113,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
       handleFilterDataByParams({
         min: debouncedMinTerm,
         max: debouncedMaxTerm,
+        category: activeIndex,
         search: debouncedSearchTerm,
       })
     } else {

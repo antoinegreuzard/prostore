@@ -9,29 +9,33 @@ const useFetchData = (initialData = {}, method = 'GET') => {
     async (url, body) => {
       if (!url) return
       setIsLoading(true)
-      hasError && setHasError(false)
+      setHasError(false)
 
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body,
-      })
+      try {
+        const response = await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body,
+        })
 
-      if (response.ok) {
-        const result = await response.json()
-        setData(result['objects'])
-      } else {
+        if (response.ok) {
+          const result = await response.json()
+          setData(result['objects'])
+        } else {
+          setData(initialData)
+          setHasError(true)
+        }
+      } catch (error) {
         setData(initialData)
-        !hasError && setHasError(true)
+        setHasError(true)
+      } finally {
+        setIsLoading(false)
       }
-
-      setIsLoading(false)
-      return response
     },
-    [hasError, initialData, method]
-  )
+    [initialData, method]
+    )
 
   return { data, fetchData, isLoading, hasError }
 }
