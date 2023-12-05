@@ -10,7 +10,6 @@ import Icon from '../../../components/Icon'
 import Card from '../../../components/Card'
 import Dropdown from '../../../components/Dropdown'
 import priceRange from '../../../utils/constants/priceRange'
-import { OPTIONS } from '../../../utils/constants/appConstants'
 
 import styles from './Discover.module.sass'
 
@@ -56,7 +55,6 @@ const Discover = ({ info, type }) => {
   const [activeIndex, setActiveIndex] = useState(
     type ? Object.entries(type)[0]?.[0] : ''
   )
-  const [option, setOption] = useState(OPTIONS[0])
   const [visible, setVisible] = useState(false)
 
   const [{ min, max }, setRangeValues] = useState(() => priceRange)
@@ -86,7 +84,7 @@ const Discover = ({ info, type }) => {
 
       fetchData(`/api/filter?${filterParam}`)
     },
-    [activeIndex, debouncedMinTerm, debouncedMaxTerm, fetchData, option]
+    [activeIndex, debouncedMinTerm, debouncedMaxTerm, fetchData]
   )
 
   const handleCategoryChange = useCallback(
@@ -103,13 +101,6 @@ const Discover = ({ info, type }) => {
       [name]: value,
     }))
   }
-
-  const getDataByFilterOptions = useCallback(
-    async color => {
-      handleFilterDataByParams()
-    },
-    [handleFilterDataByParams]
-  )
 
   useEffect(() => {
     let isMount = true
@@ -183,7 +174,7 @@ const Discover = ({ info, type }) => {
                 <Card className={styles.card} item={info} key={index} />
               ))
             ) : (
-              <p className={styles.inform}>Try another category!</p>
+              <p className={styles.inform}>Merci de sélectionner d&apos;autres filtres</p>
             )}
           </Slider>
         </div>

@@ -42,7 +42,6 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
         .fill(1)
         .map((_, index) => index + 1)
     : ['Non disponible']
-  const [option, setOption] = useState(counts[0])
 
   const handleOAuth = useCallback(
     async user => {

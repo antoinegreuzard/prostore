@@ -87,8 +87,6 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
     ]
   )
 
-  const getDataByFilterOptions = useCallback()
-
   const handleCategoryChange = useCallback(
     async category => {
       setActiveIndex(category)

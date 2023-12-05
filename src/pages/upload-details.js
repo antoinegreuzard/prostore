@@ -13,7 +13,6 @@ import OAuth from '../components/OAuth'
 import Preview from '../screens/UploadDetails/Preview'
 import Cards from '../screens/UploadDetails/Cards'
 import { getAllDataByType } from '../lib/cosmic'
-import { OPTIONS } from '../utils/constants/appConstants'
 import createFields from '../utils/constants/createFields'
 import { getToken } from '../utils/token'
 
