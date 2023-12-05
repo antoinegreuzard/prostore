@@ -57,7 +57,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
       const params = handleQueryParams({
         category,
         min: min.trim(),
-        max: max,
+        max: max.trim(),
         search: search.toLowerCase().trim(),
       })
 
