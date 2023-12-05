@@ -127,7 +127,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
       <PageMeta
-        title={'Search | Marché de Noël EDS du campus de Lyon'}
+        title={'Rechercher un cadeau | Marché de Noël EDS du campus de Lyon'}
         description={
           'Marché de Noël EDS du campus de Lyon'
         }

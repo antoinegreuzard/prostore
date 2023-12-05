@@ -32,9 +32,7 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
   const [visibleAuthModal, setVisibleAuthModal] = useState(false)
   const [fillFiledMessage, setFillFiledMessage] = useState(false)
   const [showDeleteButton, setShowDeleteButton] = useState(false);
-  const [vendorEmail, setVendorEmail] = useState('');
 
-  console.log(itemInfo[0])
   const idProduct = itemInfo[0].id
 
   const counts = itemInfo?.[0]?.metadata?.count
@@ -53,15 +51,12 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
   )
 
   useEffect(() => {
-    let email = '';
     if (cosmicUser.id && itemInfo && cosmicUser?.id === itemInfo[0]?.modified_by) {
       setShowDeleteButton(true);
-      email = ''
-    } else {
-      email = cosmicUser?.email;
     }
-    setVendorEmail(email); // Mise à jour de vendorEmail
   }, [cosmicUser, itemInfo]);
+
+  console.log(itemInfo[0]?.modified_by)
 
   const deleteProduct = useCallback(
     async e => {
@@ -96,7 +91,7 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
     );
 
   const handleMailto = async () => {
-    window.location.href = `mailto:${vendorEmail}`;
+    window.location.href = `mailto:${itemInfo[0]?.metadata.email}`;
   }
 
   return (
@@ -152,14 +147,6 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
               ))}
             </div>
             <div className={styles.actions}>
-              <div className={styles.dropdown}>
-                <Dropdown
-                  className={styles.dropdown}
-                  value={option}
-                  setValue={setOption}
-                  options={counts}
-                />
-              </div>
               {!showDeleteButton && (
                 <div className={styles.btns}>
                   <button

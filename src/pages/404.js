@@ -30,7 +30,6 @@ const NotFound = ({ navigationItems }) => {
             <h2 className={cn('h2', styles.title)}>
               Désolé, nous n’avons trouvé aucun résultat pour cette recherche.
             </h2>
-            <div className={styles.info}>Peut-être en essayer un?</div>
             <button
               onClick={() => handleClick(`/search`)}
               className={cn('button-stroke', styles.form)}

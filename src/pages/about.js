@@ -21,7 +21,7 @@ const AboutUs = ({ navigationItems, landing }) => {
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
       <PageMeta
-        title={'About | Marché de Noël EDS du campus de Lyon'}
+        title={'Présentation | Marché de Noël EDS du campus de Lyon'}
         description={'Marché de Noël EDS du campus de Lyon'}
       />
       <div className={cn('section', styles.section)}>

@@ -27,7 +27,7 @@ const Upload = ({ navigationItems, categoriesType }) => {
   const [uploadFile, setUploadFile] = useState('')
   const [chooseCategory, setChooseCategory] = useState('')
   const [fillFiledMessage, setFillFiledMessage] = useState(false)
-  const [{ title, count, description, price }, setFields] = useState(
+  const [{ title, count, description, email, price }, setFields] = useState(
     () => createFields
   )
 
@@ -94,20 +94,20 @@ const Upload = ({ navigationItems, categoriesType }) => {
   }, [])
 
   const previewForm = useCallback(() => {
-    if (title && count && price && uploadMedia) {
+    if (title && count && price && email && uploadMedia) {
       fillFiledMessage && setFillFiledMessage(false)
       setVisiblePreview(true)
     } else {
       setFillFiledMessage(true)
     }
-  }, [count, fillFiledMessage, price, title, uploadMedia])
+  }, [count, fillFiledMessage, price, email, title, uploadMedia])
 
   const submitForm = useCallback(
     async e => {
       e.preventDefault()
       !cosmicUser.hasOwnProperty('id') && handleOAuth()
 
-      if (cosmicUser && title && count && price && uploadMedia) {
+      if (cosmicUser && title && count && price && email && uploadMedia) {
         fillFiledMessage && setFillFiledMessage(false)
 
         const response = await fetch('/api/create', {
@@ -119,6 +119,7 @@ const Upload = ({ navigationItems, categoriesType }) => {
           body: JSON.stringify({
             title,
             description,
+            email,
             price,
             count,
             categories: [chooseCategory],
@@ -150,6 +151,7 @@ const Upload = ({ navigationItems, categoriesType }) => {
       fillFiledMessage,
       handleOAuth,
       price,
+      email,
       push,
       title,
       uploadMedia,
@@ -159,7 +161,7 @@ const Upload = ({ navigationItems, categoriesType }) => {
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata || navigation}>
       <PageMeta
-        title={'Create Item | Marché de Noël EDS du campus de Lyon'}
+        title={'Publier un cadeau | Marché de Noël EDS du campus de Lyon'}
         description={
           'Marché de Noël EDS du campus de Lyon'
         }
@@ -214,6 +216,16 @@ const Upload = ({ navigationItems, categoriesType }) => {
                       placeholder="e. g. Description"
                       onChange={handleChange}
                       value={description}
+                      required
+                    />
+                    <TextInput
+                      className={styles.field}
+                      label="Email"
+                      name="email"
+                      type="email"
+                      placeholder="e. g. E-mail du vendeur"
+                      onChange={handleChange}
+                      value={email}
                       required
                     />
                     <div className={styles.row}>
@@ -282,7 +294,7 @@ const Upload = ({ navigationItems, categoriesType }) => {
           </div>
           <Preview
             className={cn(styles.preview, { [styles.active]: visiblePreview })}
-            info={{ title, count, description, price }}
+            info={{ title, count, description, price, email }}
             image={uploadMedia?.['imgix_url']}
             onClose={() => setVisiblePreview(false)}
           />
