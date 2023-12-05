@@ -216,7 +216,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                     <Card className={styles.card} item={x} key={index} />
                   ))
                 ) : (
-                  <p className={styles.inform}>Merci de sélectionner d'autres filtres</p>
+                  <p className={styles.inform}>Merci de sélectionner d&apos;autres filtres</p>
                 )}
               </div>
             </div>
