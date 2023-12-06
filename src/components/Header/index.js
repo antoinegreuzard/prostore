@@ -50,8 +50,8 @@ const Headers = ({ navigation }) => {
         <div className={cn('container', styles.container)} aria-hidden="true">
           <AppLink className={styles.logo} href="/">
             <Image
-              width={72}
-              height={72}
+              width={50}
+              height={50}
               objectFit="cover"
               className={styles.pic}
               src={navigation['logo']?.imgix_url}
