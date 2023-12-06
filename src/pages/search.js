@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import cn from 'classnames'
 import { useRouter } from 'next/router'
 import { useStateContext } from '../utils/context/StateContext'
@@ -9,6 +9,7 @@ import { getAllDataByType, getDataByCategory } from '../lib/cosmic'
 import Layout from '../components/Layout'
 import Icon from '../components/Icon'
 import Card from '../components/Card'
+import Dropdown from '../components/Dropdown'
 import priceRange from '../utils/constants/priceRange'
 import handleQueryParams from '../utils/queryParams'
 
@@ -21,23 +22,25 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
 
   const { data: searchResult, fetchData } = useFetchData(
     categoryData?.length ? categoryData : []
-  )
+    )
 
   const categoriesTypeData = categoriesGroup['type'] || categories['type']
 
   const [search, setSearch] = useState(query['search'] || '')
-  const [activeIndex, setActiveIndex] = useState(
-    query['category'] || ''
-    )
   const debouncedSearchTerm = useDebounce(search, 600)
 
   const [{ min, max }, setRangeValues] = useState(
     query['min'] || query['max']
       ? { min: query['min'] || 1, max: query['max'] || 100000 }
       : priceRange
-  )
+      )
   const debouncedMinTerm = useDebounce(min, 600)
   const debouncedMaxTerm = useDebounce(max, 600)
+
+  const [activeIndex, setActiveIndex] = useState(
+    query['category'] || ''
+    )
+  const [option, setOption] = useState(query['color'] || [])
 
   const handleChange = ({ target: { name, value } }) => {
     setRangeValues(prevFields => ({
@@ -49,12 +52,14 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
   const handleFilterDataByParams = useCallback(
     async ({
       category = activeIndex,
+      color = option,
       min = debouncedMinTerm,
       max = debouncedMaxTerm,
       search = debouncedSearchTerm,
     }) => {
       const params = handleQueryParams({
         category,
+        color,
         min: min.trim(),
         max: max.trim(),
         search: search.toLowerCase().trim(),
@@ -67,12 +72,12 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
         },
         undefined,
         { shallow: true }
-      )
+        )
 
       const filterParam = Object.keys(params).reduce(
         (acc, key) => acc + `&${key}=` + `${params[key]}`,
         ''
-      )
+        )
 
       await fetchData(`/api/filter?${filterParam}`)
     },
@@ -82,9 +87,18 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
       debouncedMinTerm,
       debouncedMaxTerm,
       fetchData,
+      option,
       push,
-    ]
-  )
+      ]
+      )
+
+  const getDataByFilterOptions = useCallback(
+    async color => {
+      setOption(color)
+      handleFilterDataByParams({ color })
+    },
+    [handleFilterDataByParams]
+    )
 
   const handleCategoryChange = useCallback(
     async category => {
@@ -107,11 +121,10 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
       (debouncedSearchTerm?.length ||
         debouncedMinTerm?.length ||
         debouncedMaxTerm?.length)
-    ) {
+        ) {
       handleFilterDataByParams({
         min: debouncedMinTerm,
         max: debouncedMaxTerm,
-        category: activeIndex,
         search: debouncedSearchTerm,
       })
     } else {
@@ -123,7 +136,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
       isMount = false
     }
 
-  }, [activeIndex, categoryData, handleFilterDataByParams, debouncedSearchTerm, debouncedMinTerm, debouncedMaxTerm])
+  }, [debouncedSearchTerm, debouncedMinTerm, debouncedMaxTerm])
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
@@ -146,7 +159,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                   className={styles.search}
                   action=""
                   onSubmit={handleSubmit}
-                >
+                  >
                   <input
                     className={styles.input}
                     type="text"
@@ -160,6 +173,17 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                     <Icon name="search" size="16" />
                   </button>
                 </form>
+              </div>
+              <div className={styles.sorting}>
+                <div className={styles.dropdown}>
+                  <div className={styles.label}>Select color</div>
+                  <Dropdown
+                    className={styles.dropdown}
+                    value={option}
+                    setValue={getDataByFilterOptions}
+                    options={[]}
+                  />
+                </div>
               </div>
               <div className={styles.range}>
                 <div className={styles.label}>échelle de prix</div>
@@ -204,10 +228,10 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                       })}
                       onClick={() => handleCategoryChange(item[0])}
                       key={index}
-                    >
+                      >
                       {item[1]}
                     </button>
-                  ))}
+                    ))}
               </div>
               <div className={styles.list}>
                 {searchResult?.length ? (
@@ -223,7 +247,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
         </div>
       </div>
     </Layout>
-  )
+    )
 }
 
 export default Search
@@ -236,7 +260,7 @@ export async function getServerSideProps({ query }) {
     categoryTypes?.map(category => {
       return getDataByCategory(category?.id)
     })
-  )
+    )
 
   const categoryData = query?.hasOwnProperty('category')
     ? await getDataByCategory(query['category'])
