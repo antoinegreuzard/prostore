@@ -102,6 +102,12 @@ const Discover = ({ info, type }) => {
     }))
   }
 
+  // Créez une liste de tous les produits de toutes les catégories
+  const allProducts = info.reduce((acc, group) => {
+    const products = Object.values(group)[0];
+    return [...acc, ...products];
+    }, []);
+
   useEffect(() => {
     let isMount = true
 
@@ -169,12 +175,12 @@ const Discover = ({ info, type }) => {
             className={cn('discover-slider', styles.slider)}
             {...settings}
           >
-            {filterResult?.length ? (
-              filterResult?.map((info, index) => (
-                <Card className={styles.card} item={info} key={index} />
+            {allProducts?.length ? (
+              allProducts?.map((product, index) => (
+                <Card className={styles.card} item={product} key={index} />
               ))
             ) : (
-              <p className={styles.inform}>Merci de sélectionner d&apos;autres filtres</p>
+              <p className={styles.inform}>Aucun produit disponible</p>
             )}
           </Slider>
         </div>
