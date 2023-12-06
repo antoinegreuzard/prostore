@@ -102,11 +102,15 @@ const Discover = ({ info, type }) => {
     }))
   }
 
-  // Créez une liste de tous les produits de toutes les catégories
   const allProducts = info.reduce((acc, group) => {
     const products = Object.values(group)[0];
     return [...acc, ...products];
     }, []);
+
+  const uniqueProductMap = {};
+  const uniqueProducts = allProducts.filter(product => {
+    return uniqueProductMap.hasOwnProperty(product.id) ? false : (uniqueProductMap[product.id] = true);
+  });
 
   useEffect(() => {
     let isMount = true
@@ -175,8 +179,8 @@ const Discover = ({ info, type }) => {
             className={cn('discover-slider', styles.slider)}
             {...settings}
           >
-            {allProducts?.length ? (
-              allProducts?.map((product, index) => (
+            {uniqueProducts?.length ? (
+              uniqueProducts?.map((product, index) => (
                 <Card className={styles.card} item={product} key={index} />
               ))
             ) : (

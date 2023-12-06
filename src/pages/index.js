@@ -38,11 +38,10 @@ const Home = ({ landing, categoriesGroup, categoryTypes, navigationItems }) => {
     navigationItems,
   ])
 
-  // Créez une liste de tous les produits de toutes les catégories
   const allProducts = categoriesGroup.groups.reduce((acc, group) => {
-    const products = Object.values(group)[0]
-    return [...acc, ...products]
-  }, [])
+    const products = Object.values(group)[0];
+    return [...acc, ...products];
+    }, []);
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
