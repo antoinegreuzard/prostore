@@ -7,7 +7,7 @@ const cosmic = createBucketClient({
 
 export default async function filterHandler(req, res) {
   const {
-    query: { min, max, color, category, search },
+    query: { min, max, category, search },
   } = req
 
   let queryParam = {}
@@ -23,14 +23,6 @@ export default async function filterHandler(req, res) {
         $lte: typeof max !== 'undefined' ? Number(max) : 1000000000,
       },
     }
-  }
-
-  if (
-    typeof color !== 'undefined' &&
-    color !== 'undefined' &&
-    color?.toLocaleLowerCase() !== 'any color'
-    ) {
-    queryParam = { ...queryParam, 'metadata.color': color }
   }
 
   if (typeof category !== 'undefined' && category !== 'undefined') {

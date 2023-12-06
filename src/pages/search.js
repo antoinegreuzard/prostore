@@ -31,7 +31,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
 
   const [{ min, max }, setRangeValues] = useState(
     query['min'] || query['max']
-      ? { min: query['min'] || 1, max: query['max'] || 100000 }
+      ? { min: query['min'] || 1, max: query['max'] || 100 }
       : priceRange
   )
   const debouncedMinTerm = useDebounce(min, 600)
@@ -40,7 +40,6 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
   const [activeIndex, setActiveIndex] = useState(
     query['category'] || ''
   )
-  const [option, setOption] = useState(query['color'] || [])
 
   const handleChange = ({ target: { name, value } }) => {
     setRangeValues(prevFields => ({
@@ -52,14 +51,12 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
   const handleFilterDataByParams = useCallback(
     async ({
       category = activeIndex,
-      color = option,
       min = debouncedMinTerm,
       max = debouncedMaxTerm,
       search = debouncedSearchTerm,
     }) => {
       const params = handleQueryParams({
         category,
-        color,
         min: min.trim(),
         max: max.trim(),
         search: search.toLowerCase().trim(),
@@ -87,18 +84,9 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
       debouncedMinTerm,
       debouncedMaxTerm,
       fetchData,
-      option,
       push,
       ]
       )
-
-  const getDataByFilterOptions = useCallback(
-    async color => {
-      setOption(color)
-      handleFilterDataByParams({ color })
-    },
-    [handleFilterDataByParams]
-    )
 
   const handleCategoryChange = useCallback(
     async category => {
@@ -173,17 +161,6 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                     <Icon name="search" size="16" />
                   </button>
                 </form>
-              </div>
-              <div className={styles.sorting}>
-                <div className={styles.dropdown}>
-                  <div className={styles.label}>Select color</div>
-                  <Dropdown
-                    className={styles.dropdown}
-                    value={option}
-                    setValue={getDataByFilterOptions}
-                    options={[]}
-                  />
-                </div>
               </div>
               <div className={styles.range}>
                 <div className={styles.label}>échelle de prix</div>
