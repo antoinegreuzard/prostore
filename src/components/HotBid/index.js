@@ -58,17 +58,15 @@ const Hot = ({ classSection, info }) => {
           <h2 className={cn('h3', styles.title)}>Nos meilleurs cadeaux</h2>
           <div className={styles.inner}>
             <Slider className="bid-slider" {...settings}>
-              {info &&
-                Object.keys(info)?.length &&
-                Object.values(info)[0]?.map((x, index) => (
+              {info && info.length > 0 && info.map((x, index) => (
                   <Card key={index} className={styles.card} item={x} />
-                ))}
+              ))}
             </Slider>
           </div>
         </div>
       </div>
     </div>
-  )
+    )
 }
 
 export default Hot

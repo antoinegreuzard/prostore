@@ -1,20 +1,11 @@
-import { useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { useStateContext } from '../utils/context/StateContext'
 import Layout from '../components/Layout'
-import {
-  HotBid,
-  Categories,
-  Description,
-} from '../screens/Home'
+import { HotBid, Categories, Description } from '../screens/Home'
 import chooseBySlug from '../utils/chooseBySlug'
 import { getDataByCategory, getAllDataByType } from '../lib/cosmic'
 
-const Home = ({
-  landing,
-  categoriesGroup,
-  categoryTypes,
-  navigationItems,
-}) => {
+const Home = ({ landing, categoriesGroup, categoryTypes, navigationItems }) => {
   const { categories, onCategoriesChange, setNavigation } = useStateContext()
 
   const handleContextAdd = useCallback(
@@ -47,10 +38,16 @@ const Home = ({
     navigationItems,
   ])
 
+  // Créez une liste de tous les produits de toutes les catégories
+  const allProducts = categoriesGroup.groups.reduce((acc, group) => {
+    const products = Object.values(group)[0]
+    return [...acc, ...products]
+  }, [])
+
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
       <Description info={chooseBySlug(landing, 'marketing')} />
-      <HotBid classSection="section" info={categoriesGroup['groups'][0]} />
+      <HotBid classSection="section" info={allProducts} />
       <Categories
         info={categoriesGroup['groups']}
         type={categoriesGroup['type']}
