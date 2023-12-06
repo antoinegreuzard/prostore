@@ -34,7 +34,7 @@ const Footers = ({ navigation }) => {
             <Group className={styles.group} />
           </div>
           <div className={styles.col}>
-            <p className={styles.category}>Réseaux Epitech Digital School</p>
+            <p className={styles.category}>Réseaux : Les Clampins</p>
             <SocialMedia className={styles.form} />
           </div>
         </div>
