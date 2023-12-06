@@ -22,7 +22,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
 
   const { data: searchResult, fetchData } = useFetchData(
     categoryData?.length ? categoryData : []
-    )
+  )
 
   const categoriesTypeData = categoriesGroup['type'] || categories['type']
 
@@ -33,13 +33,13 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
     query['min'] || query['max']
       ? { min: query['min'] || 1, max: query['max'] || 100000 }
       : priceRange
-      )
+  )
   const debouncedMinTerm = useDebounce(min, 600)
   const debouncedMaxTerm = useDebounce(max, 600)
 
   const [activeIndex, setActiveIndex] = useState(
     query['category'] || ''
-    )
+  )
   const [option, setOption] = useState(query['color'] || [])
 
   const handleChange = ({ target: { name, value } }) => {
