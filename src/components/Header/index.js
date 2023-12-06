@@ -50,7 +50,7 @@ const Headers = ({ navigation }) => {
         <div className={cn('container', styles.container)} aria-hidden="true">
           <AppLink className={styles.logo} href="/">
             <Image
-              width={256}
+              width={120}
               height={120}
               objectFit="cover"
               className={styles.pic}
