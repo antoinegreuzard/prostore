@@ -8,7 +8,6 @@ const logoutHandler = withIronSessionApiRoute(async (req, res) => {
     }, {
     cookieName: APP_KEY,
     password: process.env.SECRET_KEY,
-    // Ajoutez ici d'autres options de configuration si nécessaire
 });
 
 export default logoutHandler;
