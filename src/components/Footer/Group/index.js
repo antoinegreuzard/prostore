@@ -13,7 +13,7 @@ const Group = ({ className }) => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const data = await getAllDataByType('categories'); // Assurez-vous que 'categories' est le type correct
+        const data = await getAllDataByType('categories');
         setCategories(data);
       } catch (error) {
         console.error('Erreur lors de la récupération des catégories:', error);

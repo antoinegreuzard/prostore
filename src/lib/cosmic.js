@@ -21,7 +21,6 @@ export async function getDataByCategory(id) {
       .depth(1)
     return data.objects
   } catch (error) {
-    // Don't throw if an slug doesn't exist
     if (is404(error)) return
     throw error
   }
@@ -37,7 +36,6 @@ export async function getAllDataByType(dataType = 'categories') {
       .depth(1)
     return data.objects
   } catch (error) {
-    // Don't throw if an slug doesn't exist
     if (is404(error)) return
     throw error
   }
@@ -54,7 +52,6 @@ export async function getDataBySlug(slug, type = 'products') {
       .depth(1)
     return data.objects
   } catch (error) {
-    // Don't throw if an slug doesn't exist
     if (is404(error)) return
     throw error
   }
