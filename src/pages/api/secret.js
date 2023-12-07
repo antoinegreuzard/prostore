@@ -1,5 +1,5 @@
-import { APP_KEY } from '../../utils/constants/appConstants'
 import { withIronSessionApiRoute } from 'iron-session/next'
+import { APP_KEY } from '../../utils/constants/appConstants'
 
 require('dotenv').config()
 

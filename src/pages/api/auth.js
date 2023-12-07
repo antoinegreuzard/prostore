@@ -16,7 +16,7 @@ const authHandler = withIronSessionApiRoute(
       )
       const data = await auth.json()
       if (data.user) {
-        req.session.user = { data }
+        req.session.user = data
         await req.session.save()
         res.status(200).json({ data })
       } else {

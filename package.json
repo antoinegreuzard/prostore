@@ -17,7 +17,7 @@
     "dotenv": "^16.3.1",
     "formidable": "^3.5.0",
     "fs": "^0.0.1-security",
-    "iron-session": "^8.0.1",
+    "iron-session": "^6.2.0",
     "jsonwebtoken": "^9.0.2",
     "next": "12.1.6",
     "next-connect": "^0.12.2",
