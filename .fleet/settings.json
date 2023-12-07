@@ -1,4 +1,0 @@
-{
-    "nodejs.typescript.rebuildOnChanges": false,
-    "nodejs.editor.formatOnSave.eslint.glob": "{**/*,*}.{js,ts,jsx,tsx,sass}"
-}
