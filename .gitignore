@@ -31,3 +31,9 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# fleet
+.fleet
+
+# pnpm-lock.yaml
+pnpm-lock.yaml
