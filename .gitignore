@@ -34,3 +34,6 @@ yarn-error.log*
 
 # fleet
 .fleet
+
+# pnpm-lock.yaml
+pnpm-lock.yaml
