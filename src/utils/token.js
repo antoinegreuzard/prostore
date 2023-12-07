@@ -12,6 +12,14 @@ export const getToken = () => {
   return tokenLocalStorage ? JSON.parse(tokenLocalStorage) : null
 }
 
-export const removeToken = () => {
-  localStorage.removeItem(APP_KEY)
+export const removeToken = async () => {
+  localStorage.removeItem(APP_KEY);
+  try {
+    const response = await fetch('/api/logout', { method: 'POST' });
+    if (!response.ok) {
+      console.error('Problème lors de la déconnexion');
+    }
+  } catch (error) {
+    console.error('Erreur lors de la suppression du cookie:', error);
+  }
 }
