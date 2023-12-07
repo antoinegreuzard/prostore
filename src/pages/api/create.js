@@ -1,15 +1,16 @@
-import { createBucketClient } from '@cosmicjs/sdk'
+import { createBucketClient } from '@cosmicjs/sdk';
+import { isAuthenticated } from './auth.js';
 
 const cosmic = createBucketClient({
   bucketSlug: process.env.NEXT_PUBLIC_COSMIC_BUCKET_SLUG,
   readKey: process.env.NEXT_PUBLIC_COSMIC_READ_KEY,
   writeKey: process.env.COSMIC_WRITE_KEY,
-})
+});
 
-export default async function createHandler(
+const createHandler = async (
   { body: { title, description, price, count, image, categories, email } },
   res
-) {
+  ) => {
   const metadata = {
     description,
     price: Number(price),
@@ -18,6 +19,7 @@ export default async function createHandler(
     categories,
     email,
   }
+
   try {
     const data = await cosmic.objects.insertOne({
       title: title,
@@ -30,3 +32,6 @@ export default async function createHandler(
     res.status(error.status).json(error.message)
   }
 }
+
+const handler = [isAuthenticated, createHandler];
+export default handler;
