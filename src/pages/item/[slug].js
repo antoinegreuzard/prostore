@@ -1,85 +1,113 @@
-import React, { useState, useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import cn from 'classnames'
 import toast from 'react-hot-toast'
+import { useRouter } from 'next/router'
+import { createBucketClient } from '@cosmicjs/sdk'
 import { useStateContext } from '../../utils/context/StateContext'
 import Layout from '../../components/Layout'
-import HotBid from '../../components/HotBid'
 import Discover from '../../screens/Home/Discover'
-import Dropdown from '../../components/Dropdown'
 import Modal from '../../components/Modal'
 import OAuth from '../../components/OAuth'
 import Image from '../../components/Image'
+import { PageMeta } from '../../components/Meta'
 import {
-  getDataBySlug,
   getAllDataByType,
   getDataByCategory,
+  getDataBySlug,
 } from '../../lib/cosmic'
-import getStripe from '../../lib/getStripe'
 
 import styles from '../../styles/pages/Item.module.sass'
+import { getToken } from '../../utils/token'
+
+const cosmic = createBucketClient({
+  bucketSlug: process.env.NEXT_PUBLIC_COSMIC_BUCKET_SLUG,
+  readKey: process.env.NEXT_PUBLIC_COSMIC_READ_KEY,
+})
 
 const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
-  const { onAdd, cartItems, cosmicUser } = useStateContext()
+  const { cosmicUser } = useStateContext()
+  const { push } = useRouter()
 
   const [activeIndex, setActiveIndex] = useState(0)
   const [visibleAuthModal, setVisibleAuthModal] = useState(false)
+  const [fillFiledMessage, setFillFiledMessage] = useState(false)
+  const [showDeleteButton, setShowDeleteButton] = useState(false);
+
+  const idProduct = itemInfo[0].id
 
   const counts = itemInfo?.[0]?.metadata?.count
     ? Array(itemInfo[0]?.metadata?.count)
         .fill(1)
         .map((_, index) => index + 1)
-    : ['Not Available']
-  const [option, setOption] = useState(counts[0])
-
-  const handleAddToCart = () => {
-    cosmicUser?.hasOwnProperty('id') ? handleCheckout() : handleOAuth()
-  }
+    : ['Non disponible']
 
   const handleOAuth = useCallback(
     async user => {
       !cosmicUser.hasOwnProperty('id') && setVisibleAuthModal(true)
 
-      if (!user && !user?.hasOwnProperty('id')) return
+      if (!user && !user?.hasOwnProperty('id')) return false
     },
     [cosmicUser]
   )
 
-  const handleCheckout = async () => {
-    const addCart = await onAdd(itemInfo[0], option)
-
-    if (addCart?.length) {
-      const stripe = await getStripe()
-
-      const response = await fetch('/api/stripe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(addCart),
-      })
-
-      if (response.statusCode === 500) return
-
-      const data = await response.json()
-      toast.loading('Redirecting...', {
-        position: 'bottom-right',
-      })
-
-      stripe.redirectToCheckout({ sessionId: data.id })
+  useEffect(() => {
+    console.log(itemInfo)
+    if (cosmicUser.id && itemInfo && cosmicUser?.email === itemInfo[0]?.metadata.email) {
+      setShowDeleteButton(true);
     }
+  }, [cosmicUser, itemInfo]);
+
+  const deleteProduct = useCallback(
+    async e => {
+      e.preventDefault();
+      // Vérifiez si l'utilisateur est connecté
+      !cosmicUser.hasOwnProperty('id') && handleOAuth()
+
+      fillFiledMessage && setFillFiledMessage(false)
+
+      // Vérifiez si l'ID du produit est disponible
+      if (!cosmicUser && !idProduct) {
+        setFillFiledMessage(true);
+        return;
+      }
+
+      const token = getToken()?.hasOwnProperty('token');
+
+      const response = await fetch('/api/delete', {
+        method: 'DELETE',
+        body: idProduct,
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      });
+
+      let deleteItem;
+      deleteItem = await response.json();
+
+      if (deleteItem.message) {
+        toast.success(`Le cadeau a bien été supprimé`, { position: 'bottom-right' });
+        setTimeout(() => {push('/search')}, 3000)
+      }
+    },
+    [fillFiledMessage, setFillFiledMessage, push, handleOAuth, cosmicUser, idProduct]
+    );
+
+  const handleMailto = async () => {
+    window.location.href = `mailto:${itemInfo[0]?.metadata.email}`;
   }
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
+      <PageMeta
+        title={itemInfo[0]?.title + ' | Marché de Noël EDS du campus de Lyon'}
+        description={
+          'Marché de Noël EDS du campus de Lyon'
+        }
+      />
       <div className={cn('section', styles.section)}>
         <div className={cn('container', styles.container)}>
           <div className={styles.bg}>
             <div className={styles.preview}>
-              <div className={styles.categories}>
-                <div className={cn('status-purple', styles.category)}>
-                  {itemInfo[0]?.metadata?.color}
-                </div>
-              </div>
               <div className={styles.image}>
                 <Image
                   size={{ width: '100%', height: '100%' }}
@@ -95,12 +123,12 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
             <h1 className={cn('h3', styles.title)}>{itemInfo[0]?.title}</h1>
             <div className={styles.cost}>
               <div className={cn('status-stroke-green', styles.price)}>
-                {`$${itemInfo[0]?.metadata?.price}`}
+                {`${itemInfo[0]?.metadata?.price} €`}
               </div>
               <div className={styles.counter}>
                 {itemInfo[0]?.metadata?.count > 0
-                  ? `${itemInfo[0]?.metadata?.count} in stock`
-                  : 'Not Available'}
+                  ? `${itemInfo[0]?.metadata?.count} en stock`
+                  : 'Non disponible'}
               </div>
             </div>
             <div className={styles.info}>
@@ -121,26 +149,29 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
               ))}
             </div>
             <div className={styles.actions}>
-              <div className={styles.dropdown}>
-                <Dropdown
-                  className={styles.dropdown}
-                  value={option}
-                  setValue={setOption}
-                  options={counts}
-                />
-              </div>
-              <div className={styles.btns}>
-                <button
-                  className={cn('button', styles.button)}
-                  onClick={handleAddToCart}
-                >
-                  Buy Now
-                </button>
-              </div>
+              {!showDeleteButton && (
+                <div className={styles.btns}>
+                  <button
+                    className={cn('button', styles.button)}
+                    onClick={handleMailto}
+                    >
+                    Contacter le vendeur
+                  </button>
+                </div>
+                )}
+              {showDeleteButton && (
+                <div className={styles.btns}>
+                  <button
+                    className={cn('button button-red', styles.button)}
+                    onClick={deleteProduct}
+                    >
+                    Supprimer le cadeau
+                  </button>
+                </div>
+                )}
             </div>
           </div>
         </div>
-        <HotBid classSection="section" info={categoriesGroup['groups'][0]} />
         <Discover
           info={categoriesGroup['groups']}
           type={categoriesGroup['type']}

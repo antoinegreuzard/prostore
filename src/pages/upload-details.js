@@ -1,10 +1,9 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import cn from 'classnames'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
 import { useStateContext } from '../utils/context/StateContext'
 import Layout from '../components/Layout'
-import Dropdown from '../components/Dropdown'
 import Icon from '../components/Icon'
 import TextInput from '../components/TextInput'
 import Loader from '../components/Loader'
@@ -13,7 +12,6 @@ import OAuth from '../components/OAuth'
 import Preview from '../screens/UploadDetails/Preview'
 import Cards from '../screens/UploadDetails/Cards'
 import { getAllDataByType } from '../lib/cosmic'
-import { OPTIONS } from '../utils/constants/appConstants'
 import createFields from '../utils/constants/createFields'
 import { getToken } from '../utils/token'
 
@@ -24,22 +22,23 @@ const Upload = ({ navigationItems, categoriesType }) => {
   const { categories, navigation, cosmicUser } = useStateContext()
   const { push } = useRouter()
 
-  const [color, setColor] = useState(OPTIONS[1])
   const [uploadMedia, setUploadMedia] = useState('')
   const [uploadFile, setUploadFile] = useState('')
   const [chooseCategory, setChooseCategory] = useState('')
   const [fillFiledMessage, setFillFiledMessage] = useState(false)
-  const [{ title, count, description, price }, setFields] = useState(
+  const [{ title, count, description, email, price }, setFields] = useState(
     () => createFields
   )
 
   const [visibleAuthModal, setVisibleAuthModal] = useState(false)
-
   const [visiblePreview, setVisiblePreview] = useState(false)
+  const [jwtToken, setJwtToken] = useState(false)
 
   useEffect(() => {
     let isMounted = true
     const uNFTUser = getToken()
+    const edsLyoItem = localStorage.getItem('EDS-LYO')
+    const token = edsLyoItem ? JSON.parse(edsLyoItem).token : null
 
     if (
       isMounted &&
@@ -49,23 +48,37 @@ const Upload = ({ navigationItems, categoriesType }) => {
       setVisibleAuthModal(true)
     }
 
+    if (token) {
+      setJwtToken(token)
+    }
+
     return () => {
       isMounted = false
     }
   }, [cosmicUser])
 
-  const handleUploadFile = async uploadFile => {
-    const formData = new FormData()
-    formData.append('file', uploadFile)
+  const handleUploadFile = useCallback(
+    async uploadFile => {
+      const formData = new FormData()
+      formData.append('file', uploadFile)
 
-    const uploadResult = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    })
+      try {
+        const uploadResult = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        })
 
-    const mediaData = await uploadResult.json()
-    await setUploadMedia(mediaData?.['media'])
-  }
+        const mediaData = await uploadResult.json()
+        setUploadMedia(mediaData?.['media'])
+      } catch (error) {
+        console.error('Erreur lors du téléversement du fichier:', error)
+      }
+    },
+    [jwtToken]
+  )
 
   const handleOAuth = useCallback(
     async user => {
@@ -74,15 +87,15 @@ const Upload = ({ navigationItems, categoriesType }) => {
       if (!user && !user?.hasOwnProperty('id')) return
       user && uploadFile && (await handleUploadFile(uploadFile))
     },
-    [cosmicUser, uploadFile]
+    [cosmicUser, uploadFile, handleUploadFile]
   )
 
   const handleUpload = async e => {
     setUploadFile(e.target.files[0])
 
     cosmicUser?.hasOwnProperty('id')
-      ? handleUploadFile(e.target.files[0])
-      : handleOAuth()
+      ? await handleUploadFile(e.target.files[0])
+      : await handleOAuth()
   }
 
   const handleChange = ({ target: { name, value } }) =>
@@ -96,34 +109,39 @@ const Upload = ({ navigationItems, categoriesType }) => {
   }, [])
 
   const previewForm = useCallback(() => {
-    if (title && count && price && uploadMedia) {
+    if (title && count && price && email && uploadMedia) {
       fillFiledMessage && setFillFiledMessage(false)
       setVisiblePreview(true)
     } else {
       setFillFiledMessage(true)
     }
-  }, [count, fillFiledMessage, price, title, uploadMedia])
+  }, [count, fillFiledMessage, price, email, title, uploadMedia])
 
   const submitForm = useCallback(
     async e => {
       e.preventDefault()
-      !cosmicUser.hasOwnProperty('id') && handleOAuth()
+      !cosmicUser.hasOwnProperty('id') && (await handleOAuth())
 
-      if (cosmicUser && title && color && count && price && uploadMedia) {
+      if (cosmicUser && title && count && price && email && uploadMedia) {
         fillFiledMessage && setFillFiledMessage(false)
+
+        const token = getToken()?.hasOwnProperty('token')
 
         const response = await fetch('/api/create', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           },
           body: JSON.stringify({
             title,
             description,
+            email,
             price,
             count,
-            color,
             categories: [chooseCategory],
             image: uploadMedia['name'],
           }),
@@ -133,13 +151,13 @@ const Upload = ({ navigationItems, categoriesType }) => {
 
         if (createdItem['object']) {
           toast.success(
-            `Successfully created ${createdItem['object']['title']} item`,
+            `Le cadeau ${createdItem['object']['title']} a bien été créé`,
             {
               position: 'bottom-right',
             }
           )
 
-          push(`item/${createdItem['object']['slug']}`)
+          await push(`item/${createdItem['object']['slug']}`)
         }
       } else {
         setFillFiledMessage(true)
@@ -147,13 +165,13 @@ const Upload = ({ navigationItems, categoriesType }) => {
     },
     [
       chooseCategory,
-      color,
       cosmicUser,
       count,
       description,
       fillFiledMessage,
       handleOAuth,
       price,
+      email,
       push,
       title,
       uploadMedia,
@@ -163,25 +181,21 @@ const Upload = ({ navigationItems, categoriesType }) => {
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata || navigation}>
       <PageMeta
-        title={'Create Item | uNFT Marketplace'}
-        description={
-          'uNFT Marketplace built with Cosmic CMS, Next.js, and the Stripe API'
-        }
+        title={'Publier un cadeau | Marché de Noël EDS du campus de Lyon'}
+        description={'Marché de Noël EDS du campus de Lyon'}
       />
       <div className={cn('section', styles.section)}>
         <div className={cn('container', styles.container)}>
           <div className={styles.wrapper}>
             <div className={styles.head}>
-              <div className={cn('h2', styles.title)}>
-                Create single collectible
-              </div>
+              <div className={cn('h2', styles.title)}>Publier un cadeau</div>
             </div>
             <form className={styles.form} action="" onSubmit={submitForm}>
               <div className={styles.list}>
                 <div className={styles.item}>
-                  <div className={styles.category}>Upload file</div>
+                  <div className={styles.category}>Téléverser un fichier</div>
                   <div className={styles.note}>
-                    Drag or choose your file to upload
+                    Choisir ou glisser-déposer un fichier à upload
                   </div>
                   <div className={styles.file}>
                     <input
@@ -198,14 +212,16 @@ const Upload = ({ navigationItems, categoriesType }) => {
                   </div>
                 </div>
                 <div className={styles.item}>
-                  <div className={styles.category}>Item Details</div>
+                  <div className={styles.category}>
+                    Informations sur la cadeau
+                  </div>
                   <div className={styles.fieldset}>
                     <TextInput
                       className={styles.field}
                       label="Item title"
                       name="title"
                       type="text"
-                      placeholder="e. g. Readable Title"
+                      placeholder="e. g. Titre du cadeau"
                       onChange={handleChange}
                       value={title}
                       required
@@ -220,25 +236,24 @@ const Upload = ({ navigationItems, categoriesType }) => {
                       value={description}
                       required
                     />
+                    <TextInput
+                      className={styles.field}
+                      label="Email"
+                      name="email"
+                      type="email"
+                      placeholder="e. g. E-mail du vendeur"
+                      onChange={handleChange}
+                      value={email}
+                      required
+                    />
                     <div className={styles.row}>
-                      <div className={styles.col}>
-                        <div className={styles.field}>
-                          <div className={styles.label}>Colors</div>
-                          <Dropdown
-                            className={styles.dropdown}
-                            value={color}
-                            setValue={setColor}
-                            options={OPTIONS}
-                          />
-                        </div>
-                      </div>
                       <div className={styles.col}>
                         <TextInput
                           className={styles.field}
                           label="Price"
                           name="price"
                           type="text"
-                          placeholder="e. g. Price"
+                          placeholder="e. g. Prix"
                           onChange={handleChange}
                           value={price}
                           required
@@ -250,7 +265,7 @@ const Upload = ({ navigationItems, categoriesType }) => {
                           label="Count"
                           name="count"
                           type="text"
-                          placeholder="e. g. Count"
+                          placeholder="e. g. Stock"
                           onChange={handleChange}
                           value={count}
                           required
@@ -261,8 +276,10 @@ const Upload = ({ navigationItems, categoriesType }) => {
                 </div>
               </div>
               <div className={styles.options}>
-                <div className={styles.category}>Choose collection</div>
-                <div className={styles.text}>Choose an exiting Categories</div>
+                <div className={styles.category}>Choisir une catégorie</div>
+                <div className={styles.text}>
+                  Choisir une catégorie parmis celles qui existent
+                </div>
                 <Cards
                   className={styles.cards}
                   category={chooseCategory}
@@ -276,19 +293,19 @@ const Upload = ({ navigationItems, categoriesType }) => {
                   onClick={previewForm}
                   type="button"
                 >
-                  Preview
+                  Prévisualiser
                 </button>
                 <button
                   className={cn('button', styles.button)}
                   onClick={submitForm}
                   type="submit"
                 >
-                  <span>Create item</span>
+                  <span>Publier le cadeau</span>
                   <Icon name="arrow-next" size="10" />
                 </button>
                 {fillFiledMessage && (
                   <div className={styles.saving}>
-                    <span>Please fill all fields</span>
+                    <span>Merci de remplir tous les champs obligatoires</span>
                     <Loader className={styles.loader} />
                   </div>
                 )}
@@ -297,7 +314,7 @@ const Upload = ({ navigationItems, categoriesType }) => {
           </div>
           <Preview
             className={cn(styles.preview, { [styles.active]: visiblePreview })}
-            info={{ title, color, count, description, price }}
+            info={{ title, count, description, price, email }}
             image={uploadMedia?.['imgix_url']}
             onClose={() => setVisiblePreview(false)}
           />

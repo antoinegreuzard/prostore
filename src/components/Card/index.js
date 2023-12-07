@@ -20,12 +20,6 @@ const Card = ({ className, item }) => {
           />
           <div className={styles.control}>
             <div className={styles.category}>{item?.title}</div>
-            <button
-              className={cn(styles.favorite, { [styles.active]: visible })}
-              onClick={() => setVisible(!visible)}
-            >
-              <Icon name="heart" size="20" />
-            </button>
             <button className={cn('button-small', styles.button)}>
               <span>{`${item?.metadata?.categories[0]?.title}`}</span>
               <Icon name="scatter-up" size="16" />
@@ -37,15 +31,15 @@ const Card = ({ className, item }) => {
             <p>{item?.title}</p>
             <p className={styles.count}>
               {item?.metadata?.count > 0
-                ? `${item?.metadata?.count} Items`
-                : 'Not Available'}
+                ? `${item?.metadata?.count} cadeau(x)`
+                : 'Non disponible'}
             </p>
           </div>
           <div
             className={styles.bid}
             dangerouslySetInnerHTML={{ __html: item?.count }}
           />
-          <span className={styles.price}>{`$ ${item?.metadata?.price}`}</span>
+          <span className={styles.price}>{`${item?.metadata?.price} €`}</span>
         </div>
       </AppLink>
     </div>

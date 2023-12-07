@@ -10,7 +10,6 @@ import Icon from '../../../components/Icon'
 import Card from '../../../components/Card'
 import Dropdown from '../../../components/Dropdown'
 import priceRange from '../../../utils/constants/priceRange'
-import { OPTIONS } from '../../../utils/constants/appConstants'
 
 import styles from './Discover.module.sass'
 
@@ -56,7 +55,6 @@ const Discover = ({ info, type }) => {
   const [activeIndex, setActiveIndex] = useState(
     type ? Object.entries(type)[0]?.[0] : ''
   )
-  const [option, setOption] = useState(OPTIONS[0])
   const [visible, setVisible] = useState(false)
 
   const [{ min, max }, setRangeValues] = useState(() => priceRange)
@@ -70,13 +68,11 @@ const Discover = ({ info, type }) => {
   const handleFilterDataByParams = useCallback(
     async ({
       category = activeIndex,
-      color = option,
       min = debouncedMinTerm,
       max = debouncedMaxTerm,
     }) => {
       const params = handleQueryParams({
         category,
-        color,
         min: min.trim(),
         max: max.trim(),
       })
@@ -88,7 +84,7 @@ const Discover = ({ info, type }) => {
 
       fetchData(`/api/filter?${filterParam}`)
     },
-    [activeIndex, debouncedMinTerm, debouncedMaxTerm, fetchData, option]
+    [activeIndex, debouncedMinTerm, debouncedMaxTerm, fetchData]
   )
 
   const handleCategoryChange = useCallback(
@@ -106,13 +102,15 @@ const Discover = ({ info, type }) => {
     }))
   }
 
-  const getDataByFilterOptions = useCallback(
-    async color => {
-      setOption(color)
-      handleFilterDataByParams({ color })
-    },
-    [handleFilterDataByParams]
-  )
+  const allProducts = info.reduce((acc, group) => {
+    const products = Object.values(group)[0];
+    return [...acc, ...products];
+    }, []);
+
+  const uniqueProductMap = {};
+  const uniqueProducts = allProducts.filter(product => {
+    return uniqueProductMap.hasOwnProperty(product.id) ? false : (uniqueProductMap[product.id] = true);
+  });
 
   useEffect(() => {
     let isMount = true
@@ -135,51 +133,17 @@ const Discover = ({ info, type }) => {
       <div className={cn('container', styles.container)}>
         <div className={styles.head}>
           <div className={styles.stage}>
-            Create, explore, & collect digital art.
+            Le marché de Noël des étudiants de Epitech Digital School Lyon
           </div>
           <div className={styles.header}>
-            <h3 className={cn('h3', styles.title)}>Discover</h3>
+            <h3 className={cn('h3', styles.title)}>Cadeaux disponibles</h3>
             <button
               onClick={() => handleClick(`/search?category=${activeIndex}`)}
               className={cn('button-stroke', styles.button)}
             >
-              Start search
+              Rechercher un cadeau
             </button>
           </div>
-        </div>
-        <div className={styles.top}>
-          <div className={styles.dropdown}>
-            <Dropdown
-              className={styles.dropdown}
-              value={option}
-              setValue={getDataByFilterOptions}
-              options={OPTIONS}
-            />
-          </div>
-          <div className={styles.nav}>
-            {type &&
-              Object.entries(type)?.map((item, index) => (
-                <button
-                  className={cn(styles.link, {
-                    [styles.active]: item[0] === activeIndex,
-                  })}
-                  onClick={() => handleCategoryChange(item[0])}
-                  key={index}
-                >
-                  {item[1]}
-                </button>
-              ))}
-          </div>
-          <button
-            className={cn(styles.filter, { [styles.active]: visible })}
-            onClick={() => setVisible(!visible)}
-          >
-            <div className={styles.text}>Filter</div>
-            <div className={styles.toggle}>
-              <Icon name="filter" size="18" />
-              <Icon name="close" size="10" />
-            </div>
-          </button>
         </div>
         <div className={cn(styles.filters, { [styles.active]: visible })}>
           <div className={styles.sorting}>
@@ -215,12 +179,12 @@ const Discover = ({ info, type }) => {
             className={cn('discover-slider', styles.slider)}
             {...settings}
           >
-            {filterResult?.length ? (
-              filterResult?.map((info, index) => (
-                <Card className={styles.card} item={info} key={index} />
+            {uniqueProducts?.length ? (
+              uniqueProducts?.map((product, index) => (
+                <Card className={styles.card} item={product} key={index} />
               ))
             ) : (
-              <p className={styles.inform}>Try another category!</p>
+              <p className={styles.inform}>Aucun produit disponible</p>
             )}
           </Slider>
         </div>
