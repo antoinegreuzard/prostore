@@ -60,12 +60,10 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
   const deleteProduct = useCallback(
     async e => {
       e.preventDefault();
-      // Vérifiez si l'utilisateur est connecté
       !cosmicUser.hasOwnProperty('id') && handleOAuth()
 
       fillFiledMessage && setFillFiledMessage(false)
 
-      // Vérifiez si l'ID du produit est disponible
       if (!cosmicUser && !idProduct) {
         setFillFiledMessage(true);
         return;
