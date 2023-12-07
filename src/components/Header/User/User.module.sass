@@ -15,7 +15,7 @@
     +button-2
     cursor: pointer
     transition: box-shadow .2s
-    -webkit-tap-highlight-color: rgba(0,0,0,0)
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
     +dark
         box-shadow: inset 0 0 0 2px $neutrals3
     +m
@@ -26,6 +26,7 @@
         box-shadow: inset 0 0 0 2px $neutrals3
         +m
             box-shadow: none
+
     &:hover
         box-shadow: inset 0 0 0 2px $blue
         +m
@@ -35,6 +36,7 @@
     flex-shrink: 0
     width: 32px
     height: 32px
+
     img
         width: 100%
         height: 100%
@@ -54,7 +56,7 @@
     left: 50%
     width: 256px
     margin-left: -128px
-    padding: 32px 16px 20px
+    padding: 20px 16px
     box-shadow: 0px 16px 64px 0 rgba(31, 47, 70, 0.4)
     border-radius: 12px
     background: $neutrals8
@@ -72,6 +74,7 @@
         top: calc(100% + 16px)
         width: auto
         margin: 0
+
     &:before
         content: ""
         position: absolute
@@ -83,6 +86,7 @@
         background: url("data:image/svg+xml,%3Csvg width='32' height='13' viewBox='0 0 32 13' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.3432 2.65685L0 13H32L21.6569 2.65686C18.5327 -0.467339 13.4673 -0.467344 10.3432 2.65685Z' fill='%23FCFCFD'/%3E%3C/svg%3E%0A") no-repeat 100% 50% / 100% auto
         +m
             display: none
+
     +dark
         background: $neutrals2
         &:before
@@ -110,9 +114,11 @@
 
 .copy
     margin-left: 8px
+
     svg
         fill: $blue
         transition: fill .2s
+
     &:hover
         svg
             fill: darken($blue, 10)
@@ -133,6 +139,7 @@
     width: 40px
     height: 40px
     margin-right: 16px
+
     img
         width: 100%
         height: 100%
@@ -155,16 +162,19 @@
     cursor: pointer
     display: flex
     align-items: center
-    padding: 17px 0 12px
+    padding: 0
     +button-2
     color: $neutrals4
+
     &:not(:last-child)
         border-bottom: 1px solid $neutrals6
         +dark
             border-color: $neutrals3
+
     &[href]
         &:hover
             color: $blue
+
             svg
                 fill: $blue
 
@@ -172,6 +182,7 @@
     flex-shrink: 0
     width: 20px
     margin-right: 8px
+
     svg
         fill: $neutrals4
         transition: fill .2s

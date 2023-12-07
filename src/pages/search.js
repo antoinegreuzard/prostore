@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import cn from 'classnames'
 import { useRouter } from 'next/router'
 import { useStateContext } from '../utils/context/StateContext'
@@ -9,10 +9,8 @@ import { getAllDataByType, getDataByCategory } from '../lib/cosmic'
 import Layout from '../components/Layout'
 import Icon from '../components/Icon'
 import Card from '../components/Card'
-import Dropdown from '../components/Dropdown'
 import priceRange from '../utils/constants/priceRange'
 import handleQueryParams from '../utils/queryParams'
-import { OPTIONS } from '../utils/constants/appConstants'
 
 import styles from '../styles/pages/Search.module.sass'
 import { PageMeta } from '../components/Meta'
@@ -32,16 +30,13 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
 
   const [{ min, max }, setRangeValues] = useState(
     query['min'] || query['max']
-      ? { min: query['min'] || 1, max: query['max'] || 100000 }
+      ? { min: query['min'] || 1, max: query['max'] || 100 }
       : priceRange
   )
   const debouncedMinTerm = useDebounce(min, 600)
   const debouncedMaxTerm = useDebounce(max, 600)
 
-  const [activeIndex, setActiveIndex] = useState(
-    query['category'] || ''
-  )
-  const [option, setOption] = useState(query['color'] || OPTIONS[0])
+  const [activeIndex, setActiveIndex] = useState(query['category'] || '')
 
   const handleChange = ({ target: { name, value } }) => {
     setRangeValues(prevFields => ({
@@ -53,14 +48,12 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
   const handleFilterDataByParams = useCallback(
     async ({
       category = activeIndex,
-      color = option,
       min = debouncedMinTerm,
       max = debouncedMaxTerm,
       search = debouncedSearchTerm,
     }) => {
       const params = handleQueryParams({
         category,
-        color,
         min: min.trim(),
         max: max.trim(),
         search: search.toLowerCase().trim(),
@@ -88,17 +81,8 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
       debouncedMinTerm,
       debouncedMaxTerm,
       fetchData,
-      option,
       push,
     ]
-  )
-
-  const getDataByFilterOptions = useCallback(
-    async color => {
-      setOption(color)
-      handleFilterDataByParams({ color })
-    },
-    [handleFilterDataByParams]
   )
 
   const handleCategoryChange = useCallback(
@@ -136,26 +120,23 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
     return () => {
       isMount = false
     }
-
   }, [debouncedSearchTerm, debouncedMinTerm, debouncedMaxTerm])
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
       <PageMeta
-        title={'Discover | uNFT Marketplace'}
-        description={
-          'uNFT Marketplace built with Cosmic CMS, Next.js, and the Stripe API'
-        }
+        title={'Rechercher un cadeau | Marché de Noël EDS du campus de Lyon'}
+        description={'Marché de Noël EDS du campus de Lyon'}
       />
-      <div className={cn('section-pt80', styles.section)}>
+      <div className={cn('section-pt80 section-pb80', styles.section)}>
         <div className={cn('container', styles.container)}>
           <div className={styles.row}>
             <div className={styles.filters}>
               <div className={styles.top}>
-                <div className={styles.title}>Search</div>
+                <div className={styles.title}>Recherche</div>
               </div>
               <div className={styles.form}>
-                <div className={styles.label}>Search keyword</div>
+                <div className={styles.label}>Mots clés</div>
                 <form
                   className={styles.search}
                   action=""
@@ -167,7 +148,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                     name="search"
-                    placeholder="Search..."
+                    placeholder="Mots clés"
                     required
                   />
                   <button className={styles.result}>
@@ -175,19 +156,8 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                   </button>
                 </form>
               </div>
-              <div className={styles.sorting}>
-                <div className={styles.dropdown}>
-                  <div className={styles.label}>Select color</div>
-                  <Dropdown
-                    className={styles.dropdown}
-                    value={option}
-                    setValue={getDataByFilterOptions}
-                    options={OPTIONS}
-                  />
-                </div>
-              </div>
               <div className={styles.range}>
-                <div className={styles.label}>Price range</div>
+                <div className={styles.label}>échelle de prix</div>
                 <div className={styles.prices}>
                   <input
                     className={styles.input}
@@ -198,7 +168,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                     placeholder="MIN"
                     required
                   />
-                  <p className={styles.separator}>to</p>
+                  <p className={styles.separator}>à</p>
                   <input
                     className={styles.input}
                     type="text"
@@ -219,7 +189,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                   })}
                   onClick={() => handleCategoryChange('')}
                 >
-                  All
+                  Tous
                 </button>
                 {categoriesTypeData &&
                   Object.entries(categoriesTypeData)?.map((item, index) => (
@@ -240,7 +210,9 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                     <Card className={styles.card} item={x} key={index} />
                   ))
                 ) : (
-                  <p className={styles.inform}>Try another category!</p>
+                  <p className={styles.inform}>
+                    Merci de sélectionner d&apos;autres filtres
+                  </p>
                 )}
               </div>
             </div>
@@ -261,7 +233,7 @@ export async function getServerSideProps({ query }) {
     categoryTypes?.map(category => {
       return getDataByCategory(category?.id)
     })
-  )
+    )
 
   const categoryData = query?.hasOwnProperty('category')
     ? await getDataByCategory(query['category'])

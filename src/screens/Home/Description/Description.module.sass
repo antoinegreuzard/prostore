@@ -4,7 +4,7 @@
     position: relative
     display: flex
     align-items: center
-    min-height: 800px
+    min-height: 631px
     padding: 80px 0
     border-top: 1px solid $neutrals6
     background: $white
@@ -52,6 +52,7 @@
 .button
     +m
         width: 100%
+
     &:not(:last-child)
         margin-right: 16px
         +m
@@ -59,20 +60,21 @@
 
 .gallery
     position: absolute
-    top: 50%
-    right: calc(50% - 560px)
-    width: 684px
+    top: 55%
+    right: calc(50% - 50vw)
+    width: 50vw
     transform: translateY(-50%)
     pointer-events: none
     +x
-        right: calc(50% - 520px)
-        width: 570px
+        right: calc(50% - 50vw)
+        width: 50vw
     +d
-        right: calc(50% - 440px)
-        width: 510px
+        right: calc(50% - 50vw)
+        width: 50vw
     +m
         position: static
-        transform: translateY(0)
+                right: calc(50% - 50vw)
+        width: 50vw
         width: 100%
     +s
         width: auto
@@ -87,12 +89,13 @@
     max-height: 100%
     margin: 0 auto
 
-    +d 
+    +d
         height: 380px
-    +m 
+    +m
         height: 250px
 
 .preview
     z-index: 2
+
     img
         width: 100%

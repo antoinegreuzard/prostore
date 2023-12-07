@@ -25,14 +25,14 @@ const Description = ({ info }) => {
               onClick={() => handleClick(`/search`)}
               className={cn('button-stroke', styles.button)}
             >
-              Discover more
+              Rechercher un cadeau
             </button>
             <button
               aria-hidden="true"
               onClick={() => handleClick('/upload-details')}
               className={cn('button', styles.button)}
             >
-              Create item
+              Publier un cadeau
             </button>
           </div>
         </div>
@@ -46,7 +46,7 @@ const Description = ({ info }) => {
               placeholder="blur"
               blurDataURL={`${info?.metadata?.image?.imgix_url}?auto=format,compress&q=1&blur=500&w=2`}
               objectFit="cover"
-              alt="Team"
+              alt={info?.metadata?.title}
               priority
             />
           </div>

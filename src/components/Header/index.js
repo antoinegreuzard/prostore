@@ -4,7 +4,6 @@ import AppLink from '../AppLink'
 import Icon from '../Icon'
 import Image from 'next/image'
 import User from './User'
-import Theme from '../Theme'
 import Modal from '../Modal'
 import OAuth from '../OAuth'
 import { useStateContext } from '../../utils/context/StateContext'
@@ -50,9 +49,9 @@ const Headers = ({ navigation }) => {
         <div className={cn('container', styles.container)} aria-hidden="true">
           <AppLink className={styles.logo} href="/">
             <Image
-              width={256}
-              height={120}
-              objectFit='contain'
+              width={50}
+              height={50}
+              objectFit="cover"
               className={styles.pic}
               src={navigation['logo']?.imgix_url}
               alt="Logo"
@@ -73,9 +72,6 @@ const Headers = ({ navigation }) => {
               ))}
             </nav>
           </div>
-          <div className={styles.version}>
-            <Theme className="theme-big" />
-          </div>
           <AppLink
             aria-label="search"
             aria-hidden="true"
@@ -83,7 +79,7 @@ const Headers = ({ navigation }) => {
             href={`/search`}
           >
             <Icon name="search" size="20" />
-            Search
+            Rechercher
           </AppLink>
           {cosmicUser?.['id'] ? (
             <User className={styles.user} user={cosmicUser} />
@@ -94,7 +90,7 @@ const Headers = ({ navigation }) => {
               className={cn('button-small', styles.button, styles.login)}
               onClick={() => setVisibleAuthModal(true)}
             >
-              Login
+              Se connecter pour vendre
             </button>
           )}
           <button

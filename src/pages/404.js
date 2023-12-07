@@ -28,14 +28,13 @@ const NotFound = ({ navigationItems }) => {
               />
             </div>
             <h2 className={cn('h2', styles.title)}>
-              Sorry, we couldn’t find any results for this search.
+              Désolé, nous n’avons trouvé aucun résultat pour cette recherche.
             </h2>
-            <div className={styles.info}>Maybe give one of these a try?</div>
             <button
               onClick={() => handleClick(`/search`)}
               className={cn('button-stroke', styles.form)}
             >
-              Start your search
+              Rechercher un cadeau
             </button>
           </div>
         </div>

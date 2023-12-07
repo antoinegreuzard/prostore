@@ -1,4 +1,5 @@
 import { createBucketClient } from '@cosmicjs/sdk'
+import haveSecret from './secret.js'
 
 const cosmic = createBucketClient({
   bucketSlug: process.env.NEXT_PUBLIC_COSMIC_BUCKET_SLUG,
@@ -6,18 +7,19 @@ const cosmic = createBucketClient({
   writeKey: process.env.COSMIC_WRITE_KEY,
 })
 
-export default async function createHandler(
-  { body: { title, description, price, count, color, image, categories } },
+const createHandler = async (
+  { body: { title, description, price, count, image, categories, email } },
   res
-) {
+  ) => {
   const metadata = {
     description,
     price: Number(price),
     count: Number(count),
-    color,
     image,
     categories,
+    email,
   }
+
   try {
     const data = await cosmic.objects.insertOne({
       title: title,
@@ -27,6 +29,13 @@ export default async function createHandler(
     })
     res.status(200).json(data)
   } catch (error) {
-    res.status(404).json(error.message)
+    res.status(error.status).json(error.message)
   }
 }
+
+const handler = async (req, res) => {
+  await haveSecret(req, res, async () => {
+    await createHandler(req, res);
+  });
+};
+export default handler;

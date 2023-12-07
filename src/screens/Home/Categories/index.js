@@ -49,7 +49,7 @@ const Categories = ({ info, type }) => {
       <div className={styles.section}>
         <div className={cn('container', styles.container)}>
           <div className={styles.wrapper}>
-            <h3 className={cn('h3', styles.title)}>Hot collections</h3>
+            <h3 className={cn('h3', styles.title)}>Nos meilleures catégories</h3>
             <div className={styles.inner}>
               <Slider className="collection-slider" {...settings}>
                 {info?.length &&
@@ -67,7 +67,7 @@ const Categories = ({ info, type }) => {
                                 <Image
                                   size={{ width: '100%', height: '98px' }}
                                   src={intro?.metadata?.image?.imgix_url}
-                                  alt="Collection"
+                                  alt="Catégorie"
                                   objectFit="cover"
                                 />
                               </div>
@@ -83,7 +83,7 @@ const Categories = ({ info, type }) => {
                                 styles.counter
                               )}
                             >
-                              <span>{category[key]?.length}</span> items
+                              <span>{category[key]?.length}</span> cadeau(x)
                             </div>
                           </div>
                         </div>

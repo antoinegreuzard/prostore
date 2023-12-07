@@ -1,28 +1,43 @@
-import React, { useState } from 'react'
-import AppLink from '../../AppLink'
-import cn from 'classnames'
-import Icon from '../../Icon'
+import React, { useState, useEffect } from 'react';
+import { getAllDataByType } from '../../../lib/cosmic'
 
-import styles from './Group.module.sass'
+import AppLink from '../../AppLink';
+import Icon from '../../Icon';
+import cn from 'classnames';
+import styles from './Group.module.sass';
 
-const Group = ({ className, item }) => {
-  const [visible, setVisible] = useState(false)
+const Group = ({ className }) => {
+  const [categories, setCategories] = useState([]);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getAllDataByType('categories'); // Assurez-vous que 'categories' est le type correct
+        setCategories(data);
+      } catch (error) {
+        console.error('Erreur lors de la récupération des catégories:', error);
+      }
+    };
+
+    fetchCategories();
+    }, []);
 
   return (
     <div className={cn(className, styles.group, { [styles.active]: visible })}>
       <div className={styles.head} onClick={() => setVisible(!visible)}>
-        {'Menu' || item[0]?.title}
+        {'Catégories de cadeau'}
         <Icon name="arrow-bottom" size="10" />
       </div>
       <div className={styles.menu}>
-        {item?.map((x, index) => (
-          <AppLink className={styles.link} href={x.url || '/'} key={index}>
-            {x.title}
+        {categories.map((category, index) => (
+          <AppLink className={styles.link} href={`/search?category=${category.id}`} key={index}>
+            {category.title}
           </AppLink>
-        ))}
+          ))}
       </div>
     </div>
-  )
-}
+    );
+};
 
-export default Group
+export default Group;
