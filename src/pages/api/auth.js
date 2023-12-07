@@ -1,7 +1,7 @@
-import { withIronSession } from 'next-iron-session'
+import { withIronSessionApiRoute } from 'iron-session/next'
 import { APP_KEY } from '../../utils/constants/appConstants'
 
-const authHandler = withIronSession(
+const authHandler = withIronSessionApiRoute(
   async (req, res) => {
     try {
       const auth = await fetch(
@@ -16,7 +16,7 @@ const authHandler = withIronSession(
       )
       const data = await auth.json()
       if (data.user) {
-        req.session.set('user', data)
+        req.session.user = { data }
         await req.session.save()
         res.status(200).json({ data })
       } else {
@@ -29,9 +29,6 @@ const authHandler = withIronSession(
   },
   {
     cookieName: APP_KEY,
-    cookieOptions: {
-      secure: true,
-    },
     password: process.env.SECRET_KEY,
   }
 )
