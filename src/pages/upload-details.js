@@ -4,7 +4,6 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
 import { useStateContext } from '../utils/context/StateContext'
 import Layout from '../components/Layout'
-import Dropdown from '../components/Dropdown'
 import Icon from '../components/Icon'
 import TextInput from '../components/TextInput'
 import Loader from '../components/Loader'
@@ -32,38 +31,54 @@ const Upload = ({ navigationItems, categoriesType }) => {
   )
 
   const [visibleAuthModal, setVisibleAuthModal] = useState(false)
-
   const [visiblePreview, setVisiblePreview] = useState(false)
+  const [jwtToken, setJwtToken] = useState(false)
 
   useEffect(() => {
-    let isMounted = true
-    const uNFTUser = getToken()
+    let isMounted = true;
+    const uNFTUser = getToken();
+    const edsLyoItem = localStorage.getItem('EDS-LYO');
+    const token = edsLyoItem ? JSON.parse(edsLyoItem).token : null;
 
-    if (
-      isMounted &&
-      !cosmicUser?.hasOwnProperty('id') &&
-      !uNFTUser?.hasOwnProperty('id')
-    ) {
-      setVisibleAuthModal(true)
+    if (isMounted && !cosmicUser?.hasOwnProperty('id') && !uNFTUser?.hasOwnProperty('id')) {
+      setVisibleAuthModal(true);
+    }
+
+    if (token) {
+      setJwtToken(token)
     }
 
     return () => {
-      isMounted = false
+      isMounted = false;
+    };
+    }, [cosmicUser]);
+
+  const handleUploadFile = useCallback(async (uploadFile) => {
+    const formData = new FormData();
+    formData.append('file', uploadFile);
+
+    console.log(jwtToken);
+
+    try {
+      const uploadResult = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Authorization': `Bearer ${jwtToken}`
+        },
+      });
+
+      if (!uploadResult.ok) {
+        console.log(uploadResult)
+        throw new Error('Échec du téléversement du fichier');
+      }
+
+      const mediaData = await uploadResult.json();
+      setUploadMedia(mediaData?.['media']);
+    } catch (error) {
+      console.error('Erreur lors du téléversement du fichier:', error);
     }
-  }, [cosmicUser])
-
-  const handleUploadFile = async uploadFile => {
-    const formData = new FormData()
-    formData.append('file', uploadFile)
-
-    const uploadResult = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    })
-
-    const mediaData = await uploadResult.json()
-    await setUploadMedia(mediaData?.['media'])
-  }
+  }, [jwtToken]);
 
   const handleOAuth = useCallback(
     async user => {
@@ -72,15 +87,15 @@ const Upload = ({ navigationItems, categoriesType }) => {
       if (!user && !user?.hasOwnProperty('id')) return
       user && uploadFile && (await handleUploadFile(uploadFile))
     },
-    [cosmicUser, uploadFile]
+    [cosmicUser, uploadFile, handleUploadFile]
   )
 
   const handleUpload = async e => {
     setUploadFile(e.target.files[0])
 
     cosmicUser?.hasOwnProperty('id')
-      ? handleUploadFile(e.target.files[0])
-      : handleOAuth()
+      ? await handleUploadFile(e.target.files[0])
+      : await handleOAuth()
   }
 
   const handleChange = ({ target: { name, value } }) =>
@@ -105,16 +120,21 @@ const Upload = ({ navigationItems, categoriesType }) => {
   const submitForm = useCallback(
     async e => {
       e.preventDefault()
-      !cosmicUser.hasOwnProperty('id') && handleOAuth()
+      !cosmicUser.hasOwnProperty('id') && await handleOAuth()
 
       if (cosmicUser && title && count && price && email && uploadMedia) {
         fillFiledMessage && setFillFiledMessage(false)
+
+        const token = getToken()?.hasOwnProperty('token');
 
         const response = await fetch('/api/create', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
+            headers: {
+              'Authorization': `Bearer ${token}`
+            },
           },
           body: JSON.stringify({
             title,
@@ -137,7 +157,7 @@ const Upload = ({ navigationItems, categoriesType }) => {
             }
           )
 
-          push(`item/${createdItem['object']['slug']}`)
+          await push(`item/${createdItem['object']['slug']}`)
         }
       } else {
         setFillFiledMessage(true)

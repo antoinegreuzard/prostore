@@ -18,6 +18,7 @@ import {
 } from '../../lib/cosmic'
 
 import styles from '../../styles/pages/Item.module.sass'
+import { getToken } from '../../utils/token'
 
 const cosmic = createBucketClient({
   bucketSlug: process.env.NEXT_PUBLIC_COSMIC_BUCKET_SLUG,
@@ -72,13 +73,16 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
         return;
       }
 
-      // Appel API pour supprimer le produit
+      const token = getToken()?.hasOwnProperty('token');
+
       const response = await fetch('/api/delete', {
         method: 'DELETE',
         body: idProduct,
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
       });
 
-      // Gérer la réponse de l'API
       let deleteItem;
       deleteItem = await response.json();
 

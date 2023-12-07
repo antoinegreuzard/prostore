@@ -1,5 +1,5 @@
 import { createBucketClient } from '@cosmicjs/sdk';
-import { isAuthenticated } from './auth.js';
+import haveSecret from './secret.js';
 
 const cosmic = createBucketClient({
   bucketSlug: process.env.NEXT_PUBLIC_COSMIC_BUCKET_SLUG,
@@ -33,5 +33,5 @@ const createHandler = async (
   }
 }
 
-const handler = [isAuthenticated, createHandler];
+const handler = [haveSecret, createHandler];
 export default handler;

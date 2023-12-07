@@ -5,7 +5,7 @@ import AppLink from '../AppLink'
 import Loader from '../Loader'
 import registerFields from '../../utils/constants/registerFields'
 import { useStateContext } from '../../utils/context/StateContext'
-import { setToken } from '../../utils/token'
+import { getToken, setToken } from '../../utils/token'
 
 import styles from './OAuth.module.sass'
 
@@ -50,17 +50,18 @@ const OAuth = ({ className, handleClose, handleOAuth, disable }) => {
           body: JSON.stringify({ email, password }),
         })
         const cosmicUser = await auth.json()
-        if (cosmicUser?.hasOwnProperty('user')) {
-          setCosmicUser(cosmicUser['user'])
+        if (cosmicUser['data']?.hasOwnProperty('user')) {
+          setCosmicUser(cosmicUser['data']['user'])
           setToken({
-            id: cosmicUser['user']['id'],
-            first_name: cosmicUser['user']['first_name'],
-            avatar_url: cosmicUser['user']['avatar'],
-            email: cosmicUser['user']['email'],
+            id: cosmicUser['data']['user']['id'],
+            first_name: cosmicUser['data']['user']['first_name'],
+            avatar_url: cosmicUser['data']['user']['avatar'],
+            email: cosmicUser['data']['user']['email'],
+            token: cosmicUser['data']['token']
           })
 
           setFillFiledMessage('Félécitations !')
-          handleOAuth(cosmicUser['user'])
+          handleOAuth(cosmicUser['data']['user'])
           setFields(registerFields)
           handleClose()
         } else {

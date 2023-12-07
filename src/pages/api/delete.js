@@ -1,5 +1,5 @@
 import { createBucketClient } from '@cosmicjs/sdk';
-import { isAuthenticated } from './auth.js';
+import haveSecret from './secret.js';
 
 const cosmic = createBucketClient({
   bucketSlug: process.env.NEXT_PUBLIC_COSMIC_BUCKET_SLUG,
@@ -12,10 +12,10 @@ const deleteHandler = async (req, res) => {
     const data = await cosmic.objects.deleteOne(req.body);
     res.status(200).json(data);
   } catch (error) {
-    const statusCode = error.status || 500; // Fallback sur 500 si status est undefined
+    const statusCode = error.status || 500;
     res.status(statusCode).json({ error: error.message });
   }
 }
 
-const handler = [isAuthenticated, deleteHandler];
+const handler = [haveSecret, deleteHandler];
 export default handler;
