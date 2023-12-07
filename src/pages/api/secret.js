@@ -1,8 +1,7 @@
 import { APP_KEY } from '../../utils/constants/appConstants'
+import { withIronSession } from 'next-iron-session'
 
-require('dotenv').config();
-
-import { withIronSession } from "next-iron-session";
+require('dotenv').config()
 
 const haveSecret = withIronSession(
     async (req, res, next) => {

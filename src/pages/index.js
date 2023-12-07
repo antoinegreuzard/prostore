@@ -1,9 +1,9 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { useStateContext } from '../utils/context/StateContext'
 import Layout from '../components/Layout'
-import { HotBid, Categories, Description } from '../screens/Home'
+import { Categories, Description, HotBid } from '../screens/Home'
 import chooseBySlug from '../utils/chooseBySlug'
-import { getDataByCategory, getAllDataByType } from '../lib/cosmic'
+import { getAllDataByType, getDataByCategory } from '../lib/cosmic'
 
 const Home = ({ landing, categoriesGroup, categoryTypes, navigationItems }) => {
   const { categories, onCategoriesChange, setNavigation } = useStateContext()
@@ -39,9 +39,9 @@ const Home = ({ landing, categoriesGroup, categoryTypes, navigationItems }) => {
   ])
 
   const allProducts = categoriesGroup.groups.reduce((acc, group) => {
-    const products = Object.values(group)[0];
-    return [...acc, ...products];
-    }, []);
+    const products = Object.values(group)[0]
+    return [...acc, ...products]
+  }, [])
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>

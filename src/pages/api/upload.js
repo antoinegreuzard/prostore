@@ -1,7 +1,7 @@
 import { createBucketClient } from '@cosmicjs/sdk'
 import formidable from 'formidable'
 import fs from 'fs'
-import haveSecret from './secret.js';
+import haveSecret from './secret.js'
 
 const cosmic = createBucketClient({
   bucketSlug: process.env.NEXT_PUBLIC_COSMIC_BUCKET_SLUG,

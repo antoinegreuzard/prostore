@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import cn from 'classnames'
 import { useRouter } from 'next/router'
 import { useStateContext } from '../utils/context/StateContext'
@@ -9,7 +9,6 @@ import { getAllDataByType, getDataByCategory } from '../lib/cosmic'
 import Layout from '../components/Layout'
 import Icon from '../components/Icon'
 import Card from '../components/Card'
-import Dropdown from '../components/Dropdown'
 import priceRange from '../utils/constants/priceRange'
 import handleQueryParams from '../utils/queryParams'
 
@@ -37,9 +36,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
   const debouncedMinTerm = useDebounce(min, 600)
   const debouncedMaxTerm = useDebounce(max, 600)
 
-  const [activeIndex, setActiveIndex] = useState(
-    query['category'] || ''
-  )
+  const [activeIndex, setActiveIndex] = useState(query['category'] || '')
 
   const handleChange = ({ target: { name, value } }) => {
     setRangeValues(prevFields => ({
@@ -69,12 +66,12 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
         },
         undefined,
         { shallow: true }
-        )
+      )
 
       const filterParam = Object.keys(params).reduce(
         (acc, key) => acc + `&${key}=` + `${params[key]}`,
         ''
-        )
+      )
 
       await fetchData(`/api/filter?${filterParam}`)
     },
@@ -85,8 +82,8 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
       debouncedMaxTerm,
       fetchData,
       push,
-      ]
-      )
+    ]
+  )
 
   const handleCategoryChange = useCallback(
     async category => {
@@ -94,7 +91,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
       handleFilterDataByParams({ category })
     },
     [handleFilterDataByParams]
-    )
+  )
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -109,7 +106,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
       (debouncedSearchTerm?.length ||
         debouncedMinTerm?.length ||
         debouncedMaxTerm?.length)
-        ) {
+    ) {
       handleFilterDataByParams({
         min: debouncedMinTerm,
         max: debouncedMaxTerm,
@@ -123,16 +120,13 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
     return () => {
       isMount = false
     }
-
   }, [debouncedSearchTerm, debouncedMinTerm, debouncedMaxTerm])
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
       <PageMeta
         title={'Rechercher un cadeau | Marché de Noël EDS du campus de Lyon'}
-        description={
-          'Marché de Noël EDS du campus de Lyon'
-        }
+        description={'Marché de Noël EDS du campus de Lyon'}
       />
       <div className={cn('section-pt80 section-pb80', styles.section)}>
         <div className={cn('container', styles.container)}>
@@ -147,7 +141,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                   className={styles.search}
                   action=""
                   onSubmit={handleSubmit}
-                  >
+                >
                   <input
                     className={styles.input}
                     type="text"
@@ -205,10 +199,10 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                       })}
                       onClick={() => handleCategoryChange(item[0])}
                       key={index}
-                      >
+                    >
                       {item[1]}
                     </button>
-                    ))}
+                  ))}
               </div>
               <div className={styles.list}>
                 {searchResult?.length ? (
@@ -216,7 +210,9 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                     <Card className={styles.card} item={x} key={index} />
                   ))
                 ) : (
-                  <p className={styles.inform}>Merci de sélectionner d&apos;autres filtres</p>
+                  <p className={styles.inform}>
+                    Merci de sélectionner d&apos;autres filtres
+                  </p>
                 )}
               </div>
             </div>
@@ -224,7 +220,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
         </div>
       </div>
     </Layout>
-    )
+  )
 }
 
 export default Search

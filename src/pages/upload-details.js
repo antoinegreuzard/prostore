@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import cn from 'classnames'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
@@ -35,13 +35,17 @@ const Upload = ({ navigationItems, categoriesType }) => {
   const [jwtToken, setJwtToken] = useState(false)
 
   useEffect(() => {
-    let isMounted = true;
-    const uNFTUser = getToken();
-    const edsLyoItem = localStorage.getItem('EDS-LYO');
-    const token = edsLyoItem ? JSON.parse(edsLyoItem).token : null;
+    let isMounted = true
+    const uNFTUser = getToken()
+    const edsLyoItem = localStorage.getItem('EDS-LYO')
+    const token = edsLyoItem ? JSON.parse(edsLyoItem).token : null
 
-    if (isMounted && !cosmicUser?.hasOwnProperty('id') && !uNFTUser?.hasOwnProperty('id')) {
-      setVisibleAuthModal(true);
+    if (
+      isMounted &&
+      !cosmicUser?.hasOwnProperty('id') &&
+      !uNFTUser?.hasOwnProperty('id')
+    ) {
+      setVisibleAuthModal(true)
     }
 
     if (token) {
@@ -49,29 +53,32 @@ const Upload = ({ navigationItems, categoriesType }) => {
     }
 
     return () => {
-      isMounted = false;
-    };
-    }, [cosmicUser]);
-
-  const handleUploadFile = useCallback(async (uploadFile) => {
-    const formData = new FormData();
-    formData.append('file', uploadFile);
-
-    try {
-      const uploadResult = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Authorization': `Bearer ${jwtToken}`
-        },
-      });
-
-      const mediaData = await uploadResult.json();
-      setUploadMedia(mediaData?.['media']);
-    } catch (error) {
-      console.error('Erreur lors du téléversement du fichier:', error);
+      isMounted = false
     }
-  }, [jwtToken]);
+  }, [cosmicUser])
+
+  const handleUploadFile = useCallback(
+    async uploadFile => {
+      const formData = new FormData()
+      formData.append('file', uploadFile)
+
+      try {
+        const uploadResult = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        })
+
+        const mediaData = await uploadResult.json()
+        setUploadMedia(mediaData?.['media'])
+      } catch (error) {
+        console.error('Erreur lors du téléversement du fichier:', error)
+      }
+    },
+    [jwtToken]
+  )
 
   const handleOAuth = useCallback(
     async user => {
@@ -113,12 +120,12 @@ const Upload = ({ navigationItems, categoriesType }) => {
   const submitForm = useCallback(
     async e => {
       e.preventDefault()
-      !cosmicUser.hasOwnProperty('id') && await handleOAuth()
+      !cosmicUser.hasOwnProperty('id') && (await handleOAuth())
 
       if (cosmicUser && title && count && price && email && uploadMedia) {
         fillFiledMessage && setFillFiledMessage(false)
 
-        const token = getToken()?.hasOwnProperty('token');
+        const token = getToken()?.hasOwnProperty('token')
 
         const response = await fetch('/api/create', {
           method: 'POST',
@@ -126,7 +133,7 @@ const Upload = ({ navigationItems, categoriesType }) => {
             Accept: 'application/json',
             'Content-Type': 'application/json',
             headers: {
-              'Authorization': `Bearer ${token}`
+              Authorization: `Bearer ${token}`,
             },
           },
           body: JSON.stringify({
@@ -175,17 +182,13 @@ const Upload = ({ navigationItems, categoriesType }) => {
     <Layout navigationPaths={navigationItems[0]?.metadata || navigation}>
       <PageMeta
         title={'Publier un cadeau | Marché de Noël EDS du campus de Lyon'}
-        description={
-          'Marché de Noël EDS du campus de Lyon'
-        }
+        description={'Marché de Noël EDS du campus de Lyon'}
       />
       <div className={cn('section', styles.section)}>
         <div className={cn('container', styles.container)}>
           <div className={styles.wrapper}>
             <div className={styles.head}>
-              <div className={cn('h2', styles.title)}>
-                Publier un cadeau
-              </div>
+              <div className={cn('h2', styles.title)}>Publier un cadeau</div>
             </div>
             <form className={styles.form} action="" onSubmit={submitForm}>
               <div className={styles.list}>
@@ -209,7 +212,9 @@ const Upload = ({ navigationItems, categoriesType }) => {
                   </div>
                 </div>
                 <div className={styles.item}>
-                  <div className={styles.category}>Informations sur la cadeau</div>
+                  <div className={styles.category}>
+                    Informations sur la cadeau
+                  </div>
                   <div className={styles.fieldset}>
                     <TextInput
                       className={styles.field}
@@ -272,7 +277,9 @@ const Upload = ({ navigationItems, categoriesType }) => {
               </div>
               <div className={styles.options}>
                 <div className={styles.category}>Choisir une catégorie</div>
-                <div className={styles.text}>Choisir une catégorie parmis celles qui existent</div>
+                <div className={styles.text}>
+                  Choisir une catégorie parmis celles qui existent
+                </div>
                 <Cards
                   className={styles.cards}
                   category={chooseCategory}

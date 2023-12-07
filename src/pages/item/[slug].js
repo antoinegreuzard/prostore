@@ -1,20 +1,19 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import cn from 'classnames'
 import toast from 'react-hot-toast'
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 import { createBucketClient } from '@cosmicjs/sdk'
 import { useStateContext } from '../../utils/context/StateContext'
 import Layout from '../../components/Layout'
 import Discover from '../../screens/Home/Discover'
-import Dropdown from '../../components/Dropdown'
 import Modal from '../../components/Modal'
 import OAuth from '../../components/OAuth'
 import Image from '../../components/Image'
 import { PageMeta } from '../../components/Meta'
 import {
-  getDataBySlug,
   getAllDataByType,
   getDataByCategory,
+  getDataBySlug,
 } from '../../lib/cosmic'
 
 import styles from '../../styles/pages/Item.module.sass'
