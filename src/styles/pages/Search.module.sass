@@ -49,6 +49,7 @@
         color: $neutrals8
     +placeholder
         color: $neutrals4
+
     &:focus
         border-color: $neutrals4
 
@@ -62,8 +63,10 @@
     border-radius: 50%
     background: $blue
     transition: background .2s
+
     svg
         fill: $neutrals8
+
     &:hover
         background: darken($blue, 10)
 
@@ -71,10 +74,12 @@
     display: flex
     align-items: center
     margin-bottom: 48px
+    display: none
     +t
         display: block
     +m
         margin-bottom: 32px
+
     .dropdown
         width: 256px
         margin-right: auto
@@ -91,6 +96,7 @@
 
 .nav
     display: flex
+    margin-bottom: 32px
     +m
         margin: 0 -32px
         overflow: auto
@@ -118,16 +124,19 @@
     transition: all .2s
     +m
         margin: 0
+
     &:hover
         color: $neutrals3
         +dark
             color: $neutrals6
+
     &.active
         background: $neutrals3
         color: $neutrals8
         +dark
             background: $neutrals8
             color: $neutrals2
+
     &:not(:last-child)
         +m
             margin-right: 12px
@@ -158,6 +167,7 @@
     display: flex
     align-items: center
     justify-content: space-between
+
     .separator
         margin: 0 8px
         font-weight: 600

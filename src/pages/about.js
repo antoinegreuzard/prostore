@@ -1,7 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import cn from 'classnames'
-import { useStateContext } from '../utils/context/StateContext'
 import Layout from '../components/Layout'
 import Image from 'next/image'
 import chooseBySlug from '../utils/chooseBySlug'
@@ -22,10 +21,8 @@ const AboutUs = ({ navigationItems, landing }) => {
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
       <PageMeta
-        title={'About | uNFT Marketplace'}
-        description={
-          'uNFT Marketplace built with Cosmic CMS, Next.js, and the Stripe API'
-        }
+        title={'Présentation | Marché de Noël EDS du campus de Lyon'}
+        description={'Marché de Noël EDS du campus de Lyon'}
       />
       <div className={cn('section', styles.section)}>
         <div className={cn('container', styles.container)}>
@@ -51,7 +48,7 @@ const AboutUs = ({ navigationItems, landing }) => {
               onClick={() => handleClick(`/search`)}
               className={cn('button-stroke', styles.form)}
             >
-              Start your search
+              Rechercher un cadeau
             </button>
           </div>
         </div>

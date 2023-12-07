@@ -1,9 +1,5 @@
 import {
-  FiFacebook,
-  FiTwitter,
-  FiYoutube,
-  FiLinkedin,
-  FiSlack,
+  FiInstagram,
 } from 'react-icons/fi'
 import AppLink from '../AppLink'
 
@@ -11,24 +7,8 @@ import styles from './SocialMedia.module.sass'
 
 const socialMedia = [
   {
-    Icon: FiTwitter,
-    url: 'https://twitter.com/cosmicjs',
-  },
-  {
-    Icon: FiFacebook,
-    url: 'https://www.facebook.com/cosmicjs',
-  },
-  {
-    Icon: FiLinkedin,
-    url: 'https://www.linkedin.com/company/cosmicjs/',
-  },
-  {
-    Icon: FiYoutube,
-    url: 'https://www.youtube.com/cosmicjs',
-  },
-  {
-    Icon: FiSlack,
-    url: 'https://cosmcijs.slack.com',
+    Icon: FiInstagram,
+    url: 'https://instagram.com/les_clampins__',
   },
 ]
 

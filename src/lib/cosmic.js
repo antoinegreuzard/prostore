@@ -17,7 +17,7 @@ export async function getDataByCategory(id) {
   try {
     const data = await cosmic.objects
       .find(query)
-      .props('title,slug,id,metadata,created_at')
+      .props('title,slug,id,metadata,created_at,type,created_by,modified_by')
       .depth(1)
     return data.objects
   } catch (error) {
@@ -30,8 +30,10 @@ export async function getDataByCategory(id) {
 export async function getAllDataByType(dataType = 'categories') {
   try {
     const data = await cosmic.objects
-      .find({ type: dataType })
-      .props('title,slug,id,metadata')
+      .find({
+        type: dataType,
+      })
+      .props('title,slug,id,metadata,type,created_by,modified_by,created_at')
       .depth(1)
     return data.objects
   } catch (error) {
@@ -41,14 +43,14 @@ export async function getAllDataByType(dataType = 'categories') {
   }
 }
 
-export async function getDataBySlug(slug) {
+export async function getDataBySlug(slug, type = 'products') {
   try {
     const data = await cosmic.objects
       .find({
         slug,
-        type: 'products',
+        type: type,
       })
-      .props('title,slug,id,metadata,created_at')
+      .props('slug,title,metadata,id,type,created_by,modified_by,created_at')
       .depth(1)
     return data.objects
   } catch (error) {
