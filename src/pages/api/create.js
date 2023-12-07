@@ -33,5 +33,9 @@ const createHandler = async (
   }
 }
 
-const handler = [haveSecret, createHandler];
+const handler = async (req, res) => {
+  await haveSecret(req, res, async () => {
+    await createHandler(req, res);
+  });
+};
 export default handler;

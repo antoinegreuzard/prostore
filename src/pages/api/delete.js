@@ -17,5 +17,9 @@ const deleteHandler = async (req, res) => {
   }
 }
 
-const handler = [haveSecret, deleteHandler];
+const handler = async (req, res) => {
+  await haveSecret(req, res, async () => {
+    await deleteHandler(req, res);
+  });
+};
 export default handler;

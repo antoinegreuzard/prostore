@@ -1,24 +1,30 @@
-import jwt from 'jsonwebtoken';
+import { APP_KEY } from '../../utils/constants/appConstants'
 
-// Middleware pour vérifier le token JWT
-export default async function haveSecret(req, res, next) {
-    try {
-        const token = req.headers.authorization?.split(' ')[1];
-        if (!token) {
-            return res.status(401).json('Accès refusé');
-        }
+require('dotenv').config();
 
-        jwt.verify(token, process.env.SECRET_KEY, (err, decodedToken) => {
-            if (err) {
-                res.status(401).json('Token invalide');
-            } else {
-                req.userId = decodedToken.id;
-                next();
+import { withIronSession } from "next-iron-session";
+
+const haveSecret = withIronSession(
+    async (req, res, next) => {
+        try {
+            const user = req.session.get("user");
+            if (!user) {
+                return res.status(401).json('Accès refusé');
             }
-        });
-    } catch (error) {
-        res.status(error.status).json({
-            error: error.message
-        });
+            req.userId = user.id;
+            next();
+        } catch (error) {
+            console.error(error)
+            res.status(500).json(error.message)
+        }
+    },
+    {
+        cookieName: APP_KEY,
+        cookieOptions: {
+            secure: true
+        },
+        password: process.env.SECRET_KEY,
     }
-}
+    );
+
+export default haveSecret;

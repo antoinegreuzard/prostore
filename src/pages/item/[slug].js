@@ -57,8 +57,6 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
     }
   }, [cosmicUser, itemInfo]);
 
-  console.log(itemInfo[0]?.modified_by)
-
   const deleteProduct = useCallback(
     async e => {
       e.preventDefault();

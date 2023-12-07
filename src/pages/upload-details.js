@@ -57,8 +57,6 @@ const Upload = ({ navigationItems, categoriesType }) => {
     const formData = new FormData();
     formData.append('file', uploadFile);
 
-    console.log(jwtToken);
-
     try {
       const uploadResult = await fetch('/api/upload', {
         method: 'POST',
@@ -67,11 +65,6 @@ const Upload = ({ navigationItems, categoriesType }) => {
           'Authorization': `Bearer ${jwtToken}`
         },
       });
-
-      if (!uploadResult.ok) {
-        console.log(uploadResult)
-        throw new Error('Échec du téléversement du fichier');
-      }
 
       const mediaData = await uploadResult.json();
       setUploadMedia(mediaData?.['media']);
