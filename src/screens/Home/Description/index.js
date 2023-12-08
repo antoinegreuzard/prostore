@@ -1,16 +1,16 @@
-import React from 'react'
-import cn from 'classnames'
-import { useRouter } from 'next/router'
-import Image from 'next/image'
+import React from 'react';
+import cn from 'classnames';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 
-import styles from './Description.module.sass'
+import styles from './Description.module.sass';
 
-const Description = ({ info }) => {
-  const { push } = useRouter()
+function Description({ info }) {
+  const { push } = useRouter();
 
-  const handleClick = href => {
-    push(href)
-  }
+  const handleClick = (href) => {
+    push(href);
+  };
 
   return (
     <div className={styles.section}>
@@ -22,7 +22,7 @@ const Description = ({ info }) => {
           <div className={styles.btns}>
             <button
               aria-hidden="true"
-              onClick={() => handleClick(`/search`)}
+              onClick={() => handleClick('/search')}
               className={cn('button-stroke', styles.button)}
             >
               Rechercher un cadeau
@@ -53,7 +53,7 @@ const Description = ({ info }) => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Description
+export default Description;

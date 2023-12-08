@@ -1,7 +1,7 @@
-import { Toaster } from 'react-hot-toast'
-import { StateContext } from '../utils/context/StateContext'
+import { Toaster } from 'react-hot-toast';
+import { StateContext } from '../utils/context/StateContext';
 
-import '../styles/app.sass'
+import '../styles/app.sass';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }) {
       <Toaster />
       <Component {...pageProps} />
     </StateContext>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

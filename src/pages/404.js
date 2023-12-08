@@ -1,18 +1,18 @@
-import React from 'react'
-import { useRouter } from 'next/router'
-import cn from 'classnames'
-import Layout from '../components/Layout'
-import Image from '../components/Image'
-import { getAllDataByType } from '../lib/cosmic'
+import React from 'react';
+import { useRouter } from 'next/router';
+import cn from 'classnames';
+import Layout from '../components/Layout';
+import Image from '../components/Image';
+import { getAllDataByType } from '../lib/cosmic';
 
-import styles from '../styles/pages/NotFound.module.sass'
+import styles from '../styles/pages/NotFound.module.sass';
 
-const NotFound = ({ navigationItems }) => {
-  const { push } = useRouter()
+function NotFound({ navigationItems }) {
+  const { push } = useRouter();
 
-  const handleClick = href => {
-    push(href)
-  }
+  const handleClick = (href) => {
+    push(href);
+  };
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
@@ -31,7 +31,7 @@ const NotFound = ({ navigationItems }) => {
               Désolé, nous n’avons trouvé aucun résultat pour cette recherche.
             </h2>
             <button
-              onClick={() => handleClick(`/search`)}
+              onClick={() => handleClick('/search')}
               className={cn('button-stroke', styles.form)}
             >
               Rechercher un cadeau
@@ -40,15 +40,15 @@ const NotFound = ({ navigationItems }) => {
         </div>
       </div>
     </Layout>
-  )
+  );
 }
 
-export default NotFound
+export default NotFound;
 
 export async function getStaticProps() {
-  const navigationItems = (await getAllDataByType('navigation')) || []
+  const navigationItems = (await getAllDataByType('navigation')) || [];
 
   return {
     props: { navigationItems },
-  }
+  };
 }

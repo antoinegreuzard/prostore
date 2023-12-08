@@ -1,16 +1,20 @@
-import React from 'react'
-import cn from 'classnames'
-import Slider from 'react-slick'
-import Link from 'next/link'
-import styles from './Categories.module.sass'
-import Icon from '../../../components/Icon'
-import Image from '../../../components/Image'
+import React from 'react';
+import cn from 'classnames';
+import Slider from 'react-slick';
+import Link from 'next/link';
+import styles from './Categories.module.sass';
+import Icon from '../../../components/Icon';
+import Image from '../../../components/Image';
 
-const SlickArrow = ({ currentSlide, slideCount, children, ...props }) => (
-  <button aria-label="arrow" {...props}>
-    {children}
-  </button>
-)
+function SlickArrow({
+  currentSlide, slideCount, children, ...props
+}) {
+  return (
+    <button aria-label="arrow" {...props}>
+      {children}
+    </button>
+  );
+}
 
 const settings = {
   infinite: false,
@@ -41,9 +45,9 @@ const settings = {
       },
     },
   ],
-}
+};
 
-const Categories = ({ info, type }) => {
+function Categories({ info, type }) {
   return (
     <section className="section-bg">
       <div className={styles.section}>
@@ -52,51 +56,51 @@ const Categories = ({ info, type }) => {
             <h3 className={cn('h3', styles.title)}>Nos meilleures catégories</h3>
             <div className={styles.inner}>
               <Slider className="collection-slider" {...settings}>
-                {info?.length &&
-                  info?.map(category =>
-                    Object.keys(category)?.map((key, index) => (
-                      <Link
-                        className={styles.item}
-                        href={`/search?category=${key}` || '/'}
-                        key={index}
-                      >
-                        <div className={styles.cart}>
-                          <div className={styles.gallery}>
-                            {category[key]?.slice(0, 7)?.map((intro, index) => (
-                              <div className={styles.preview} key={index}>
-                                <Image
-                                  size={{ width: '100%', height: '98px' }}
-                                  src={intro?.metadata?.image?.imgix_url}
-                                  alt="Catégorie"
-                                  objectFit="cover"
-                                />
-                              </div>
-                            ))}
-                          </div>
-                          <div className={styles.subtitle}>
-                            {type[key] || ''}
-                          </div>
-                          <div className={styles.line}>
-                            <div
-                              className={cn(
-                                'status-stroke-black',
-                                styles.counter
-                              )}
-                            >
-                              <span>{category[key]?.length}</span> cadeau(x)
+                {info?.length
+                  && info?.map((category) => Object.keys(category)?.map((key, index) => (
+                    <Link
+                      className={styles.item}
+                      href={`/search?category=${key}` || '/'}
+                      key={index}
+                    >
+                      <div className={styles.cart}>
+                        <div className={styles.gallery}>
+                          {category[key]?.slice(0, 7)?.map((intro, index) => (
+                            <div className={styles.preview} key={index}>
+                              <Image
+                                size={{ width: '100%', height: '98px' }}
+                                src={intro?.metadata?.image?.imgix_url}
+                                alt="Catégorie"
+                                objectFit="cover"
+                              />
                             </div>
+                          ))}
+                        </div>
+                        <div className={styles.subtitle}>
+                          {type[key] || ''}
+                        </div>
+                        <div className={styles.line}>
+                          <div
+                            className={cn(
+                              'status-stroke-black',
+                              styles.counter,
+                            )}
+                          >
+                            <span>{category[key]?.length}</span>
+                            {' '}
+                            cadeau(x)
                           </div>
                         </div>
-                      </Link>
-                    ))
-                  )}
+                      </div>
+                    </Link>
+                  )))}
               </Slider>
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default Categories
+export default Categories;

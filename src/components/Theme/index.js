@@ -1,30 +1,40 @@
-import React from 'react'
-import cn from 'classnames'
-import styles from './Theme.module.sass'
-import useDarkMode from 'use-dark-mode'
+import React from 'react';
+import PropTypes from 'prop-types';
+import cn from 'classnames';
+import useDarkMode from 'use-dark-mode';
+import styles from './Theme.module.sass';
 
-const Theme = ({ className }) => {
-  const darkMode = useDarkMode(false)
+function Theme({ className }) {
+  const darkMode = useDarkMode(false);
 
   return (
     <label
-      className={cn(
-        styles.theme,
-        { [styles.theme]: className === 'theme' },
-        { [styles.themeBig]: className === 'theme-big' }
-      )}
+      htmlFor="toggle-dark-mode"
+      className={cn(styles.theme, {
+        [styles.theme]: className === 'theme',
+        [styles.themeBig]: className === 'theme-big',
+      })}
     >
       <input
         className={styles.input}
+        id="toggle-dark-mode"
         checked={darkMode.value}
         onChange={darkMode.toggle}
         type="checkbox"
       />
       <span className={styles.inner}>
-        <span className={styles.box}></span>
+        <span className={styles.box} />
       </span>
     </label>
-  )
+  );
 }
 
-export default Theme
+Theme.propTypes = {
+  className: PropTypes.string,
+};
+
+Theme.defaultProps = {
+  className: '',
+};
+
+export default Theme;

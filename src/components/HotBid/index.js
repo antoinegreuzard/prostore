@@ -1,16 +1,20 @@
-import React from 'react'
-import cn from 'classnames'
-import Slider from 'react-slick'
-import Icon from '../Icon'
-import Card from '../Card'
+import React from 'react';
+import cn from 'classnames';
+import Slider from 'react-slick';
+import Icon from '../Icon';
+import Card from '../Card';
 
-import styles from './HotBid.module.sass'
+import styles from './HotBid.module.sass';
 
-const SlickArrow = ({ currentSlide, slideCount, children, ...props }) => (
-  <button aria-label="arrow" aria-hidden="true" {...props}>
-    {children}
-  </button>
-)
+function SlickArrow({
+  currentSlide, slideCount, children, ...props
+}) {
+  return (
+    <button aria-label="arrow" aria-hidden="true" {...props}>
+      {children}
+    </button>
+  );
+}
 
 const settings = {
   infinite: true,
@@ -48,9 +52,9 @@ const settings = {
       },
     },
   ],
-}
+};
 
-const Hot = ({ classSection, info }) => {
+function Hot({ classSection, info }) {
   return (
     <div className={cn(classSection, styles.section)}>
       <div className={cn('container', styles.container)}>
@@ -59,14 +63,14 @@ const Hot = ({ classSection, info }) => {
           <div className={styles.inner}>
             <Slider className="bid-slider" {...settings}>
               {info && info.length > 0 && info.map((x, index) => (
-                  <Card key={index} className={styles.card} item={x} />
+                <Card key={index} className={styles.card} item={x} />
               ))}
             </Slider>
           </div>
         </div>
       </div>
     </div>
-    )
+  );
 }
 
-export default Hot
+export default Hot;

@@ -1,13 +1,15 @@
-import React from 'react'
-import cn from 'classnames'
-import styles from './Cards.module.sass'
-import Icon from '../../../components/Icon'
+import React from 'react';
+import cn from 'classnames';
+import styles from './Cards.module.sass';
+import Icon from '../../../components/Icon';
 
-const Cards = ({ className, items, handleChoose, category }) => {
+function Cards({
+  className, items, handleChoose, category,
+}) {
   return (
     <div className={(className, styles.cards)}>
-      {items &&
-        Object.entries(items)?.map((x, index) => (
+      {items
+        && Object.entries(items)?.map((x, index) => (
           <div
             className={cn(styles.card, x[0] === category && styles.active)}
             key={index}
@@ -20,7 +22,7 @@ const Cards = ({ className, items, handleChoose, category }) => {
           </div>
         ))}
     </div>
-  )
+  );
 }
 
-export default Cards
+export default Cards;

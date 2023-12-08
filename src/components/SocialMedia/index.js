@@ -1,18 +1,18 @@
 import {
   FiInstagram,
-} from 'react-icons/fi'
-import AppLink from '../AppLink'
+} from 'react-icons/fi';
+import AppLink from '../AppLink';
 
-import styles from './SocialMedia.module.sass'
+import styles from './SocialMedia.module.sass';
 
 const socialMedia = [
   {
     Icon: FiInstagram,
     url: 'https://instagram.com/les_clampins__',
   },
-]
+];
 
-const SocialMedia = () => {
+function SocialMedia() {
   return (
     <div className={styles.social}>
       {socialMedia?.map(({ Icon, url }, index) => (
@@ -21,7 +21,7 @@ const SocialMedia = () => {
         </AppLink>
       ))}
     </div>
-  )
+  );
 }
 
-export default SocialMedia
+export default SocialMedia;

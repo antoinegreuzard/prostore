@@ -1,49 +1,49 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import cn from 'classnames'
-import { useRouter } from 'next/router'
-import { useStateContext } from '../utils/context/StateContext'
-import useDebounce from '../utils/hooks/useDebounce'
-import useFetchData from '../utils/hooks/useFetchData'
-import { getAllDataByType, getDataByCategory } from '../lib/cosmic'
+import React, { useCallback, useEffect, useState } from 'react';
+import cn from 'classnames';
+import { useRouter } from 'next/router';
+import { useStateContext } from '../utils/context/StateContext';
+import useDebounce from '../utils/hooks/useDebounce';
+import useFetchData from '../utils/hooks/useFetchData';
+import { getAllDataByType, getDataByCategory } from '../lib/cosmic';
 
-import Layout from '../components/Layout'
-import Icon from '../components/Icon'
-import Card from '../components/Card'
-import priceRange from '../utils/constants/priceRange'
-import handleQueryParams from '../utils/queryParams'
+import Layout from '../components/Layout';
+import Icon from '../components/Icon';
+import Card from '../components/Card';
+import priceRange from '../utils/constants/priceRange';
+import handleQueryParams from '../utils/queryParams';
 
-import styles from '../styles/pages/Search.module.sass'
-import { PageMeta } from '../components/Meta'
+import styles from '../styles/pages/Search.module.sass';
+import { PageMeta } from '../components/Meta';
 
-const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
-  const { query, push } = useRouter()
-  const { categories } = useStateContext()
+function Search({ categoriesGroup, navigationItems, categoryData }) {
+  const { query, push } = useRouter();
+  const { categories } = useStateContext();
 
   const { data: searchResult, fetchData } = useFetchData(
-    categoryData?.length ? categoryData : []
-  )
+    categoryData?.length ? categoryData : [],
+  );
 
-  const categoriesTypeData = categoriesGroup['type'] || categories['type']
+  const categoriesTypeData = categoriesGroup.type || categories.type;
 
-  const [search, setSearch] = useState(query['search'] || '')
-  const debouncedSearchTerm = useDebounce(search, 600)
+  const [search, setSearch] = useState(query.search || '');
+  const debouncedSearchTerm = useDebounce(search, 600);
 
   const [{ min, max }, setRangeValues] = useState(
-    query['min'] || query['max']
-      ? { min: query['min'] || 1, max: query['max'] || 100 }
-      : priceRange
-  )
-  const debouncedMinTerm = useDebounce(min, 600)
-  const debouncedMaxTerm = useDebounce(max, 600)
+    query.min || query.max
+      ? { min: query.min || 1, max: query.max || 100 }
+      : priceRange,
+  );
+  const debouncedMinTerm = useDebounce(min, 600);
+  const debouncedMaxTerm = useDebounce(max, 600);
 
-  const [activeIndex, setActiveIndex] = useState(query['category'] || '')
+  const [activeIndex, setActiveIndex] = useState(query.category || '');
 
   const handleChange = ({ target: { name, value } }) => {
-    setRangeValues(prevFields => ({
+    setRangeValues((prevFields) => ({
       ...prevFields,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const handleFilterDataByParams = useCallback(
     async ({
@@ -57,7 +57,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
         min: min.trim(),
         max: max.trim(),
         search: search.toLowerCase().trim(),
-      })
+      });
 
       push(
         {
@@ -65,15 +65,15 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
           query: params,
         },
         undefined,
-        { shallow: true }
-      )
+        { shallow: true },
+      );
 
       const filterParam = Object.keys(params).reduce(
-        (acc, key) => acc + `&${key}=` + `${params[key]}`,
-        ''
-      )
+        (acc, key) => `${acc}&${key}=` + `${params[key]}`,
+        '',
+      );
 
-      await fetchData(`/api/filter?${filterParam}`)
+      await fetchData(`/api/filter?${filterParam}`);
     },
     [
       activeIndex,
@@ -82,51 +82,51 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
       debouncedMaxTerm,
       fetchData,
       push,
-    ]
-  )
+    ],
+  );
 
   const handleCategoryChange = useCallback(
-    async category => {
-      setActiveIndex(category)
-      handleFilterDataByParams({ category })
+    async (category) => {
+      setActiveIndex(category);
+      handleFilterDataByParams({ category });
     },
-    [handleFilterDataByParams]
-  )
+    [handleFilterDataByParams],
+  );
 
-  const handleSubmit = e => {
-    e.preventDefault()
-    handleFilterDataByParams({ search: debouncedSearchTerm })
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleFilterDataByParams({ search: debouncedSearchTerm });
+  };
 
   useEffect(() => {
-    let isMount = true
+    let isMount = true;
 
     if (
-      isMount &&
-      (debouncedSearchTerm?.length ||
-        debouncedMinTerm?.length ||
-        debouncedMaxTerm?.length)
+      isMount
+      && (debouncedSearchTerm?.length
+        || debouncedMinTerm?.length
+        || debouncedMaxTerm?.length)
     ) {
       handleFilterDataByParams({
         min: debouncedMinTerm,
         max: debouncedMaxTerm,
         search: debouncedSearchTerm,
-      })
+      });
     } else {
-      !categoryData?.length &&
-        handleFilterDataByParams({ category: activeIndex })
+      !categoryData?.length
+        && handleFilterDataByParams({ category: activeIndex });
     }
 
     return () => {
-      isMount = false
-    }
-  }, [debouncedSearchTerm, debouncedMinTerm, debouncedMaxTerm])
+      isMount = false;
+    };
+  }, [debouncedSearchTerm, debouncedMinTerm, debouncedMaxTerm]);
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
       <PageMeta
-        title={'Rechercher un cadeau | Marché de Noël EDS du campus de Lyon'}
-        description={'Marché de Noël EDS du campus de Lyon'}
+        title="Rechercher un cadeau | Marché de Noël EDS du campus de Lyon"
+        description="Marché de Noël EDS du campus de Lyon"
       />
       <div className={cn('section-pt80 section-pb80', styles.section)}>
         <div className={cn('container', styles.container)}>
@@ -146,7 +146,7 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
                     className={styles.input}
                     type="text"
                     value={search}
-                    onChange={e => setSearch(e.target.value)}
+                    onChange={(e) => setSearch(e.target.value)}
                     name="search"
                     placeholder="Mots clés"
                     required
@@ -185,14 +185,14 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
               <div className={styles.nav}>
                 <button
                   className={cn(styles.link, {
-                    [styles.active]: '' === activeIndex,
+                    [styles.active]: activeIndex === '',
                   })}
                   onClick={() => handleCategoryChange('')}
                 >
                   Tous
                 </button>
-                {categoriesTypeData &&
-                  Object.entries(categoriesTypeData)?.map((item, index) => (
+                {categoriesTypeData
+                  && Object.entries(categoriesTypeData)?.map((item, index) => (
                     <button
                       className={cn(styles.link, {
                         [styles.active]: item[0] === activeIndex,
@@ -220,36 +220,30 @@ const Search = ({ categoriesGroup, navigationItems, categoryData }) => {
         </div>
       </div>
     </Layout>
-  )
+  );
 }
 
-export default Search
+export default Search;
 
 export async function getServerSideProps({ query }) {
-  const navigationItems = (await getAllDataByType('navigation')) || []
+  const navigationItems = (await getAllDataByType('navigation')) || [];
 
-  const categoryTypes = (await getAllDataByType('categories')) || []
+  const categoryTypes = (await getAllDataByType('categories')) || [];
   const categoriesData = await Promise.all(
-    categoryTypes?.map(category => {
-      return getDataByCategory(category?.id)
-    })
-    )
+    categoryTypes?.map((category) => getDataByCategory(category?.id)),
+  );
 
   const categoryData = query?.hasOwnProperty('category')
-    ? await getDataByCategory(query['category'])
-    : []
+    ? await getDataByCategory(query.category)
+    : [];
 
-  const categoriesGroups = categoryTypes?.map(({ id }, index) => {
-    return { [id]: categoriesData[index] }
-  })
+  const categoriesGroups = categoryTypes?.map(({ id }, index) => ({ [id]: categoriesData[index] }));
 
-  const categoriesType = categoryTypes?.reduce((arr, { title, id }) => {
-    return { ...arr, [id]: title }
-  }, {})
+  const categoriesType = categoryTypes?.reduce((arr, { title, id }) => ({ ...arr, [id]: title }), {});
 
-  const categoriesGroup = { groups: categoriesGroups, type: categoriesType }
+  const categoriesGroup = { groups: categoriesGroups, type: categoriesType };
 
   return {
     props: { navigationItems, categoriesGroup, categoryData },
-  }
+  };
 }

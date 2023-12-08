@@ -34,7 +34,8 @@
     "serve": "^13.0.2",
     "sharp": "^0.32.6",
     "use-dark-mode": "^2.3.1",
-    "webpack": "^5.76.0"
+    "webpack": "^5.76.0",
+    "prop-types": "^15.8.1"
   },
   "devDependencies": {
     "eslint": "8.10.0",

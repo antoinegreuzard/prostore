@@ -1,23 +1,27 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import cn from 'classnames'
-import { useRouter } from 'next/router'
-import useFetchData from '../../../utils/hooks/useFetchData'
-import useDebounce from '../../../utils/hooks/useDebounce'
-import handleQueryParams from '../../../utils/queryParams'
+import React, { useState, useCallback, useEffect } from 'react';
+import cn from 'classnames';
+import { useRouter } from 'next/router';
+import Slider from 'react-slick';
+import useFetchData from '../../../utils/hooks/useFetchData';
+import useDebounce from '../../../utils/hooks/useDebounce';
+import handleQueryParams from '../../../utils/queryParams';
 
-import Slider from 'react-slick'
-import Icon from '../../../components/Icon'
-import Card from '../../../components/Card'
-import Dropdown from '../../../components/Dropdown'
-import priceRange from '../../../utils/constants/priceRange'
+import Icon from '../../../components/Icon';
+import Card from '../../../components/Card';
+import Dropdown from '../../../components/Dropdown';
+import priceRange from '../../../utils/constants/priceRange';
 
-import styles from './Discover.module.sass'
+import styles from './Discover.module.sass';
 
-const SlickArrow = ({ currentSlide, slideCount, children, ...props }) => (
-  <button aria-label="arrow" aria-hidden="true" {...props}>
-    {children}
-  </button>
-)
+function SlickArrow({
+  currentSlide, slideCount, children, ...props
+}) {
+  return (
+    <button aria-label="arrow" aria-hidden="true" {...props}>
+      {children}
+    </button>
+  );
+}
 
 const settings = {
   infinite: true,
@@ -46,24 +50,24 @@ const settings = {
       settings: 'unslick',
     },
   ],
-}
+};
 
-const Discover = ({ info, type }) => {
-  const { push } = useRouter()
-  const { data: filterResult, fetchData } = useFetchData([])
+function Discover({ info, type }) {
+  const { push } = useRouter();
+  const { data: filterResult, fetchData } = useFetchData([]);
 
   const [activeIndex, setActiveIndex] = useState(
-    type ? Object.entries(type)[0]?.[0] : ''
-  )
-  const [visible, setVisible] = useState(false)
+    type ? Object.entries(type)[0]?.[0] : '',
+  );
+  const [visible, setVisible] = useState(false);
 
-  const [{ min, max }, setRangeValues] = useState(() => priceRange)
-  const debouncedMinTerm = useDebounce(min, 700)
-  const debouncedMaxTerm = useDebounce(max, 700)
+  const [{ min, max }, setRangeValues] = useState(() => priceRange);
+  const debouncedMinTerm = useDebounce(min, 700);
+  const debouncedMaxTerm = useDebounce(max, 700);
 
-  const handleClick = href => {
-    push(href)
-  }
+  const handleClick = (href) => {
+    push(href);
+  };
 
   const handleFilterDataByParams = useCallback(
     async ({
@@ -75,58 +79,56 @@ const Discover = ({ info, type }) => {
         category,
         min: min.trim(),
         max: max.trim(),
-      })
+      });
 
       const filterParam = Object.keys(params).reduce(
-        (acc, key) => acc + `&${key}=` + `${params[key]}`,
-        ''
-      )
+        (acc, key) => `${acc}&${key}=` + `${params[key]}`,
+        '',
+      );
 
-      fetchData(`/api/filter?${filterParam}`)
+      fetchData(`/api/filter?${filterParam}`);
     },
-    [activeIndex, debouncedMinTerm, debouncedMaxTerm, fetchData]
-  )
+    [activeIndex, debouncedMinTerm, debouncedMaxTerm, fetchData],
+  );
 
   const handleCategoryChange = useCallback(
-    async category => {
-      setActiveIndex(category)
-      handleFilterDataByParams({ category })
+    async (category) => {
+      setActiveIndex(category);
+      handleFilterDataByParams({ category });
     },
-    [handleFilterDataByParams]
-  )
+    [handleFilterDataByParams],
+  );
 
   const handleChange = ({ target: { name, value } }) => {
-    setRangeValues(prevFields => ({
+    setRangeValues((prevFields) => ({
       ...prevFields,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const allProducts = info.reduce((acc, group) => {
     const products = Object.values(group)[0];
     return [...acc, ...products];
-    }, []);
+  }, []);
 
   const uniqueProductMap = {};
-  const uniqueProducts = allProducts.filter(product => {
-    return uniqueProductMap.hasOwnProperty(product.id) ? false : (uniqueProductMap[product.id] = true);
-  });
+  const uniqueProducts = allProducts.filter((product) => (uniqueProductMap.hasOwnProperty(product.id) ? false : (uniqueProductMap[product.id] = true)));
 
   useEffect(() => {
-    let isMount = true
+    let isMount = true;
 
     if (isMount && (debouncedMinTerm?.length || debouncedMaxTerm?.length)) {
-      handleFilterDataByParams({ min: debouncedMinTerm, max: debouncedMaxTerm })
+      handleFilterDataByParams({ min: debouncedMinTerm, max: debouncedMaxTerm });
     } else {
-      handleFilterDataByParams({ category: activeIndex })
+      handleFilterDataByParams({ category: activeIndex });
     }
 
     return () => {
-      isMount = false
-    }
+      isMount = false;
+    };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedMaxTerm, debouncedMinTerm])
+  }, [debouncedMaxTerm, debouncedMinTerm]);
 
   return (
     <div className={cn('section', styles.section)}>
@@ -190,7 +192,7 @@ const Discover = ({ info, type }) => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Discover
+export default Discover;

@@ -1,16 +1,16 @@
-import React from 'react'
-import cn from 'classnames'
-import { useRouter } from 'next/router'
-import Icon from '../../../components/Icon'
+import React from 'react';
+import cn from 'classnames';
+import { useRouter } from 'next/router';
+import Icon from '../../../components/Icon';
 
-import styles from './FolowSteps.module.sass'
+import styles from './FolowSteps.module.sass';
 
-const FolowSteps = ({ className }) => {
-  const { push } = useRouter()
+function FolowSteps({ className }) {
+  const { push } = useRouter();
 
   const handleGoHomePage = () => {
-    push('/')
-  }
+    push('/');
+  };
 
   return (
     <div className={cn(className, styles.steps)}>
@@ -36,7 +36,7 @@ const FolowSteps = ({ className }) => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default FolowSteps
+export default FolowSteps;

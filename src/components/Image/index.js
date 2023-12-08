@@ -1,8 +1,8 @@
-import React from 'react'
-import Image from 'next/image'
-import useDarkMode from 'use-dark-mode'
+import React from 'react';
+import Image from 'next/image';
+import useDarkMode from 'use-dark-mode';
 
-const ImageApp = ({
+function ImageApp({
   className,
   src,
   srcDark,
@@ -10,8 +10,8 @@ const ImageApp = ({
   size,
   priority,
   objectFit = 'contain',
-}) => {
-  const darkMode = useDarkMode(false)
+}) {
+  const darkMode = useDarkMode(false);
 
   return (
     <div className={className} style={{ ...size, position: 'relative' }}>
@@ -26,7 +26,7 @@ const ImageApp = ({
         priority={priority}
       />
     </div>
-  )
+  );
 }
 
-export default ImageApp
+export default ImageApp;

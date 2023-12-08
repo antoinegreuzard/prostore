@@ -1,13 +1,28 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true
-    },
-    "extends": "airbnb",
-    "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
-    },
-    "rules": {
-    }
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": "airbnb",
+  "ignorePatterns": [
+    "*.sass"
+  ],
+  "plugins": [
+    // "scss"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "rules": {
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ]
+  }
 }
