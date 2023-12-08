@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { useRouter } from 'next/router';
 import OutsideClickHandler from 'react-outside-click-handler';
 import Image from '../../Image';
-import AppLink from '../../AppLink';
 import styles from './User.module.sass';
 import Icon from '../../Icon';
 import { removeToken } from '../../../utils/token';
@@ -27,10 +27,22 @@ function User({ className, user }) {
     },
   ];
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      setVisible(!visible);
+    }
+  };
+
   return (
     <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
       <div className={cn(styles.user, className)}>
-        <div className={styles.head} onClick={() => setVisible(!visible)}>
+        <div
+          className={styles.head}
+          onClick={() => setVisible(!visible)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={handleKeyDown}
+        >
           <Image
             className={styles.avatar}
             size={{ width: '32px', height: '32px' }}
@@ -43,40 +55,21 @@ function User({ className, user }) {
         {visible && (
           <div className={styles.body}>
             <div className={styles.menu}>
-              {items.map((x, index) => (x.url ? (
-                x.url.startsWith('http') ? (
-                  <a
-                    className={styles.item}
-                    href={x.url}
-                    rel="noopener noreferrer"
-                    key={index}
-                  >
-                    <div className={styles.icon}>
-                      <Icon name={x.icon} size="20" />
-                    </div>
-                    <div className={styles.text}>{x.title}</div>
-                  </a>
-                ) : (
-                  <AppLink
-                    className={styles.item}
-                    href={x.url || '/'}
-                    onClick={() => setVisible(!visible)}
-                    key={index}
-                  >
-                    <div className={styles.icon}>
-                      <Icon name={x.icon} size="20" />
-                    </div>
-                    <div className={styles.text}>{x.title}</div>
-                  </AppLink>
-                )
-              ) : (
-                <div className={styles.item} key={index} onClick={x.callback}>
+              {items.map((x) => (
+                <div
+                  className={styles.item}
+                  key={x.title}
+                  onClick={x.callback ? x.callback : () => {}}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={handleKeyDown}
+                >
                   <div className={styles.icon}>
                     <Icon name={x.icon} size="20" />
                   </div>
                   <div className={styles.text}>{x.title}</div>
                 </div>
-              )))}
+              ))}
             </div>
           </div>
         )}
@@ -84,5 +77,21 @@ function User({ className, user }) {
     </OutsideClickHandler>
   );
 }
+
+User.propTypes = {
+  className: PropTypes.string,
+  user: PropTypes.shape({
+    avatar_url: PropTypes.string,
+    first_name: PropTypes.string,
+  }),
+};
+
+User.defaultProps = {
+  className: '',
+  user: PropTypes.shape({
+    avatar_url: '',
+    first_name: '',
+  }),
+};
 
 export default User;

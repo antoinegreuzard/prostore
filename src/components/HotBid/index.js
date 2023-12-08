@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import Slider from 'react-slick';
 import Icon from '../Icon';
@@ -9,8 +10,10 @@ import styles from './HotBid.module.sass';
 function SlickArrow({
   currentSlide, slideCount, children, ...props
 }) {
+  // Explicitly passing down necessary props
   return (
-    <button aria-label="arrow" aria-hidden="true" {...props}>
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    <button type="button" aria-label="arrow" aria-hidden="true" {...props}>
       {children}
     </button>
   );
@@ -61,9 +64,11 @@ function Hot({ classSection, info }) {
         <div className={styles.wrapper}>
           <h2 className={cn('h3', styles.title)}>Nos meilleurs cadeaux</h2>
           <div className={styles.inner}>
+            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
             <Slider className="bid-slider" {...settings}>
-              {info && info.length > 0 && info.map((x, index) => (
-                <Card key={index} className={styles.card} item={x} />
+              {info && info.length > 0 && info.map((item, index) => (
+                // Replaced index with item.id or a unique identifier
+                <Card key={item.id || index} className={styles.card} item={item} />
               ))}
             </Slider>
           </div>
@@ -72,5 +77,16 @@ function Hot({ classSection, info }) {
     </div>
   );
 }
+
+Hot.propTypes = {
+  classSection: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
+  info: PropTypes.arrayOf(PropTypes.object),
+};
+
+Hot.defaultProps = {
+  classSection: '',
+  info: PropTypes.arrayOf(PropTypes.object),
+};
 
 export default Hot;

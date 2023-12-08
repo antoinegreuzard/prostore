@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import Head from 'next/head';
 import Header from '../Header';
 import Footer from '../Footer';
-import AppLink from '../AppLink';
 import { useStateContext } from '../../utils/context/StateContext';
 
 import styles from './Layout.module.sass';

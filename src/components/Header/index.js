@@ -20,9 +20,7 @@ function Headers({ navigation }) {
 
   const handleOAuth = useCallback(
     (user) => {
-      if (!Object.prototype.hasOwnProperty.call(cosmicUser, 'id') && Object.prototype.hasOwnProperty.call(user, 'id')) {
-        setCosmicUser(user);
-      }
+      !cosmicUser.hasOwnProperty('id') && user?.hasOwnProperty('id') && setCosmicUser(user);
     },
     [cosmicUser, setCosmicUser],
   );
@@ -33,8 +31,8 @@ function Headers({ navigation }) {
 
     if (
       isMounted
-      && !Object.prototype.hasOwnProperty.call(cosmicUser, 'id')
-      && !Object.prototype.hasOwnProperty.call(uNFTUser, 'id')
+      && !cosmicUser?.hasOwnProperty('id')
+      && uNFTUser?.hasOwnProperty('id')
     ) {
       setCosmicUser(uNFTUser);
     }
