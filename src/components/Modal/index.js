@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import OutsideClickHandler from 'react-outside-click-handler';
 import cn from 'classnames';
+import PropTypes from 'prop-types';
 import styles from './Modal.module.sass';
 import Icon from '../Icon';
 
@@ -40,7 +41,7 @@ function Modal({
             <div className={cn(styles.container, containerClassName)}>
               {children}
               {!disable && (
-              <button className={styles.close} onClick={onClose}>
+              <button className={styles.close} onClick={onClose} type="button">
                 <Icon name="close" size="14" />
               </button>
               )}
@@ -52,5 +53,22 @@ function Modal({
     )
     : null;
 }
+
+Modal.propTypes = {
+  outerClassName: PropTypes.string,
+  containerClassName: PropTypes.string,
+  visible: PropTypes.bool,
+  onClose: PropTypes.func,
+  children: PropTypes.node.isRequired,
+  disable: PropTypes.bool,
+};
+
+Modal.defaultProps = {
+  outerClassName: '',
+  containerClassName: '',
+  visible: false,
+  onClose: () => {},
+  disable: false,
+};
 
 export default Modal;

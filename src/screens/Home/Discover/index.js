@@ -126,8 +126,6 @@ function Discover({ info, type }) {
     return () => {
       isMount = false;
     };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedMaxTerm, debouncedMinTerm]);
 
   return (

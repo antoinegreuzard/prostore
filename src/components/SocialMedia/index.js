@@ -16,7 +16,7 @@ function SocialMedia() {
   return (
     <div className={styles.social}>
       {socialMedia?.map(({ Icon, url }, index) => (
-        <AppLink key={index} target="_blank" href={url}>
+        <AppLink key={`key-${index}`} target="_blank" href={url}>
           <Icon className={styles.icon} />
         </AppLink>
       ))}

@@ -3,11 +3,12 @@ import React, {
 } from 'react';
 import cn from 'classnames';
 import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 import AppLink from '../AppLink';
 import Loader from '../Loader';
 import registerFields from '../../utils/constants/registerFields';
 import { useStateContext } from '../../utils/context/StateContext';
-import { getToken, setToken } from '../../utils/token';
+import { setToken } from '../../utils/token';
 
 import styles from './OAuth.module.sass';
 
@@ -41,7 +42,9 @@ function OAuth({
   const submitForm = useCallback(
     async (e) => {
       e.preventDefault();
-      fillFiledMessage?.length && setFillFiledMessage('');
+      if (fillFiledMessage?.length) {
+        setFillFiledMessage('');
+      }
       setLoading(true);
       if ((email, password)) {
         const auth = await fetch('/api/auth', {
@@ -131,6 +134,7 @@ function OAuth({
             {loading ? <Loader /> : 'Se connecter'}
           </button>
           <button
+            type="button"
             onClick={disable ? handleGoHome : handleClose}
             className={cn('button-stroke', styles.button)}
           >
@@ -141,5 +145,19 @@ function OAuth({
     </div>
   );
 }
+
+OAuth.propTypes = {
+  className: PropTypes.string,
+  handleClose: PropTypes.func,
+  handleOAuth: PropTypes.func,
+  disable: PropTypes.bool,
+};
+
+OAuth.defaultProps = {
+  className: '',
+  handleClose: PropTypes.func,
+  handleOAuth: PropTypes.func,
+  disable: false,
+};
 
 export default OAuth;

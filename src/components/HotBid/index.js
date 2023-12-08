@@ -12,7 +12,6 @@ function SlickArrow({
 }) {
   // Explicitly passing down necessary props
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
     <button type="button" aria-label="arrow" aria-hidden="true" {...props}>
       {children}
     </button>
@@ -64,7 +63,6 @@ function Hot({ classSection, info }) {
         <div className={styles.wrapper}>
           <h2 className={cn('h3', styles.title)}>Nos meilleurs cadeaux</h2>
           <div className={styles.inner}>
-            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
             <Slider className="bid-slider" {...settings}>
               {info && info.length > 0 && info.map((item, index) => (
                 // Replaced index with item.id or a unique identifier
@@ -80,13 +78,10 @@ function Hot({ classSection, info }) {
 
 Hot.propTypes = {
   classSection: PropTypes.string,
-  // eslint-disable-next-line react/forbid-prop-types
-  info: PropTypes.arrayOf(PropTypes.object),
 };
 
 Hot.defaultProps = {
   classSection: '',
-  info: PropTypes.arrayOf(PropTypes.object),
 };
 
 export default Hot;

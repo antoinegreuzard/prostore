@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import PropTypes from 'prop-types';
 
 export function Meta() {
   return (
@@ -57,3 +58,8 @@ export function PageMeta({ title, description }) {
     </Head>
   );
 }
+
+PageMeta.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+};

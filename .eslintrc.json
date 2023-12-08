@@ -23,6 +23,10 @@
           ".jsx"
         ]
       }
-    ]
+    ],
+    "react/react-in-jsx-scope": "off",
+    "react/no-array-index-key": "off",
+    "no-prototype-builtins": "off",
+    "react/jsx-props-no-spreading": "off"
   }
 }

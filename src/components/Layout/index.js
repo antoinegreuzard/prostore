@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Header from '../Header';
 import Footer from '../Footer';
 import { useStateContext } from '../../utils/context/StateContext';
@@ -6,7 +7,7 @@ import { useStateContext } from '../../utils/context/StateContext';
 import styles from './Layout.module.sass';
 import { Meta, PageMeta } from '../Meta';
 
-function Layout({ children, title, navigationPaths }) {
+function Layout({ children, navigationPaths }) {
   const { navigation, setNavigation } = useStateContext();
 
   useEffect(() => {
@@ -40,5 +41,19 @@ function Layout({ children, title, navigationPaths }) {
     </>
   );
 }
+
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
+  navigationPaths: PropTypes.shape({
+    menu: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    })),
+  }),
+};
+
+Layout.defaultProps = {
+  navigationPaths: {},
+};
 
 export default Layout;
