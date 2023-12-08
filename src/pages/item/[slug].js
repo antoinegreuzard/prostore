@@ -51,8 +51,8 @@ const Item = ({ itemInfo, categoriesGroup, navigationItems }) => {
   )
 
   useEffect(() => {
-    console.log(itemInfo)
-    if (cosmicUser.id && itemInfo && cosmicUser?.email === itemInfo[0]?.metadata.email) {
+    console.log(itemInfo,cosmicUser)
+    if (cosmicUser.id && itemInfo && cosmicUser?.id === itemInfo[0]?.created_by) {
       setShowDeleteButton(true);
     }
   }, [cosmicUser, itemInfo]);
