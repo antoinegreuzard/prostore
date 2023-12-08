@@ -1,12 +1,12 @@
+import { withIronSessionApiRoute } from 'iron-session/next'
 import { APP_KEY } from '../../utils/constants/appConstants'
-import { withIronSession } from 'next-iron-session'
 
 require('dotenv').config()
 
-const haveSecret = withIronSession(
+const haveSecret = withIronSessionApiRoute(
     async (req, res, next) => {
         try {
-            const user = req.session.get("user");
+            const user = req.session.user;
             if (!user) {
                 return res.status(401).json('Accès refusé');
             }
@@ -19,9 +19,6 @@ const haveSecret = withIronSession(
     },
     {
         cookieName: APP_KEY,
-        cookieOptions: {
-            secure: true
-        },
         password: process.env.SECRET_KEY,
     }
     );
