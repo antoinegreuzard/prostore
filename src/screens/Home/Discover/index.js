@@ -8,7 +8,6 @@ import handleQueryParams from '../../../utils/queryParams';
 
 import Icon from '../../../components/Icon';
 import Card from '../../../components/Card';
-import Dropdown from '../../../components/Dropdown';
 import priceRange from '../../../utils/constants/priceRange';
 
 import styles from './Discover.module.sass';
@@ -17,7 +16,7 @@ function SlickArrow({
   currentSlide, slideCount, children, ...props
 }) {
   return (
-    <button aria-label="arrow" aria-hidden="true" {...props}>
+    <button aria-label="arrow" aria-hidden="true" {...props} type="button">
       {children}
     </button>
   );
@@ -54,12 +53,12 @@ const settings = {
 
 function Discover({ info, type }) {
   const { push } = useRouter();
-  const { data: filterResult, fetchData } = useFetchData([]);
+  const { fetchData } = useFetchData([]);
 
-  const [activeIndex, setActiveIndex] = useState(
+  const [activeIndex] = useState(
     type ? Object.entries(type)[0]?.[0] : '',
   );
-  const [visible, setVisible] = useState(false);
+  const [visible] = useState(false);
 
   const [{ min, max }, setRangeValues] = useState(() => priceRange);
   const debouncedMinTerm = useDebounce(min, 700);
@@ -72,31 +71,23 @@ function Discover({ info, type }) {
   const handleFilterDataByParams = useCallback(
     async ({
       category = activeIndex,
-      min = debouncedMinTerm,
-      max = debouncedMaxTerm,
+      min: minimum = debouncedMinTerm,
+      max: maximum = debouncedMaxTerm,
     }) => {
       const params = handleQueryParams({
         category,
-        min: min.trim(),
-        max: max.trim(),
+        min: minimum.trim(),
+        max: maximum.trim(),
       });
 
       const filterParam = Object.keys(params).reduce(
-        (acc, key) => `${acc}&${key}=` + `${params[key]}`,
+        (acc, key) => `${acc}&${key}=${params[key]}`,
         '',
       );
 
       fetchData(`/api/filter?${filterParam}`);
     },
     [activeIndex, debouncedMinTerm, debouncedMaxTerm, fetchData],
-  );
-
-  const handleCategoryChange = useCallback(
-    async (category) => {
-      setActiveIndex(category);
-      handleFilterDataByParams({ category });
-    },
-    [handleFilterDataByParams],
   );
 
   const handleChange = ({ target: { name, value } }) => {
@@ -112,7 +103,13 @@ function Discover({ info, type }) {
   }, []);
 
   const uniqueProductMap = {};
-  const uniqueProducts = allProducts.filter((product) => (uniqueProductMap.hasOwnProperty(product.id) ? false : (uniqueProductMap[product.id] = true)));
+  const uniqueProducts = allProducts.filter((product) => {
+    if (uniqueProductMap.hasOwnProperty(product.id)) {
+      return false;
+    }
+    uniqueProductMap[product.id] = true;
+    return true;
+  });
 
   useEffect(() => {
     let isMount = true;
@@ -138,6 +135,7 @@ function Discover({ info, type }) {
           <div className={styles.header}>
             <h3 className={cn('h3', styles.title)}>Cadeaux disponibles</h3>
             <button
+              type="button"
               onClick={() => handleClick(`/search?category=${activeIndex}`)}
               className={cn('button-stroke', styles.button)}
             >
