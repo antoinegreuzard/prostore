@@ -10,7 +10,7 @@ function Preview({
   return (
     <div className={cn(className, styles.wrap)}>
       <div className={styles.inner}>
-        <button className={styles.close} onClick={onClose}>
+        <button className={styles.close} onClick={onClose} type="button">
           <Icon name="close" size="14" />
         </button>
         <div className={styles.info}>Prévisualiser</div>
