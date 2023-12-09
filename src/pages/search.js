@@ -46,6 +46,13 @@ function Search({ categoriesGroup, navigationItems, categoryData }) {
     }));
   };
 
+  const [lastSearchParams, setLastSearchParams] = useState({
+    lastSearch: '',
+    lastMin: 1,
+    lastMax: 100,
+    lastCategory: '',
+  });
+
   const handleFilterDataByParams = useCallback(
     async ({
       categoryParam = activeIndex,
@@ -53,6 +60,21 @@ function Search({ categoriesGroup, navigationItems, categoryData }) {
       maxParam = debouncedMaxTerm,
       searchTerm = debouncedSearchTerm,
     }) => {
+      if (
+        categoryParam === lastSearchParams.lastCategory
+        && minParam === lastSearchParams.lastMin
+        && maxParam === lastSearchParams.lastMax
+        && searchTerm === lastSearchParams.lastSearch
+      ) {
+        return;
+      }
+      setLastSearchParams({
+        lastCategory: categoryParam,
+        lastMin: minParam,
+        lastMax: maxParam,
+        lastSearch: searchTerm,
+      });
+
       const params = handleQueryParams({
         category: categoryParam,
         min: minParam.toString().trim(),
@@ -74,6 +96,7 @@ function Search({ categoriesGroup, navigationItems, categoryData }) {
       await fetchData(`/api/filter?${filterParam}`);
     },
     [
+      lastSearchParams,
       activeIndex,
       debouncedSearchTerm,
       debouncedMinTerm,

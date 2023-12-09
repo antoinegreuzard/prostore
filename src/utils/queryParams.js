@@ -1,7 +1,11 @@
 const handleQueryParams = ({
   min, max, category, search,
 }) => {
-  let queryParam = { category };
+  let queryParam = {};
+
+  if (category && category.length) {
+    queryParam = { ...queryParam, category };
+  }
 
   if (min && Number(min) > 0) {
     queryParam = { ...queryParam, min };
