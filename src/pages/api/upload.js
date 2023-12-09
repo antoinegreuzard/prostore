@@ -1,6 +1,8 @@
 // Import necessary modules and your haveSecret function
 import { createBucketClient } from '@cosmicjs/sdk';
 import fs from 'fs';
+import path from 'path';
+import { v4 as uuidv4 } from 'uuid';
 import haveSecret from './secret';
 
 const formidable = require('formidable');
@@ -12,20 +14,33 @@ const cosmic = createBucketClient({
   writeKey: process.env.COSMIC_WRITE_KEY,
 });
 
-// Disable the default body parser for this route
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
-// Function to save the file
+function generateSecureFilename(originalFilename) {
+  const extension = path.extname(originalFilename).toLowerCase();
+  // Ajouter des vérifications pour les extensions autorisées si nécessaire
+  return uuidv4() + extension;
+}
+
 const saveFile = async (file) => {
+  // Valider le chemin du fichier
+  if (!file?.filepath || !/^[a-zA-Z0-9_\-./]+$/.test(file.filepath)) {
+    throw new Error('Chemin de fichier non sécurisé');
+  }
+
+  // Générer un nouveau nom de fichier sécurisé
+  const secureFilename = generateSecureFilename(file.originalFilename);
+
   const filedata = fs.readFileSync(file?.filepath);
   const media = {
-    originalname: file.originalFilename,
+    originalname: secureFilename,
     buffer: filedata,
   };
+
   try {
     await cosmic.media.insertOne({ media });
     await fs.unlinkSync(file?.filepath);
