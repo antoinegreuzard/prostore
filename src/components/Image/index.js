@@ -36,7 +36,7 @@ ImageApp.propTypes = {
   srcDark: PropTypes.string,
   alt: PropTypes.string,
   priority: PropTypes.string,
-  objectFit: PropTypes.string.isRequired,
+  objectFit: PropTypes.string,
   size: PropTypes.shape({
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -49,6 +49,7 @@ ImageApp.defaultProps = {
   srcDark: '',
   alt: '',
   priority: '',
+  objectFit: '',
   size: { width: 'auto', height: 'auto' },
 };
 
