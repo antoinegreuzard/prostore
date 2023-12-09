@@ -1,16 +1,34 @@
-import React from 'react'
-import cn from 'classnames'
-import Slider from 'react-slick'
-import Icon from '../Icon'
-import Card from '../Card'
+import React from 'react';
+import PropTypes from 'prop-types';
+import cn from 'classnames';
+import Slider from 'react-slick';
+import Icon from '../Icon';
+import Card from '../Card';
 
-import styles from './HotBid.module.sass'
+import styles from './HotBid.module.sass';
 
-const SlickArrow = ({ currentSlide, slideCount, children, ...props }) => (
-  <button aria-label="arrow" aria-hidden="true" {...props}>
-    {children}
-  </button>
-)
+function SlickArrow({
+  currentSlide, slideCount, children, ...props
+}) {
+  // Explicitly passing down necessary props
+  return (
+    <button type="button" aria-label="arrow" aria-hidden="true" {...props}>
+      {children}
+    </button>
+  );
+}
+
+SlickArrow.propTypes = {
+  currentSlide: PropTypes.number,
+  slideCount: PropTypes.number,
+  children: PropTypes.node,
+};
+
+SlickArrow.defaultProps = {
+  currentSlide: 0,
+  slideCount: 0,
+  children: 0,
+};
 
 const settings = {
   infinite: true,
@@ -48,9 +66,9 @@ const settings = {
       },
     },
   ],
-}
+};
 
-const Hot = ({ classSection, info }) => {
+function Hot({ classSection, info }) {
   return (
     <div className={cn(classSection, styles.section)}>
       <div className={cn('container', styles.container)}>
@@ -58,15 +76,28 @@ const Hot = ({ classSection, info }) => {
           <h2 className={cn('h3', styles.title)}>Nos meilleurs cadeaux</h2>
           <div className={styles.inner}>
             <Slider className="bid-slider" {...settings}>
-              {info && info.length > 0 && info.map((x, index) => (
-                  <Card key={index} className={styles.card} item={x} />
+              {info && info.length > 0 && info.map((item, index) => (
+                // Replaced index with item.id or a unique identifier
+                <Card key={item.id || index} className={styles.card} item={item} />
               ))}
             </Slider>
           </div>
         </div>
       </div>
     </div>
-    )
+  );
 }
 
-export default Hot
+Hot.propTypes = {
+  classSection: PropTypes.string,
+  info: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  })),
+};
+
+Hot.defaultProps = {
+  classSection: '',
+  info: [],
+};
+
+export default Hot;

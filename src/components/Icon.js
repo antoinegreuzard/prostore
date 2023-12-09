@@ -1,5 +1,6 @@
-import React from 'react'
-import cn from 'classnames'
+import React from 'react';
+import cn from 'classnames';
+import PropTypes from 'prop-types';
 
 const icons = {
   search:
@@ -91,11 +92,11 @@ const icons = {
     'M3.411 0c.368 0 .667.298.667.667v.666h7.768c1.097 0 1.707 1.239 1.089 2.103l-.077.098L10.744 6l2.113 2.466c.714.833.17 2.103-.888 2.196l-.124.005-7.768-.001v4.667c0 .335-.247.612-.568.659L3.411 16c-.368 0-.667-.298-.667-.667V.667c0-.335.247-.612.568-.659L3.411 0zm8.434 2.667H4.077v6.667h7.768L8.988 6l2.857-3.333z',
   'minus-square':
     'M8 1.333a28.06 28.06 0 0 1 3.639.246c1.465.193 2.588 1.317 2.782 2.782.133 1.007.246 2.266.246 3.639s-.113 2.632-.246 3.639c-.193 1.465-1.317 2.588-2.782 2.782-1.007.133-2.266.246-3.639.246s-2.632-.113-3.639-.246c-1.465-.193-2.588-1.317-2.782-2.782A28.06 28.06 0 0 1 1.333 8a28.06 28.06 0 0 1 .246-3.639c.193-1.465 1.317-2.588 2.782-2.782A28.06 28.06 0 0 1 8 1.333zm2.667 6H5.333c-.368 0-.667.298-.667.667s.298.667.667.667h5.333c.368 0 .667-.298.667-.667s-.298-.667-.667-.667z',
-}
+};
 
-const Icon = props => {
-  const size = props.size ? props.size : 16
-  const fill = props.fill ? props.fill : 'inherit'
+function Icon(props = {}) {
+  const size = props.size ? props.size : 16;
+  const fill = props.fill ? props.fill : 'inherit';
   return (
     <svg
       className={cn(props.className)}
@@ -104,9 +105,23 @@ const Icon = props => {
       viewBox="0 0 16 16"
       fill={fill}
     >
-      <path d={icons[props.name]}></path>
+      <path d={icons[props.name]} />
     </svg>
-  )
+  );
 }
 
-export default Icon
+Icon.propTypes = {
+  className: PropTypes.string,
+  fill: PropTypes.string,
+  name: PropTypes.string,
+  size: PropTypes.string,
+};
+
+Icon.defaultProps = {
+  className: '',
+  fill: 'inherit',
+  name: '',
+  size: '',
+};
+
+export default Icon;

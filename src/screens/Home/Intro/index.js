@@ -1,10 +1,10 @@
-import React from 'react'
-import cn from 'classnames'
-import { useRouter } from 'next/router'
-import Slider from 'react-slick'
-import Image from '../../../components/Image'
+import React from 'react';
+import cn from 'classnames';
+import { useRouter } from 'next/router';
+import Slider from 'react-slick';
+import Image from '../../../components/Image';
 
-import styles from './Intro.module.sass'
+import styles from './Intro.module.sass';
 
 const settings = {
   infinite: false,
@@ -12,14 +12,14 @@ const settings = {
   slidesToShow: 1,
   slidesToScroll: 1,
   adaptiveHeight: true,
-}
+};
 
-const Intro = ({ info }) => {
-  const { push } = useRouter()
+function Intro({ info }) {
+  const { push } = useRouter();
 
-  const handleClick = href => {
-    push(href)
-  }
+  const handleClick = (href) => {
+    push(href);
+  };
 
   return (
     <div className={cn('section', styles.section)}>
@@ -54,7 +54,8 @@ const Intro = ({ info }) => {
                   </div>
                   <div className={styles.btns}>
                     <button
-                      onClick={() => handleClick(`/search`)}
+                      type="button"
+                      onClick={() => handleClick('/search')}
                       className={cn('button-stroke', styles.button)}
                     >
                       Explore more
@@ -67,7 +68,7 @@ const Intro = ({ info }) => {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default Intro
+export default Intro;

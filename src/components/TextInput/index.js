@@ -1,8 +1,9 @@
-import React from 'react'
-import cn from 'classnames'
-import styles from './TextInput.module.sass'
+import React from 'react';
+import cn from 'classnames';
+import PropTypes from 'prop-types';
+import styles from './TextInput.module.sass';
 
-const TextInput = ({ className, label, ...props }) => {
+function TextInput({ className, label, ...props }) {
   return (
     <div className={cn(styles.field, className)}>
       {label && <div className={styles.label}>{label}</div>}
@@ -10,7 +11,17 @@ const TextInput = ({ className, label, ...props }) => {
         <input className={styles.input} {...props} />
       </div>
     </div>
-  )
+  );
 }
 
-export default TextInput
+TextInput.propTypes = {
+  className: PropTypes.string,
+  label: PropTypes.string,
+};
+
+TextInput.defaultProps = {
+  className: '',
+  label: '',
+};
+
+export default TextInput;

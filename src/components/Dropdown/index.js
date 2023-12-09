@@ -1,23 +1,32 @@
-import React, { useState } from 'react'
-import cn from 'classnames'
-import OutsideClickHandler from 'react-outside-click-handler'
-import styles from './Dropdown.module.sass'
-import Icon from '../Icon'
+import React, { useState } from 'react';
+import cn from 'classnames';
+import OutsideClickHandler from 'react-outside-click-handler';
+import PropTypes from 'prop-types';
+import styles from './Dropdown.module.sass';
+import Icon from '../Icon';
 
-const Dropdown = ({ className, value, setValue, options }) => {
-  const [visible, setVisible] = useState(false)
+function Dropdown({
+  className, value, setValue, options,
+}) {
+  const [visible, setVisible] = useState(false);
 
-  const handleClick = value => {
-    setValue(value)
-    setVisible(false)
-  }
+  const handleClick = (valueClick) => {
+    setValue(valueClick);
+    setVisible(false);
+  };
 
   return (
     <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
       <div
         className={cn(styles.dropdown, className, { [styles.active]: visible })}
       >
-        <div className={styles.head} onClick={() => setVisible(!visible)}>
+        <div
+          className={styles.head}
+          onClick={() => setVisible(!visible)}
+          onKeyPress={() => setVisible(!visible)}
+          role="button"
+          tabIndex={0}
+        >
           <div className={styles.selection}>{value}</div>
           <div className={styles.arrow}>
             <Icon name="arrow-bottom" size="10" />
@@ -30,7 +39,14 @@ const Dropdown = ({ className, value, setValue, options }) => {
                 [styles.selectioned]: x === value,
               })}
               onClick={() => handleClick(x, index)}
-              key={index}
+              onKeyPress={(event) => {
+                if (event.key === 'Enter') {
+                  handleClick(x, index); // to satisfy jsx-a11y/click-events-have-key-events
+                }
+              }}
+              key={x}
+              tabIndex={0}
+              role="button"
             >
               {x}
             </div>
@@ -38,7 +54,21 @@ const Dropdown = ({ className, value, setValue, options }) => {
         </div>
       </div>
     </OutsideClickHandler>
-  )
+  );
 }
 
-export default Dropdown
+Dropdown.propTypes = {
+  className: PropTypes.string,
+  value: PropTypes.string,
+  setValue: PropTypes.func,
+  options: PropTypes.arrayOf(PropTypes.string),
+};
+
+Dropdown.defaultProps = {
+  className: '',
+  value: '',
+  setValue: '',
+  options: PropTypes.arrayOf(''),
+};
+
+export default Dropdown;

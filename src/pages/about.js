@@ -1,28 +1,29 @@
-import React from 'react'
-import { useRouter } from 'next/router'
-import cn from 'classnames'
-import Layout from '../components/Layout'
-import Image from 'next/image'
-import chooseBySlug from '../utils/chooseBySlug'
-import { getAllDataByType } from '../lib/cosmic'
+import React from 'react';
+import { useRouter } from 'next/router';
+import cn from 'classnames';
+import Image from 'next/image';
+import PropTypes from 'prop-types';
+import Layout from '../components/Layout';
+import chooseBySlug from '../utils/chooseBySlug';
+import { getAllDataByType } from '../lib/cosmic';
 
-import styles from '../styles/pages/NotFound.module.sass'
-import { PageMeta } from '../components/Meta'
+import styles from '../styles/pages/NotFound.module.sass';
+import { PageMeta } from '../components/Meta';
 
-const AboutUs = ({ navigationItems, landing }) => {
-  const { push } = useRouter()
+function AboutUs({ navigationItems, landing }) {
+  const { push } = useRouter();
 
-  const handleClick = href => {
-    push(href)
-  }
+  const handleClick = (href) => {
+    push(href);
+  };
 
-  const infoAbout = chooseBySlug(landing, 'about')
+  const infoAbout = chooseBySlug(landing, 'about');
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
       <PageMeta
-        title={'Présentation | Marché de Noël EDS du campus de Lyon'}
-        description={'Marché de Noël EDS du campus de Lyon'}
+        title="Présentation | Marché de Noël EDS du campus de Lyon"
+        description="Marché de Noël EDS du campus de Lyon"
       />
       <div className={cn('section', styles.section)}>
         <div className={cn('container', styles.container)}>
@@ -45,7 +46,8 @@ const AboutUs = ({ navigationItems, landing }) => {
             <h3 className={styles.info}>{infoAbout?.metadata?.subtitle}</h3>
             <p className={styles.info}>{infoAbout?.metadata?.description}</p>
             <button
-              onClick={() => handleClick(`/search`)}
+              type="button"
+              onClick={() => handleClick('/search')}
               className={cn('button-stroke', styles.form)}
             >
               Rechercher un cadeau
@@ -54,16 +56,30 @@ const AboutUs = ({ navigationItems, landing }) => {
         </div>
       </div>
     </Layout>
-  )
+  );
 }
 
-export default AboutUs
+AboutUs.propTypes = {
+  navigationItems: PropTypes.arrayOf(PropTypes.shape({
+    metadata: PropTypes.shape({
+    }),
+  })),
+  landing: PropTypes.arrayOf(PropTypes.shape({
+  })),
+};
+
+AboutUs.defaultProps = {
+  navigationItems: [],
+  landing: [],
+};
+
+export default AboutUs;
 
 export async function getServerSideProps() {
-  const navigationItems = (await getAllDataByType('navigation')) || []
-  const landing = (await getAllDataByType('landings')) || []
+  const navigationItems = (await getAllDataByType('navigation')) || [];
+  const landing = (await getAllDataByType('landings')) || [];
 
   return {
     props: { navigationItems, landing },
-  }
+  };
 }

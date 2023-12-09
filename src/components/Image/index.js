@@ -1,8 +1,9 @@
-import React from 'react'
-import Image from 'next/image'
-import useDarkMode from 'use-dark-mode'
+import React from 'react';
+import Image from 'next/image';
+import useDarkMode from 'use-dark-mode';
+import PropTypes from 'prop-types';
 
-const ImageApp = ({
+function ImageApp({
   className,
   src,
   srcDark,
@@ -10,8 +11,8 @@ const ImageApp = ({
   size,
   priority,
   objectFit = 'contain',
-}) => {
-  const darkMode = useDarkMode(false)
+}) {
+  const darkMode = useDarkMode(false);
 
   return (
     <div className={className} style={{ ...size, position: 'relative' }}>
@@ -26,7 +27,29 @@ const ImageApp = ({
         priority={priority}
       />
     </div>
-  )
+  );
 }
 
-export default ImageApp
+ImageApp.propTypes = {
+  className: PropTypes.string,
+  src: PropTypes.string,
+  srcDark: PropTypes.string,
+  alt: PropTypes.string,
+  priority: PropTypes.string,
+  objectFit: PropTypes.string.isRequired,
+  size: PropTypes.shape({
+    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  }),
+};
+
+ImageApp.defaultProps = {
+  className: '',
+  src: '',
+  srcDark: '',
+  alt: '',
+  priority: '',
+  size: { width: 'auto', height: 'auto' },
+};
+
+export default ImageApp;

@@ -1,14 +1,15 @@
-import React from 'react'
-import cn from 'classnames'
-import AppLink from '../AppLink'
-import Group from './Group'
-import Theme from '../Theme'
-import Image from '../Image'
-import SocialMedia from '../SocialMedia'
+import React from 'react';
+import cn from 'classnames';
+import PropTypes from 'prop-types';
+import AppLink from '../AppLink';
+import Group from './Group';
+import Theme from '../Theme';
+import Image from '../Image';
+import SocialMedia from '../SocialMedia';
 
-import styles from './Footer.module.sass'
+import styles from './Footer.module.sass';
 
-const Footers = ({ navigation }) => {
+function Footers({ navigation }) {
   return (
     <footer className={styles.footer}>
       <div className={cn('container', styles.container)}>
@@ -18,8 +19,8 @@ const Footers = ({ navigation }) => {
               <Image
                 size={{ width: '92px', height: '92px' }}
                 className={styles.pic}
-                src={navigation['logo']?.imgix_url}
-                srcDark={navigation['logo']?.imgix_url}
+                src={navigation.logo?.imgix_url}
+                srcDark={navigation.logo?.imgix_url}
                 alt="Logo"
                 objectFit="contain"
               />
@@ -38,9 +39,25 @@ const Footers = ({ navigation }) => {
             <SocialMedia className={styles.form} />
           </div>
         </div>
-      </div>  
+      </div>
     </footer>
-  )
+  );
 }
 
-export default Footers
+Footers.propTypes = {
+  navigation: PropTypes.shape({
+    logo: PropTypes.shape({
+      imgix_url: PropTypes.string,
+    }),
+  }),
+};
+
+Footers.defaultProps = {
+  navigation: PropTypes.shape({
+    logo: PropTypes.shape({
+      imgix_url: '',
+    }),
+  }),
+};
+
+export default Footers;

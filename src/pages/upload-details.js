@@ -1,66 +1,69 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import cn from 'classnames'
-import toast from 'react-hot-toast'
-import { useRouter } from 'next/router'
-import { useStateContext } from '../utils/context/StateContext'
-import Layout from '../components/Layout'
-import Icon from '../components/Icon'
-import TextInput from '../components/TextInput'
-import Loader from '../components/Loader'
-import Modal from '../components/Modal'
-import OAuth from '../components/OAuth'
-import Preview from '../screens/UploadDetails/Preview'
-import Cards from '../screens/UploadDetails/Cards'
-import { getAllDataByType } from '../lib/cosmic'
-import createFields from '../utils/constants/createFields'
-import { getToken } from '../utils/token'
+import React, { useCallback, useEffect, useState } from 'react';
+import cn from 'classnames';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
+import { useStateContext } from '../utils/context/StateContext';
+import Layout from '../components/Layout';
+import Icon from '../components/Icon';
+import TextInput from '../components/TextInput';
+import Loader from '../components/Loader';
+import Modal from '../components/Modal';
+import OAuth from '../components/OAuth';
+import Preview from '../screens/UploadDetails/Preview';
+import Cards from '../screens/UploadDetails/Cards';
+import { getAllDataByType } from '../lib/cosmic';
+import createFields from '../utils/constants/createFields';
+import { getToken } from '../utils/token';
 
-import styles from '../styles/pages/UploadDetails.module.sass'
-import { PageMeta } from '../components/Meta'
+import styles from '../styles/pages/UploadDetails.module.sass';
+import { PageMeta } from '../components/Meta';
 
-const Upload = ({ navigationItems, categoriesType }) => {
-  const { categories, navigation, cosmicUser } = useStateContext()
-  const { push } = useRouter()
+function Upload({ navigationItems, categoriesType }) {
+  const { categories, navigation, cosmicUser } = useStateContext();
+  const { push } = useRouter();
 
-  const [uploadMedia, setUploadMedia] = useState('')
-  const [uploadFile, setUploadFile] = useState('')
-  const [chooseCategory, setChooseCategory] = useState('')
-  const [fillFiledMessage, setFillFiledMessage] = useState(false)
-  const [{ title, count, description, email, price }, setFields] = useState(
-    () => createFields
-  )
+  const [uploadMedia, setUploadMedia] = useState('');
+  const [uploadFile, setUploadFile] = useState('');
+  const [chooseCategory, setChooseCategory] = useState('');
+  const [fillFiledMessage, setFillFiledMessage] = useState(false);
+  const [{
+    title, count, description, email, price,
+  }, setFields] = useState(
+    () => createFields,
+  );
 
-  const [visibleAuthModal, setVisibleAuthModal] = useState(false)
-  const [visiblePreview, setVisiblePreview] = useState(false)
-  const [jwtToken, setJwtToken] = useState(false)
+  const [visibleAuthModal, setVisibleAuthModal] = useState(false);
+  const [visiblePreview, setVisiblePreview] = useState(false);
+  const [jwtToken, setJwtToken] = useState(false);
 
   useEffect(() => {
-    let isMounted = true
-    const uNFTUser = getToken()
-    const edsLyoItem = localStorage.getItem('EDS-LYO')
-    const token = edsLyoItem ? JSON.parse(edsLyoItem).token : null
+    let isMounted = true;
+    const uNFTUser = getToken();
+    const edsLyoItem = localStorage.getItem('EDS-LYO');
+    const token = edsLyoItem ? JSON.parse(edsLyoItem).token : null;
 
     if (
-      isMounted &&
-      !cosmicUser?.hasOwnProperty('id') &&
-      !uNFTUser?.hasOwnProperty('id')
+      isMounted
+      && !cosmicUser?.hasOwnProperty('id')
+      && !uNFTUser?.hasOwnProperty('id')
     ) {
-      setVisibleAuthModal(true)
+      setVisibleAuthModal(true);
     }
 
     if (token) {
-      setJwtToken(token)
+      setJwtToken(token);
     }
 
     return () => {
-      isMounted = false
-    }
-  }, [cosmicUser])
+      isMounted = false;
+    };
+  }, [cosmicUser]);
 
   const handleUploadFile = useCallback(
-    async uploadFile => {
-      const formData = new FormData()
-      formData.append('file', uploadFile)
+    async (uploadFileHandle) => {
+      const formData = new FormData();
+      formData.append('file', uploadFileHandle);
 
       try {
         const uploadResult = await fetch('/api/upload', {
@@ -69,63 +72,66 @@ const Upload = ({ navigationItems, categoriesType }) => {
           headers: {
             Authorization: `Bearer ${jwtToken}`,
           },
-        })
+        });
 
-        const mediaData = await uploadResult.json()
-        setUploadMedia(mediaData?.['media'])
+        const mediaData = await uploadResult.json();
+        setUploadMedia(mediaData?.media);
       } catch (error) {
-        console.error('Erreur lors du téléversement du fichier:', error)
+        Error(error.status);
       }
     },
-    [jwtToken]
-  )
+    [jwtToken],
+  );
 
   const handleOAuth = useCallback(
-    async user => {
-      !cosmicUser.hasOwnProperty('id') && setVisibleAuthModal(true)
+    async (user) => {
+      if (!cosmicUser.hasOwnProperty('id')) {
+        setVisibleAuthModal(true);
+      }
 
-      if (!user && !user?.hasOwnProperty('id')) return
-      user && uploadFile && (await handleUploadFile(uploadFile))
+      if (!user && !user?.hasOwnProperty('id')) return;
+      if (user && uploadFile) { (await handleUploadFile(uploadFile)); }
     },
-    [cosmicUser, uploadFile, handleUploadFile]
-  )
+    [cosmicUser, uploadFile, handleUploadFile],
+  );
 
-  const handleUpload = async e => {
-    setUploadFile(e.target.files[0])
+  const handleUpload = async (e) => {
+    setUploadFile(e.target.files[0]);
 
-    cosmicUser?.hasOwnProperty('id')
-      ? await handleUploadFile(e.target.files[0])
-      : await handleOAuth()
-  }
+    if (cosmicUser?.hasOwnProperty('id')) {
+      await handleUploadFile(e.target.files[0]);
+    } else {
+      await handleOAuth();
+    }
+  };
 
-  const handleChange = ({ target: { name, value } }) =>
-    setFields(prevFields => ({
-      ...prevFields,
-      [name]: value,
-    }))
+  const handleChange = ({ target: { name, value } }) => setFields((prevFields) => ({
+    ...prevFields,
+    [name]: value,
+  }));
 
-  const handleChooseCategory = useCallback(index => {
-    setChooseCategory(index)
-  }, [])
+  const handleChooseCategory = useCallback((index) => {
+    setChooseCategory(index);
+  }, []);
 
   const previewForm = useCallback(() => {
     if (title && count && price && email && uploadMedia) {
-      fillFiledMessage && setFillFiledMessage(false)
-      setVisiblePreview(true)
+      if (fillFiledMessage) { setFillFiledMessage(false); }
+      setVisiblePreview(true);
     } else {
-      setFillFiledMessage(true)
+      setFillFiledMessage(true);
     }
-  }, [count, fillFiledMessage, price, email, title, uploadMedia])
+  }, [count, fillFiledMessage, price, email, title, uploadMedia]);
 
   const submitForm = useCallback(
-    async e => {
-      e.preventDefault()
-      !cosmicUser.hasOwnProperty('id') && (await handleOAuth())
+    async (e) => {
+      e.preventDefault();
+      if (!cosmicUser.hasOwnProperty('id')) { (await handleOAuth()); }
 
       if (cosmicUser && title && count && price && email && uploadMedia) {
-        fillFiledMessage && setFillFiledMessage(false)
+        if (fillFiledMessage) { setFillFiledMessage(false); }
 
-        const token = getToken()?.hasOwnProperty('token')
+        const token = getToken()?.hasOwnProperty('token');
 
         const response = await fetch('/api/create', {
           method: 'POST',
@@ -143,24 +149,24 @@ const Upload = ({ navigationItems, categoriesType }) => {
             price,
             count,
             categories: [chooseCategory],
-            image: uploadMedia['name'],
+            image: uploadMedia.name,
           }),
-        })
+        });
 
-        const createdItem = await response.json()
+        const createdItem = await response.json();
 
-        if (createdItem['object']) {
+        if (createdItem.object) {
           toast.success(
-            `Le cadeau ${createdItem['object']['title']} a bien été créé`,
+            `Le cadeau ${createdItem.object.title} a bien été créé`,
             {
               position: 'bottom-right',
-            }
-          )
+            },
+          );
 
-          await push(`item/${createdItem['object']['slug']}`)
+          await push(`item/${createdItem.object.slug}`);
         }
       } else {
-        setFillFiledMessage(true)
+        setFillFiledMessage(true);
       }
     },
     [
@@ -175,14 +181,14 @@ const Upload = ({ navigationItems, categoriesType }) => {
       push,
       title,
       uploadMedia,
-    ]
-  )
+    ],
+  );
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata || navigation}>
       <PageMeta
-        title={'Publier un cadeau | Marché de Noël EDS du campus de Lyon'}
-        description={'Marché de Noël EDS du campus de Lyon'}
+        title="Publier un cadeau | Marché de Noël EDS du campus de Lyon"
+        description="Marché de Noël EDS du campus de Lyon"
       />
       <div className={cn('section', styles.section)}>
         <div className={cn('container', styles.container)}>
@@ -284,7 +290,7 @@ const Upload = ({ navigationItems, categoriesType }) => {
                   className={styles.cards}
                   category={chooseCategory}
                   handleChoose={handleChooseCategory}
-                  items={categoriesType || categories['type']}
+                  items={categoriesType || categories.type}
                 />
               </div>
               <div className={styles.foot}>
@@ -306,7 +312,7 @@ const Upload = ({ navigationItems, categoriesType }) => {
                 {fillFiledMessage && (
                   <div className={styles.saving}>
                     <span>Merci de remplir tous les champs obligatoires</span>
-                    <Loader className={styles.loader} />
+                    <Loader className={styles.loader} color="" />
                   </div>
                 )}
               </div>
@@ -314,8 +320,10 @@ const Upload = ({ navigationItems, categoriesType }) => {
           </div>
           <Preview
             className={cn(styles.preview, { [styles.active]: visiblePreview })}
-            info={{ title, count, description, price, email }}
-            image={uploadMedia?.['imgix_url']}
+            info={{
+              title, count, description, price, email,
+            }}
+            image={uploadMedia?.imgix_url}
             onClose={() => setVisiblePreview(false)}
           />
         </div>
@@ -333,20 +341,38 @@ const Upload = ({ navigationItems, categoriesType }) => {
         />
       </Modal>
     </Layout>
-  )
+  );
 }
 
-export default Upload
+Upload.propTypes = {
+  navigationItems: PropTypes.arrayOf(PropTypes.shape({
+    metadata: PropTypes.shape({
+      id: PropTypes.number,
+    }),
+  })),
+  categoriesType: PropTypes.shape({
+  }),
+};
+
+Upload.defaultProps = {
+  navigationItems: [],
+  categoriesType: {},
+};
+
+export default Upload;
 
 export async function getServerSideProps() {
-  const navigationItems = (await getAllDataByType('navigation')) || []
-  const categoryTypes = (await getAllDataByType('categories')) || []
+  const navigationItems = (await getAllDataByType('navigation')) || [];
+  const categoryTypes = (await getAllDataByType('categories')) || [];
 
-  const categoriesType = categoryTypes?.reduce((arr, { title, id }) => {
-    return { ...arr, [id]: title }
-  }, {})
+  const categoriesType = categoryTypes?.reduce((arr, { title, id }) => (
+    {
+      ...arr,
+      [id]: title,
+    }
+  ), {});
 
   return {
     props: { navigationItems, categoriesType },
-  }
+  };
 }

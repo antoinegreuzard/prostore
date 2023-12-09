@@ -8,7 +8,7 @@
   width: 100%
   height: 100%
   padding: 48px
-  background: rgba($neutrals1,.9)
+  background: rgba($neutrals1, .9)
   opacity: 0
   animation: showModal .4s forwards
   overflow: auto
@@ -16,7 +16,7 @@
   +m
     padding: 32px 16px
   +dark
-    background: rgba($neutrals2,.9)
+    background: rgba($neutrals2, .9)
 
 @keyframes showModal
   0%
@@ -50,14 +50,17 @@
   border: 2px solid $neutrals6
   border-radius: 50%
   font-size: 0
+
   svg
     fill: $neutrals2
     transition: transform .2s
+
   +dark
     border-color: $neutrals3
     background: $neutrals1
     svg
       fill: $neutrals8
+
   &:hover
     svg
       transform: rotate(90deg)

@@ -1,40 +1,37 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import Head from 'next/head'
-import Header from '../Header'
-import Footer from '../Footer'
-import AppLink from '../AppLink'
-import { useStateContext } from '../../utils/context/StateContext'
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import Header from '../Header';
+import Footer from '../Footer';
+import { useStateContext } from '../../utils/context/StateContext';
 
-import styles from './Layout.module.sass'
-import { Meta, PageMeta } from '../Meta'
+import styles from './Layout.module.sass';
+import { Meta, PageMeta } from '../Meta';
 
-const Layout = ({ children, title, navigationPaths }) => {
-  const { navigation, setNavigation } = useStateContext()
+function Layout({ children, navigationPaths }) {
+  const { navigation, setNavigation } = useStateContext();
 
   useEffect(() => {
-    let isMounted = true
+    let isMounted = true;
 
     if (
-      !navigation?.hasOwnProperty('menu') &&
-      navigationPaths?.hasOwnProperty('menu') &&
-      isMounted
+      !navigation?.hasOwnProperty('menu')
+      && navigationPaths?.hasOwnProperty('menu')
+      && isMounted
     ) {
-      setNavigation(navigationPaths)
+      setNavigation(navigationPaths);
     }
 
     return () => {
-      isMounted = false
-    }
-  }, [navigation, navigationPaths, setNavigation])
+      isMounted = false;
+    };
+  }, [navigation, navigationPaths, setNavigation]);
 
   return (
     <>
       <Meta />
       <PageMeta
-        title={'Marché de Noël EDS du campus de Lyon'}
-        description={
-          'Marché de Noël EDS du campus de Lyon'
-        }
+        title="Marché de Noël EDS du campus de Lyon"
+        description="Marché de Noël EDS du campus de Lyon"
       />
       <div className={styles.page}>
         <Header navigation={navigationPaths || navigation} />
@@ -42,7 +39,21 @@ const Layout = ({ children, title, navigationPaths }) => {
         <Footer navigation={navigationPaths || navigation} />
       </div>
     </>
-  )
+  );
 }
 
-export default Layout
+Layout.propTypes = {
+  children: PropTypes.node.isRequired,
+  navigationPaths: PropTypes.shape({
+    menu: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    })),
+  }),
+};
+
+Layout.defaultProps = {
+  navigationPaths: {},
+};
+
+export default Layout;
