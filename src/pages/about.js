@@ -30,13 +30,15 @@ function AboutUs({ navigationItems, landing }) {
           <div className={styles.wrap}>
             <div className={styles.heroWrapper}>
               <Image
-                quality={60}
-                layout="fill"
+                width={400}
+                height={400}
                 src={infoAbout?.metadata?.image?.imgix_url}
-                placeholder="blur"
-                blurDataURL={`${infoAbout?.metadata?.image?.imgix_url}?auto=format,compress&q=1&blur=500&w=2`}
-                objectFit="cover"
                 alt="Figures"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
                 priority
               />
             </div>
