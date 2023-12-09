@@ -22,12 +22,14 @@ function Description({ info }) {
           <div className={styles.btns}>
             <button
               aria-hidden="true"
+              type="button"
               onClick={() => handleClick('/search')}
               className={cn('button-stroke', styles.button)}
             >
               Rechercher un cadeau
             </button>
             <button
+              type="button"
               aria-hidden="true"
               onClick={() => handleClick('/upload-details')}
               className={cn('button', styles.button)}
