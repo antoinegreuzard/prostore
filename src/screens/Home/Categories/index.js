@@ -10,7 +10,7 @@ function SlickArrow({
   currentSlide, slideCount, children, ...props
 }) {
   return (
-    <button aria-label="arrow" {...props}>
+    <button aria-label="arrow" {...props} type="button">
       {children}
     </button>
   );
@@ -65,8 +65,8 @@ function Categories({ info, type }) {
                     >
                       <div className={styles.cart}>
                         <div className={styles.gallery}>
-                          {category[key]?.slice(0, 7)?.map((intro, index) => (
-                            <div className={styles.preview} key={index}>
+                          {category[key]?.slice(0, 7)?.map((intro, indexCat) => (
+                            <div className={styles.preview} key={indexCat}>
                               <Image
                                 size={{ width: '100%', height: '98px' }}
                                 src={intro?.metadata?.image?.imgix_url}
