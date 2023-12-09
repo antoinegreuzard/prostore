@@ -16,6 +16,7 @@ function Selection({ info, type }) {
   return (
     <div className={styles.wrapper}>
       <button
+        type="button"
         className={cn('button-stroke', styles.search)}
         onClick={() => handleClick('/search')}
       >
@@ -113,12 +114,13 @@ function Selection({ info, type }) {
                             </div>
                           </div>
                           <button
+                            type="button"
                             className={cn(
                               'button-stroke button-small',
                               styles.button,
                             )}
                           >
-                            Show more
+                            Voir plus
                           </button>
                         </div>
                       </AppLink>
