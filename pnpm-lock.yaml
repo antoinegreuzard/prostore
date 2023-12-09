@@ -101,8 +101,8 @@ devDependencies:
     specifier: ^12.1.6
     version: 12.1.6(eslint@8.10.0)(next@12.1.6)(typescript@4.6.4)
   eslint-config-prettier:
-    specifier: 8.5.0
-    version: 8.5.0(eslint@8.10.0)
+    specifier: 9.1.0
+    version: 9.1.0(eslint@8.10.0)
   eslint-plugin-import:
     specifier: ^2.25.3
     version: 2.26.0(@typescript-eslint/parser@5.25.0)(eslint-import-resolver-typescript@2.7.1)(eslint@8.10.0)
@@ -4862,8 +4862,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-config-prettier@8.5.0(eslint@8.10.0):
-    resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
+  /eslint-config-prettier@9.1.0(eslint@8.10.0):
+    resolution: {integrity: sha512-NSWl5BFQWEPi1j4TjVNItzYV7dZXZ+wP6I6ZhrBGpChQhZRUaElihE9uRRkcbRnNb76UMKDF3r+WTmNcGPKsqw==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
