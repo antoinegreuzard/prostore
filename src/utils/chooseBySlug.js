@@ -1,8 +1,15 @@
 const chooseBySlug = (data, slugName) => {
+  let result = [];
+
   if (data && slugName) {
-    const chooseBySlug = data?.filter((content) => Object.values(content).includes(slugName.toLowerCase()));
-    return chooseBySlug ? chooseBySlug[0] : [];
+    result = data?.filter((content) => (
+      Object.values(content).includes(slugName.toLowerCase())
+    ));
+
+    result = result ? result[0] : [];
   }
+
+  return result;
 };
 
 export default chooseBySlug;
