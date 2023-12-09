@@ -1,6 +1,6 @@
+// Import necessary modules and your haveSecret function
 import { createBucketClient } from '@cosmicjs/sdk';
 import fs from 'fs';
-import path from 'path';
 import haveSecret from './secret';
 
 const formidable = require('formidable');
@@ -19,34 +19,16 @@ export const config = {
   },
 };
 
-function isValidFilename(filename) {
-  // Implement your validation logic here
-  // For example, check against a regular expression for allowed filenames
-  return /^[a-zA-Z0-9.-]+$/.test(filename);
-}
-
+// Function to save the file
 const saveFile = async (file) => {
-  // Define a safe directory
-  const safeDirectory = '/path/to/your/safe/directory/';
-
-  // Extract just the filename and validate it
-  const filename = path.basename(file.originalFilename);
-  if (!isValidFilename(filename)) {
-    throw new Error('Invalid filename');
-  }
-
-  const safeFilePath = path.join(safeDirectory, filename);
-
-  // Read and process the file from a safe file path
-  const filedata = fs.readFileSync(safeFilePath);
+  const filedata = fs.readFileSync(file?.filepath);
   const media = {
-    originalname: filename,
+    originalname: file.originalFilename,
     buffer: filedata,
   };
-
   try {
     await cosmic.media.insertOne({ media });
-    await fs.unlinkSync(safeFilePath);
+    await fs.unlinkSync(file?.filepath);
     return await cosmic.media.insertOne({ media });
   } catch (error) {
     return error;
