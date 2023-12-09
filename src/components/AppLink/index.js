@@ -32,4 +32,8 @@ AppLink.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
+AppLink.defaultProps = {
+  className: '',
+};
+
 export default AppLink;

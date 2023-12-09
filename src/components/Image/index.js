@@ -36,7 +36,7 @@ function ImageApp({
           width: size.width,
           height: size.height,
         }}
-        priority
+        {...priority}
       />
     </div>
   );
