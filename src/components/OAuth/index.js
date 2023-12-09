@@ -46,7 +46,7 @@ function OAuth({
         setFillFiledMessage('');
       }
       setLoading(true);
-      if ((email, password)) {
+      if (email && password) {
         const auth = await fetch('/api/auth', {
           method: 'POST',
           headers: {

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { useRouter } from 'next/router';
 import { useStateContext } from '../utils/context/StateContext';
@@ -47,16 +48,16 @@ function Search({ categoriesGroup, navigationItems, categoryData }) {
 
   const handleFilterDataByParams = useCallback(
     async ({
-      category = activeIndex,
-      min = debouncedMinTerm,
-      max = debouncedMaxTerm,
-      search = debouncedSearchTerm,
+      categoryParam = activeIndex,
+      minParam = debouncedMinTerm,
+      maxParam = debouncedMaxTerm,
+      searchTerm = debouncedSearchTerm,
     }) => {
       const params = handleQueryParams({
-        category,
-        min: min.trim(),
-        max: max.trim(),
-        search: search.toLowerCase().trim(),
+        category: categoryParam,
+        min: minParam.toString().trim(),
+        max: maxParam.toString().trim(),
+        search: searchTerm.toLowerCase().trim(),
       });
 
       push(
@@ -68,10 +69,7 @@ function Search({ categoriesGroup, navigationItems, categoryData }) {
         { shallow: true },
       );
 
-      const filterParam = Object.keys(params).reduce(
-        (acc, key) => `${acc}&${key}=` + `${params[key]}`,
-        '',
-      );
+      const filterParam = Object.keys(params).map((key) => `${key}=${params[key]}`).join('&');
 
       await fetchData(`/api/filter?${filterParam}`);
     },
@@ -88,14 +86,14 @@ function Search({ categoriesGroup, navigationItems, categoryData }) {
   const handleCategoryChange = useCallback(
     async (category) => {
       setActiveIndex(category);
-      handleFilterDataByParams({ category });
+      handleFilterDataByParams({ categoryParam: category });
     },
     [handleFilterDataByParams],
   );
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleFilterDataByParams({ search: debouncedSearchTerm });
+    handleFilterDataByParams({ searchTerm: debouncedSearchTerm });
   };
 
   useEffect(() => {
@@ -103,24 +101,27 @@ function Search({ categoriesGroup, navigationItems, categoryData }) {
 
     if (
       isMount
-      && (debouncedSearchTerm?.length
-        || debouncedMinTerm?.length
-        || debouncedMaxTerm?.length)
+      && (debouncedSearchTerm?.length || debouncedMinTerm?.length || debouncedMaxTerm?.length)
     ) {
       handleFilterDataByParams({
-        min: debouncedMinTerm,
-        max: debouncedMaxTerm,
-        search: debouncedSearchTerm,
+        minParam: debouncedMinTerm,
+        maxParam: debouncedMaxTerm,
+        searchTerm: debouncedSearchTerm,
       });
-    } else {
-      !categoryData?.length
-        && handleFilterDataByParams({ category: activeIndex });
+    } else if (!categoryData?.length) {
+      handleFilterDataByParams({ categoryParam: activeIndex });
     }
 
     return () => {
       isMount = false;
     };
-  }, [debouncedSearchTerm, debouncedMinTerm, debouncedMaxTerm]);
+  }, [
+    debouncedSearchTerm,
+    debouncedMinTerm,
+    debouncedMaxTerm,
+    categoryData?.length,
+    activeIndex,
+    handleFilterDataByParams]);
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
@@ -151,7 +152,7 @@ function Search({ categoriesGroup, navigationItems, categoryData }) {
                     placeholder="Mots clés"
                     required
                   />
-                  <button className={styles.result}>
+                  <button className={styles.result} type="submit">
                     <Icon name="search" size="16" />
                   </button>
                 </form>
@@ -188,6 +189,7 @@ function Search({ categoriesGroup, navigationItems, categoryData }) {
                     [styles.active]: activeIndex === '',
                   })}
                   onClick={() => handleCategoryChange('')}
+                  type="button"
                 >
                   Tous
                 </button>
@@ -199,6 +201,7 @@ function Search({ categoriesGroup, navigationItems, categoryData }) {
                       })}
                       onClick={() => handleCategoryChange(item[0])}
                       key={index}
+                      type="button"
                     >
                       {item[1]}
                     </button>
@@ -223,6 +226,45 @@ function Search({ categoriesGroup, navigationItems, categoryData }) {
   );
 }
 
+Search.propTypes = {
+  categoriesGroup: PropTypes.shape({
+    groups: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)),
+    type: PropTypes.objectOf(PropTypes.string),
+  }).isRequired,
+  navigationItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      metadata: PropTypes.shape({
+        id: PropTypes.number,
+        menu: PropTypes.arrayOf(
+          PropTypes.shape({
+            name: PropTypes.string,
+            link: PropTypes.string,
+          }),
+        ),
+      }),
+    }),
+  ),
+  categoryData: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string,
+    }),
+  ),
+};
+
+Search.defaultProps = {
+  categoryData: [],
+  navigationItems: [
+    {
+      metadata: {
+        menu: [{ name: '' }], // Option 3: Fournir une valeur par défaut pour 'name'
+      },
+    },
+  ],
+};
+
 export default Search;
 
 export async function getServerSideProps({ query }) {
@@ -239,7 +281,12 @@ export async function getServerSideProps({ query }) {
 
   const categoriesGroups = categoryTypes?.map(({ id }, index) => ({ [id]: categoriesData[index] }));
 
-  const categoriesType = categoryTypes?.reduce((arr, { title, id }) => ({ ...arr, [id]: title }), {});
+  const categoriesType = categoryTypes?.reduce((arr, { title, id }) => (
+    {
+      ...arr,
+      [id]: title,
+    }
+  ), {});
 
   const categoriesGroup = { groups: categoriesGroups, type: categoriesType };
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import cn from 'classnames';
 import Image from 'next/image';
+import PropTypes from 'prop-types';
 import Layout from '../components/Layout';
 import chooseBySlug from '../utils/chooseBySlug';
 import { getAllDataByType } from '../lib/cosmic';
@@ -45,6 +46,7 @@ function AboutUs({ navigationItems, landing }) {
             <h3 className={styles.info}>{infoAbout?.metadata?.subtitle}</h3>
             <p className={styles.info}>{infoAbout?.metadata?.description}</p>
             <button
+              type="button"
               onClick={() => handleClick('/search')}
               className={cn('button-stroke', styles.form)}
             >
@@ -56,6 +58,20 @@ function AboutUs({ navigationItems, landing }) {
     </Layout>
   );
 }
+
+AboutUs.propTypes = {
+  navigationItems: PropTypes.arrayOf(PropTypes.shape({
+    metadata: PropTypes.shape({
+    }),
+  })),
+  landing: PropTypes.arrayOf(PropTypes.shape({
+  })),
+};
+
+AboutUs.defaultProps = {
+  navigationItems: [],
+  landing: [],
+};
 
 export default AboutUs;
 

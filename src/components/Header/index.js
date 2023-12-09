@@ -20,7 +20,9 @@ function Headers({ navigation }) {
 
   const handleOAuth = useCallback(
     (user) => {
-      !cosmicUser.hasOwnProperty('id') && user?.hasOwnProperty('id') && setCosmicUser(user);
+      if (!cosmicUser.hasOwnProperty('id') && user?.hasOwnProperty('id')) {
+        setCosmicUser(user);
+      }
     },
     [cosmicUser, setCosmicUser],
   );

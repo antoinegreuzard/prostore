@@ -14,8 +14,13 @@ function Loader({ className, color }) {
 }
 
 Loader.propTypes = {
-  className: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  color: PropTypes.string,
+};
+
+Loader.defaultProps = {
+  className: '',
+  color: '',
 };
 
 export default Loader;

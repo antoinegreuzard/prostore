@@ -1,5 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
+import PropTypes from 'prop-types';
 
 const icons = {
   search:
@@ -93,7 +94,7 @@ const icons = {
     'M8 1.333a28.06 28.06 0 0 1 3.639.246c1.465.193 2.588 1.317 2.782 2.782.133 1.007.246 2.266.246 3.639s-.113 2.632-.246 3.639c-.193 1.465-1.317 2.588-2.782 2.782-1.007.133-2.266.246-3.639.246s-2.632-.113-3.639-.246c-1.465-.193-2.588-1.317-2.782-2.782A28.06 28.06 0 0 1 1.333 8a28.06 28.06 0 0 1 .246-3.639c.193-1.465 1.317-2.588 2.782-2.782A28.06 28.06 0 0 1 8 1.333zm2.667 6H5.333c-.368 0-.667.298-.667.667s.298.667.667.667h5.333c.368 0 .667-.298.667-.667s-.298-.667-.667-.667z',
 };
 
-function Icon(props) {
+function Icon(props = {}) {
   const size = props.size ? props.size : 16;
   const fill = props.fill ? props.fill : 'inherit';
   return (
@@ -108,5 +109,19 @@ function Icon(props) {
     </svg>
   );
 }
+
+Icon.propTypes = {
+  className: PropTypes.string,
+  fill: PropTypes.string,
+  name: PropTypes.string,
+  size: PropTypes.string,
+};
+
+Icon.defaultProps = {
+  className: '',
+  fill: 'inherit',
+  name: '',
+  size: '',
+};
 
 export default Icon;

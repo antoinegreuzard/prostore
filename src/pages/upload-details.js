@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import cn from 'classnames';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import PropTypes from 'prop-types';
 import { useStateContext } from '../utils/context/StateContext';
 import Layout from '../components/Layout';
 import Icon from '../components/Icon';
@@ -60,9 +61,9 @@ function Upload({ navigationItems, categoriesType }) {
   }, [cosmicUser]);
 
   const handleUploadFile = useCallback(
-    async (uploadFile) => {
+    async (uploadFileHandle) => {
       const formData = new FormData();
-      formData.append('file', uploadFile);
+      formData.append('file', uploadFileHandle);
 
       try {
         const uploadResult = await fetch('/api/upload', {
@@ -76,7 +77,7 @@ function Upload({ navigationItems, categoriesType }) {
         const mediaData = await uploadResult.json();
         setUploadMedia(mediaData?.media);
       } catch (error) {
-        console.error('Erreur lors du téléversement du fichier:', error);
+        Error(error.status);
       }
     },
     [jwtToken],
@@ -84,10 +85,12 @@ function Upload({ navigationItems, categoriesType }) {
 
   const handleOAuth = useCallback(
     async (user) => {
-      !cosmicUser.hasOwnProperty('id') && setVisibleAuthModal(true);
+      if (!cosmicUser.hasOwnProperty('id')) {
+        setVisibleAuthModal(true);
+      }
 
       if (!user && !user?.hasOwnProperty('id')) return;
-      user && uploadFile && (await handleUploadFile(uploadFile));
+      if (user && uploadFile) { (await handleUploadFile(uploadFile)); }
     },
     [cosmicUser, uploadFile, handleUploadFile],
   );
@@ -95,9 +98,11 @@ function Upload({ navigationItems, categoriesType }) {
   const handleUpload = async (e) => {
     setUploadFile(e.target.files[0]);
 
-    cosmicUser?.hasOwnProperty('id')
-      ? await handleUploadFile(e.target.files[0])
-      : await handleOAuth();
+    if (cosmicUser?.hasOwnProperty('id')) {
+      await handleUploadFile(e.target.files[0]);
+    } else {
+      await handleOAuth();
+    }
   };
 
   const handleChange = ({ target: { name, value } }) => setFields((prevFields) => ({
@@ -111,7 +116,7 @@ function Upload({ navigationItems, categoriesType }) {
 
   const previewForm = useCallback(() => {
     if (title && count && price && email && uploadMedia) {
-      fillFiledMessage && setFillFiledMessage(false);
+      if (fillFiledMessage) { setFillFiledMessage(false); }
       setVisiblePreview(true);
     } else {
       setFillFiledMessage(true);
@@ -121,10 +126,10 @@ function Upload({ navigationItems, categoriesType }) {
   const submitForm = useCallback(
     async (e) => {
       e.preventDefault();
-      !cosmicUser.hasOwnProperty('id') && (await handleOAuth());
+      if (!cosmicUser.hasOwnProperty('id')) { (await handleOAuth()); }
 
       if (cosmicUser && title && count && price && email && uploadMedia) {
-        fillFiledMessage && setFillFiledMessage(false);
+        if (fillFiledMessage) { setFillFiledMessage(false); }
 
         const token = getToken()?.hasOwnProperty('token');
 
@@ -307,7 +312,7 @@ function Upload({ navigationItems, categoriesType }) {
                 {fillFiledMessage && (
                   <div className={styles.saving}>
                     <span>Merci de remplir tous les champs obligatoires</span>
-                    <Loader className={styles.loader} />
+                    <Loader className={styles.loader} color="" />
                   </div>
                 )}
               </div>
@@ -339,13 +344,33 @@ function Upload({ navigationItems, categoriesType }) {
   );
 }
 
+Upload.propTypes = {
+  navigationItems: PropTypes.arrayOf(PropTypes.shape({
+    metadata: PropTypes.shape({
+      id: PropTypes.number,
+    }),
+  })),
+  categoriesType: PropTypes.shape({
+  }),
+};
+
+Upload.defaultProps = {
+  navigationItems: [],
+  categoriesType: {},
+};
+
 export default Upload;
 
 export async function getServerSideProps() {
   const navigationItems = (await getAllDataByType('navigation')) || [];
   const categoryTypes = (await getAllDataByType('categories')) || [];
 
-  const categoriesType = categoryTypes?.reduce((arr, { title, id }) => ({ ...arr, [id]: title }), {});
+  const categoriesType = categoryTypes?.reduce((arr, { title, id }) => (
+    {
+      ...arr,
+      [id]: title,
+    }
+  ), {});
 
   return {
     props: { navigationItems, categoriesType },

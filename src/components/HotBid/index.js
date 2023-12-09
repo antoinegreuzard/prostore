@@ -18,6 +18,18 @@ function SlickArrow({
   );
 }
 
+SlickArrow.propTypes = {
+  currentSlide: PropTypes.number,
+  slideCount: PropTypes.number,
+  children: PropTypes.node,
+};
+
+SlickArrow.defaultProps = {
+  currentSlide: 0,
+  slideCount: 0,
+  children: 0,
+};
+
 const settings = {
   infinite: true,
   speed: 700,
@@ -78,10 +90,14 @@ function Hot({ classSection, info }) {
 
 Hot.propTypes = {
   classSection: PropTypes.string,
+  info: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  })),
 };
 
 Hot.defaultProps = {
   classSection: '',
+  info: [],
 };
 
 export default Hot;

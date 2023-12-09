@@ -7,9 +7,9 @@ const useFetchData = (initialData = {}, method = 'GET') => {
 
   const fetchData = useCallback(
     async (url, body) => {
-      if (!url) return;
+      if (!url) return null;
       setIsLoading(true);
-      hasError && setHasError(false);
+      if (hasError) { setHasError(false); }
 
       const response = await fetch(url, {
         method,
@@ -24,7 +24,7 @@ const useFetchData = (initialData = {}, method = 'GET') => {
         setData(result.objects);
       } else {
         setData(initialData);
-        !hasError && setHasError(true);
+        if (!hasError) { setHasError(true); }
       }
 
       setIsLoading(false);

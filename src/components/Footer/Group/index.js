@@ -17,7 +17,7 @@ function Group({ className }) {
         const data = await getAllDataByType('categories');
         setCategories(data);
       } catch (error) {
-        Error(error);
+        Error(error.status);
       }
     };
 

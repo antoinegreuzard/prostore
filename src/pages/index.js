@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useStateContext } from '../utils/context/StateContext';
 import Layout from '../components/Layout';
 import { Categories, Description, HotBid } from '../screens/Home';
@@ -57,6 +58,32 @@ function Home({
   );
 }
 
+Home.propTypes = {
+  landing: PropTypes.arrayOf(PropTypes.shape({
+  })),
+  categoriesGroup: PropTypes.shape({
+    groups: PropTypes.arrayOf(PropTypes.shape({
+    })),
+    type: PropTypes.objectOf(PropTypes.string),
+  }),
+  categoryTypes: PropTypes.arrayOf(PropTypes.shape({
+  })),
+  navigationItems: PropTypes.arrayOf(PropTypes.shape({
+    metadata: PropTypes.shape({
+    }),
+  })),
+};
+
+Home.defaultProps = {
+  landing: [],
+  categoriesGroup: {
+    groups: [],
+    type: {},
+  },
+  categoryTypes: [],
+  navigationItems: [],
+};
+
 export default Home;
 
 export async function getServerSideProps() {
@@ -69,7 +96,10 @@ export async function getServerSideProps() {
 
   const categoriesGroups = categoryTypes?.map(({ id }, index) => ({ [id]: categoriesData[index] }));
 
-  const categoriesType = categoryTypes?.reduce((arr, { title, id }) => ({ ...arr, [id]: title }), {});
+  const categoriesType = categoryTypes?.reduce(
+    (arr, { title, id }) => ({ ...arr, [id]: title }),
+    {},
+  );
 
   const categoriesGroup = { groups: categoriesGroups, type: categoriesType };
 

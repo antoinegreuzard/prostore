@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import cn from 'classnames';
+import PropTypes from 'prop-types';
 import Layout from '../components/Layout';
 import Image from '../components/Image';
 import { getAllDataByType } from '../lib/cosmic';
@@ -31,6 +32,7 @@ function NotFound({ navigationItems }) {
               Désolé, nous n’avons trouvé aucun résultat pour cette recherche.
             </h2>
             <button
+              type="button"
               onClick={() => handleClick('/search')}
               className={cn('button-stroke', styles.form)}
             >
@@ -42,6 +44,13 @@ function NotFound({ navigationItems }) {
     </Layout>
   );
 }
+
+NotFound.propTypes = {
+  navigationItems: PropTypes.arrayOf(PropTypes.shape({
+    metadata: PropTypes.shape({
+    }),
+  })).isRequired,
+};
 
 export default NotFound;
 

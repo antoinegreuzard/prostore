@@ -17,9 +17,9 @@ export const removeToken = async () => {
   try {
     const response = await fetch('/api/logout', { method: 'POST' });
     if (!response.ok) {
-      Error('Problème lors de la déconnexion');
+      Error(response.status);
     }
   } catch (error) {
-    Error(error);
+    Error(error.status);
   }
 };

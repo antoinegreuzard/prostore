@@ -2,27 +2,17 @@ import React, { useCallback, useEffect, useState } from 'react';
 import cn from 'classnames';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
-import { createBucketClient } from '@cosmicjs/sdk';
-import { useStateContext } from '../../utils/context/StateContext';
+import PropTypes from 'prop-types';
 import Layout from '../../components/Layout';
 import Discover from '../../screens/Home/Discover';
 import Modal from '../../components/Modal';
 import OAuth from '../../components/OAuth';
 import Image from '../../components/Image';
 import { PageMeta } from '../../components/Meta';
-import {
-  getAllDataByType,
-  getDataByCategory,
-  getDataBySlug,
-} from '../../lib/cosmic';
-
+import { getDataByCategory, getDataBySlug, getAllDataByType } from '../../lib/cosmic';
 import styles from '../../styles/pages/Item.module.sass';
 import { getToken } from '../../utils/token';
-
-const cosmic = createBucketClient({
-  bucketSlug: process.env.NEXT_PUBLIC_COSMIC_BUCKET_SLUG,
-  readKey: process.env.NEXT_PUBLIC_COSMIC_READ_KEY,
-});
+import { useStateContext } from '../../utils/context/StateContext';
 
 function Item({ itemInfo, categoriesGroup, navigationItems }) {
   const { cosmicUser } = useStateContext();
@@ -35,23 +25,19 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
 
   const idProduct = itemInfo[0].id;
 
-  const counts = itemInfo?.[0]?.metadata?.count
-    ? Array(itemInfo[0]?.metadata?.count)
-      .fill(1)
-      .map((_, index) => index + 1)
-    : ['Non disponible'];
-
   const handleOAuth = useCallback(
     async (user) => {
-      !cosmicUser.hasOwnProperty('id') && setVisibleAuthModal(true);
+      if (!cosmicUser.id) {
+        setVisibleAuthModal(true);
+      }
 
-      if (!user && !user?.hasOwnProperty('id')) return false;
+      return !(!user || !user.id);
     },
     [cosmicUser],
   );
 
   useEffect(() => {
-    if (cosmicUser.id && itemInfo && cosmicUser?.email === itemInfo[0]?.metadata.email) {
+    if (cosmicUser.id && itemInfo && cosmicUser.email === itemInfo[0].metadata.email) {
       setShowDeleteButton(true);
     }
   }, [cosmicUser, itemInfo]);
@@ -59,27 +45,32 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
   const deleteProduct = useCallback(
     async (e) => {
       e.preventDefault();
-      !cosmicUser.hasOwnProperty('id') && handleOAuth();
 
-      fillFiledMessage && setFillFiledMessage(false);
+      if (!cosmicUser.id) {
+        handleOAuth();
+      }
 
-      if (!cosmicUser && !idProduct) {
+      if (fillFiledMessage) {
+        setFillFiledMessage(false);
+      }
+
+      if (!cosmicUser || !idProduct) {
         setFillFiledMessage(true);
         return;
       }
 
-      const token = getToken()?.hasOwnProperty('token');
+      const token = getToken()?.token;
 
       const response = await fetch('/api/delete', {
         method: 'DELETE',
-        body: idProduct,
+        body: JSON.stringify({ idProduct }),
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
       });
 
-      let deleteItem;
-      deleteItem = await response.json();
+      const deleteItem = await response.json();
 
       if (deleteItem.message) {
         toast.success('Le cadeau a bien été supprimé', { position: 'bottom-right' });
@@ -89,14 +80,14 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
     [fillFiledMessage, setFillFiledMessage, push, handleOAuth, cosmicUser, idProduct],
   );
 
-  const handleMailto = async () => {
-    window.location.href = `mailto:${itemInfo[0]?.metadata.email}`;
+  const handleMailto = () => {
+    window.location.href = `mailto:${itemInfo[0].metadata.email}`;
   };
 
   return (
-    <Layout navigationPaths={navigationItems[0]?.metadata}>
+    <Layout navigationPaths={navigationItems[0].metadata}>
       <PageMeta
-        title={`${itemInfo[0]?.title} | Marché de Noël EDS du campus de Lyon`}
+        title={`${itemInfo[0].title} | Marché de Noël EDS du campus de Lyon`}
         description="Marché de Noël EDS du campus de Lyon"
       />
       <div className={cn('section', styles.section)}>
@@ -106,8 +97,8 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
               <div className={styles.image}>
                 <Image
                   size={{ width: '100%', height: '100%' }}
-                  srcSet={`${itemInfo[0]?.metadata?.image?.imgix_url}`}
-                  src={itemInfo[0]?.metadata?.image?.imgix_url}
+                  srcSet={`${itemInfo[0].metadata.image.imgix_url}`}
+                  src={itemInfo[0].metadata.image.imgix_url}
                   alt="Item"
                   objectFit="cover"
                 />
@@ -115,31 +106,29 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
             </div>
           </div>
           <div className={styles.details}>
-            <h1 className={cn('h3', styles.title)}>{itemInfo[0]?.title}</h1>
+            <h1 className={cn('h3', styles.title)}>{itemInfo[0].title}</h1>
             <div className={styles.cost}>
               <div className={cn('status-stroke-green', styles.price)}>
-                {`${itemInfo[0]?.metadata?.price} €`}
+                {`${itemInfo[0].metadata.price} €`}
               </div>
               <div className={styles.counter}>
-                {itemInfo[0]?.metadata?.count > 0
-                  ? `${itemInfo[0]?.metadata?.count} en stock`
+                {itemInfo[0].metadata.count > 0
+                  ? `${itemInfo[0].metadata.count} en stock`
                   : 'Non disponible'}
               </div>
             </div>
             <div className={styles.info}>
-              {itemInfo[0]?.metadata?.description}
+              {itemInfo[0].metadata.description}
             </div>
             <div className={styles.nav}>
-              {itemInfo[0]?.metadata?.categories?.map((x, index) => (
+              {itemInfo[0].metadata.categories.map((x, index) => (
                 <button
-                  className={cn(
-                    { [styles.active]: index === activeIndex },
-                    styles.link,
-                  )}
+                  type="button"
+                  className={cn({ [styles.active]: index === activeIndex }, styles.link)}
                   onClick={() => setActiveIndex(index)}
                   key={index}
                 >
-                  {x?.title}
+                  {x.title}
                 </button>
               ))}
             </div>
@@ -147,6 +136,7 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
               {!showDeleteButton && (
                 <div className={styles.btns}>
                   <button
+                    type="button"
                     className={cn('button', styles.button)}
                     onClick={handleMailto}
                   >
@@ -157,6 +147,7 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
               {showDeleteButton && (
                 <div className={styles.btns}>
                   <button
+                    type="button"
                     className={cn('button button-red', styles.button)}
                     onClick={deleteProduct}
                   >
@@ -186,6 +177,34 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
   );
 }
 
+Item.propTypes = {
+  itemInfo: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    metadata: PropTypes.shape({
+      email: PropTypes.string,
+      image: PropTypes.shape({
+        imgix_url: PropTypes.string,
+      }),
+      price: PropTypes.number,
+      count: PropTypes.number,
+      description: PropTypes.string,
+      categories: PropTypes.arrayOf(PropTypes.shape({
+        title: PropTypes.string,
+      })),
+    }),
+  })).isRequired,
+  categoriesGroup: PropTypes.shape({
+    groups: PropTypes.arrayOf(PropTypes.shape({
+    })),
+    type: PropTypes.objectOf(PropTypes.string),
+  }).isRequired,
+  navigationItems: PropTypes.arrayOf(PropTypes.shape({
+    metadata: PropTypes.shape({
+    }),
+  })).isRequired,
+};
+
 export default Item;
 
 export async function getServerSideProps({ params }) {
@@ -194,12 +213,20 @@ export async function getServerSideProps({ params }) {
   const navigationItems = (await getAllDataByType('navigation')) || [];
   const categoryTypes = (await getAllDataByType('categories')) || [];
   const categoriesData = await Promise.all(
-    categoryTypes?.map((category) => getDataByCategory(category?.id)),
+    categoryTypes.map((category) => getDataByCategory(category.id)),
   );
 
-  const categoriesGroups = categoryTypes?.map(({ id }, index) => ({ [id]: categoriesData[index] }));
+  const categoriesGroups = categoryTypes.map(({ id }, index) => ({ [id]: categoriesData[index] }));
 
-  const categoriesType = categoryTypes?.reduce((arr, { title, id }) => ({ ...arr, [id]: title }), {});
+  const categoriesType = categoryTypes.reduce((
+    arr,
+    { title, id },
+  ) => ({
+    ...arr,
+    [id]:
+       title,
+  }
+  ), {});
 
   const categoriesGroup = { groups: categoriesGroups, type: categoriesType };
 
