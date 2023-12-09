@@ -54,6 +54,7 @@ function Intro({ info }) {
                   </div>
                   <div className={styles.btns}>
                     <button
+                      type="button"
                       onClick={() => handleClick('/search')}
                       className={cn('button-stroke', styles.button)}
                     >
