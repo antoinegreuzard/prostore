@@ -1,33 +1,35 @@
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 
-/* This is necessary if you’re using libraries like styled-components.
-Without this, the <a> tag will not have the href attribute,
-which might hurt your site’s SEO.
-https://nextjs.org/docs/api-reference/next/link */
-
 function AppLink({ href, className, children }) {
-  const hrefPath = href?.startsWith('http');
+  const isExternalLink = href?.startsWith('http');
 
-  return (
-    <Link href={href} passHref aria-hidden="true" target={hrefPath ? '_blank' : '_self'} rel={hrefPath && 'noopener noreferrer'}>
-      <a target={hrefPath ? '_blank' : '_self'} className={className} aria-hidden="true" href={hrefPath} rel="noreferrer">
+  if (isExternalLink) {
+    // Pour les liens externes, utilisez directement une balise <a>
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+        aria-hidden="true"
+      >
         {children}
       </a>
+    );
+  }
+  // Pour les liens internes, utilisez le composant <Link> de Next.js
+  return (
+    <Link href={href} className={className} aria-hidden="true">
+      {children}
     </Link>
   );
 }
 
 AppLink.propTypes = {
-  href: PropTypes.string,
+  href: PropTypes.string.isRequired,
   className: PropTypes.string,
-  children: PropTypes.node,
-};
-
-AppLink.defaultProps = {
-  href: '',
-  className: '',
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
 };
 
 export default AppLink;

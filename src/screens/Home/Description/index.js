@@ -41,14 +41,16 @@ function Description({ info }) {
         <div className={styles.gallery}>
           <div className={styles.heroWrapper}>
             <Image
-              quality={60}
               className={styles.preview}
-              layout="fill"
               src={info?.metadata?.image?.imgix_url}
-              placeholder="blur"
-              blurDataURL={`${info?.metadata?.image?.imgix_url}?auto=format,compress&q=1&blur=500&w=2`}
-              objectFit="cover"
               alt={info?.metadata?.title}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+              width={960}
+              height={470}
               priority
             />
           </div>

@@ -22,7 +22,6 @@ function Footers({ navigation }) {
                 src={navigation.logo?.imgix_url}
                 srcDark={navigation.logo?.imgix_url}
                 alt="Logo"
-                objectFit="contain"
               />
             </AppLink>
             <div className={styles.info}>Marché de Noël EDS du campus de Lyon</div>
