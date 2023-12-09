@@ -15,7 +15,6 @@ function Card({ className, item }) {
             size={{ width: '100%', height: '360px' }}
             src={item?.metadata?.image?.imgix_url}
             alt="Card"
-            objectFit="cover"
           />
           <div className={styles.control}>
             <div className={styles.category}>{item?.title}</div>

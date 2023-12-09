@@ -48,7 +48,6 @@ function User({ className, user }) {
             size={{ width: '32px', height: '32px' }}
             src={user?.avatar_url || '/images/content/avatar.png'}
             alt="Avatar"
-            objectFit="cover"
           />
           <div className={styles.wallet}>{user?.first_name || 'User'}</div>
         </div>

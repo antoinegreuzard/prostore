@@ -40,7 +40,6 @@ function Intro({ info }) {
                   src={info?.metadata?.image?.imgix_url}
                   srcDark={info?.metadata?.image?.imgix_url}
                   alt="Introduction"
-                  objectFit="contain"
                 />
                 <div className={styles.details}>
                   <h3 className={cn('h3', styles.subtitle)}>

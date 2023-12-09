@@ -100,7 +100,6 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
                   srcSet={`${itemInfo[0].metadata.image.imgix_url}`}
                   src={itemInfo[0].metadata.image.imgix_url}
                   alt="Item"
-                  objectFit="cover"
                 />
               </div>
             </div>

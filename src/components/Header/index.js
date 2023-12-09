@@ -52,7 +52,6 @@ function Headers({ navigation }) {
             <Image
               width={50}
               height={50}
-              objectFit="cover"
               className={styles.pic}
               src={navigation.logo?.imgix_url}
               alt="Logo"
