@@ -1,26 +1,28 @@
+// Import necessary modules
 import { withIronSessionApiRoute } from 'iron-session/next';
 import { APP_KEY } from '../../utils/constants/appConstants';
 
 require('dotenv').config();
 
-const haveSecret = withIronSessionApiRoute(
-  // eslint-disable-next-line consistent-return
-  async (req, res, next) => {
-    try {
-      const { user } = req.session;
-      if (!user) {
-        return res.status(401).json('Accès refusé');
-      }
-      req.userId = user.id;
-      next();
-    } catch (error) {
-      res.status(500).json(error.message);
+const haveSecret = (handler) => withIronSessionApiRoute(async (req, res) => {
+  try {
+    const { user } = req.session;
+    if (!user) {
+      res.status(401).json({ error: 'Accès refusé' });
+      return undefined; // Explicitly return undefined
     }
-  },
-  {
-    cookieName: APP_KEY,
-    password: process.env.SECRET_KEY,
-  },
-);
+    req.userId = user.id;
+
+    // Call the original handler now that we've handled the session check
+    await handler(req, res);
+    return undefined; // Explicitly return undefined
+  } catch (error) {
+    res.status(error.status || 500).json({ error: error.message });
+    return undefined; // Explicitly return undefined
+  }
+}, {
+  cookieName: APP_KEY,
+  password: process.env.SECRET_KEY,
+});
 
 export default haveSecret;

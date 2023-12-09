@@ -7,14 +7,11 @@ const cosmic = createBucketClient({
   writeKey: process.env.COSMIC_WRITE_KEY,
 });
 
-const createHandler = async (
-  {
-    body: {
-      title, description, price, count, image, categories, email,
-    },
-  },
-  res,
-) => {
+const createHandler = async (req, res) => {
+  const {
+    title, description, price, count, image, categories, email,
+  } = req.body;
+
   const metadata = {
     description,
     price: Number(price),
@@ -33,13 +30,9 @@ const createHandler = async (
     });
     res.status(200).json(data);
   } catch (error) {
-    res.status(error.status).json(error.message);
+    res.status(error.status || 500).json({ error: error.message });
   }
 };
 
-const handler = async (req, res) => {
-  await haveSecret(req, res, async () => {
-    await createHandler(req, res);
-  });
-};
-export default handler;
+// Wrap createHandler with haveSecret
+export default haveSecret(createHandler);
