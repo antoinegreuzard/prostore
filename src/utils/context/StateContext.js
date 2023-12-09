@@ -2,8 +2,8 @@ import {
   createContext,
   useContext,
   useState,
-  useEffect,
   useCallback,
+  useMemo,
 } from 'react';
 import { toast } from 'react-hot-toast';
 
@@ -21,11 +21,14 @@ export function StateContext({ children }) {
   });
 
   const onCategoriesChange = useCallback((content) => {
-    setCategories((prevFields) => ({ ...prevFields, ...content }));
+    setCategories((prevFields) => ({
+      ...prevFields,
+      ...content,
+    }));
   }, []);
 
   const onAdd = (product, quantity) => {
-    const checkProductInCart = cartItems.find((item) => item._id === product._id);
+    const checkProductInCart = cartItems.find((item) => item.id === product.id);
 
     setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price * quantity);
     setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + quantity);
@@ -35,56 +38,56 @@ export function StateContext({ children }) {
     });
 
     if (checkProductInCart) {
-      const updatedCartItems = cartItems.map((cartProduct) => {
-        if (cartProduct.id === product.id) {
-          return {
-            ...cartProduct,
-            quantity: cartProduct.quantity + quantity,
-          };
-        }
-      });
+      const updatedCartItems = cartItems.map((cartProduct) => ((cartProduct.id === product.id)
+        ? { ...cartProduct, quantity: cartProduct.quantity + quantity }
+        : cartProduct));
 
       setCartItems(updatedCartItems);
       return updatedCartItems;
     }
-    product.quantity = quantity;
 
-    setCartItems([...cartItems, { ...product }]);
-    return [...cartItems, { ...product }];
+    const newProduct = { ...product, quantity };
+    setCartItems((s) => [...s, newProduct]);
+    return newProduct;
   };
 
   const onRemove = (product) => {
-    foundProduct = cartItems.find((item) => item._id === product._id);
-    const newCartItems = cartItems.filter((item) => item._id !== product._id);
+    const foundProduct = cartItems.find((item) => item.id === product.id);
+    if (!foundProduct) return;
 
-    setTotalPrice(
-      (prevTotalPrice) => prevTotalPrice - foundProduct.price * foundProduct.quantity,
-    );
-    setTotalQuantities(
-      (prevTotalQuantities) => prevTotalQuantities - foundProduct.quantity,
-    );
+    const newCartItems = cartItems.filter((item) => item.id !== product.id);
+
+    setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price * foundProduct.quantity);
+    setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - foundProduct.quantity);
     setCartItems(newCartItems);
   };
 
+  const contextValues = useMemo(() => ({
+    cartItems,
+    totalPrice,
+    totalQuantities,
+    onAdd,
+    onRemove,
+    setCartItems,
+    setTotalPrice,
+    setTotalQuantities,
+    categories,
+    onCategoriesChange,
+    navigation,
+    setNavigation,
+    cosmicUser,
+    setCosmicUser,
+  }), [
+    cartItems,
+    totalPrice,
+    totalQuantities,
+    categories,
+    navigation,
+    cosmicUser,
+  ]);
+
   return (
-    <Context.Provider
-      value={{
-        cartItems,
-        totalPrice,
-        totalQuantities,
-        onAdd,
-        onRemove,
-        setCartItems,
-        setTotalPrice,
-        setTotalQuantities,
-        categories,
-        onCategoriesChange,
-        navigation,
-        setNavigation,
-        cosmicUser,
-        setCosmicUser,
-      }}
-    >
+    <Context.Provider value={contextValues}>
       {children}
     </Context.Provider>
   );
