@@ -15,8 +15,6 @@ jobs:
           node-version-file: ".nvmrc"
       - name: Install pnpm
         run: npm install -g pnpm
-      - name: Lint
-        run: pnpm run lint
       - name: Install dependencies
         run: pnpm ci
       - name: Lint
