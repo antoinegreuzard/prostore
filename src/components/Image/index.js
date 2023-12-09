@@ -17,11 +17,10 @@ function ImageApp({
     height: size.height.replace('px', ''),
   };
 
-  if (newSize.width === '100%') {
+  if (!Number.isInteger(newSize.width)) {
     newSize.width = '1000';
   }
-
-  if (newSize.height === '100%') {
+  if (!Number.isInteger(newSize.height)) {
     newSize.height = '1000';
   }
 
@@ -34,8 +33,8 @@ function ImageApp({
         height={newSize.height} // Replace with actual height
         style={{
           objectFit: 'cover',
-          width: '100%',
-          height: '100%',
+          width: size.width,
+          height: size.height,
         }}
         priority
       />
