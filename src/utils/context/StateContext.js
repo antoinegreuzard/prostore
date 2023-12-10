@@ -6,6 +6,7 @@ import {
   useMemo,
 } from 'react';
 import { toast } from 'react-hot-toast';
+import { Analytics } from '@vercel/analytics/react';
 
 const Context = createContext();
 
@@ -89,6 +90,7 @@ export function StateContext({ children }) {
   return (
     <Context.Provider value={contextValues}>
       {children}
+      <Analytics />
     </Context.Provider>
   );
 }
