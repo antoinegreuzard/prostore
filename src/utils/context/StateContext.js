@@ -6,7 +6,6 @@ import {
   useMemo,
 } from 'react';
 import { toast } from 'react-hot-toast';
-// eslint-disable-next-line import/no-unresolved
 import { Analytics } from '@vercel/analytics/react';
 
 const Context = createContext();
