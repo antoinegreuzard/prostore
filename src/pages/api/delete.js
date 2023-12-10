@@ -10,10 +10,10 @@ const cosmic = createBucketClient({
 const deleteHandler = async (req, res) => {
   try {
     const data = await cosmic.objects.deleteOne(req.body);
-    res.status(200).json(data);
+    res.status(200).json({ data, messageOK: 'Le cadeau a bien été supprimé' });
   } catch (error) {
     const statusCode = error.status || 500;
-    res.status(statusCode).json({ error: error.message });
+    res.status(statusCode).json({ error });
   }
 };
 
