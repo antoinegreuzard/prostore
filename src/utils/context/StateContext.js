@@ -8,6 +8,7 @@ import {
 import { toast } from 'react-hot-toast';
 // eslint-disable-next-line import/no-unresolved
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const Context = createContext();
 
@@ -92,6 +93,7 @@ export function StateContext({ children }) {
     <Context.Provider value={contextValues}>
       {children}
       <Analytics />
+      <SpeedInsights />
     </Context.Provider>
   );
 }
