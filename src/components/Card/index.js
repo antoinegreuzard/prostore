@@ -35,7 +35,6 @@ function Card({ className, item }) {
           </div>
           <div
             className={styles.bid}
-            dangerouslySetInnerHTML={{ __html: item?.count }}
           />
           <span className={styles.price}>{`${item?.metadata?.price} €`}</span>
         </div>
