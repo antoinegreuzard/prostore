@@ -47,7 +47,7 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
       e.preventDefault();
 
       if (!cosmicUser.id) {
-        handleOAuth();
+        await handleOAuth();
       }
 
       if (fillFiledMessage) {
@@ -63,17 +63,16 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
 
       const response = await fetch('/api/delete', {
         method: 'DELETE',
-        body: JSON.stringify({ idProduct }),
+        body: idProduct,
         headers: {
           Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
         },
       });
 
       const deleteItem = await response.json();
 
-      if (deleteItem.message) {
-        toast.success('Le cadeau a bien été supprimé', { position: 'bottom-right' });
+      if (deleteItem.data.message && deleteItem.messageOK === 'Le cadeau a bien été supprimé') {
+        toast.success(deleteItem.messageOK, { position: 'bottom-right' });
         setTimeout(() => { push('/search'); }, 3000);
       }
     },
