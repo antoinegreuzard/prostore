@@ -123,7 +123,7 @@ function Discover({ info, type }) {
     return () => {
       isMount = false;
     };
-  }, [debouncedMaxTerm, debouncedMinTerm]);
+  }, [debouncedMaxTerm, debouncedMinTerm, activeIndex, handleFilterDataByParams]);
 
   return (
     <div className={cn('section', styles.section)}>
