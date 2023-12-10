@@ -31,7 +31,7 @@ export function StateContext({ children }) {
     }));
   }, []);
 
-  const onAdd = (product, quantity) => {
+  const onAdd = useCallback((product, quantity) => {
     const checkProductInCart = cartItems.find((item) => item.id === product.id);
 
     setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price * quantity);
@@ -53,9 +53,9 @@ export function StateContext({ children }) {
     const newProduct = { ...product, quantity };
     setCartItems((s) => [...s, newProduct]);
     return newProduct;
-  };
+  }, [cartItems]);
 
-  const onRemove = (product) => {
+  const onRemove = useCallback((product) => {
     const foundProduct = cartItems.find((item) => item.id === product.id);
     if (!foundProduct) return;
 
@@ -64,7 +64,7 @@ export function StateContext({ children }) {
     setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price * foundProduct.quantity);
     setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - foundProduct.quantity);
     setCartItems(newCartItems);
-  };
+  }, [cartItems]);
 
   const contextValues = useMemo(() => ({
     cartItems,
@@ -88,6 +88,9 @@ export function StateContext({ children }) {
     categories,
     navigation,
     cosmicUser,
+    onAdd,
+    onRemove,
+    onCategoriesChange,
   ]);
 
   return (
