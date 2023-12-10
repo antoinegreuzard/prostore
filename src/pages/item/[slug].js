@@ -72,12 +72,21 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
 
       const deleteItem = await response.json();
 
-      if (deleteItem.data.message && deleteItem.messageOK === 'Le cadeau a bien été supprimé') {
+      console.log(deleteItem);
+
+      if (deleteItem.messageOK && deleteItem.messageOK === 'Le cadeau a bien été supprimé') {
         toast.success(deleteItem.messageOK, { position: 'bottom-right' });
         setTimeout(() => { push('/search'); }, 3000);
       }
     },
-    [fillFiledMessage, setFillFiledMessage, push, handleOAuth, cosmicUser, idProduct],
+    [
+      fillFiledMessage,
+      setFillFiledMessage,
+      push,
+      handleOAuth,
+      cosmicUser,
+      idProduct,
+      showDeleteButton],
   );
 
   const handleMailto = () => {
