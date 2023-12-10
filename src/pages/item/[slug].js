@@ -63,20 +63,30 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
 
       const response = await fetch('/api/delete', {
         method: 'DELETE',
-        body: idProduct,
+        body: JSON.stringify({ id: idProduct, creator: showDeleteButton }),
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
       });
 
       const deleteItem = await response.json();
 
-      if (deleteItem.data.message && deleteItem.messageOK === 'Le cadeau a bien été supprimé') {
+      console.log(deleteItem);
+
+      if (deleteItem.messageOK && deleteItem.messageOK === 'Le cadeau a bien été supprimé') {
         toast.success(deleteItem.messageOK, { position: 'bottom-right' });
         setTimeout(() => { push('/search'); }, 3000);
       }
     },
-    [fillFiledMessage, setFillFiledMessage, push, handleOAuth, cosmicUser, idProduct],
+    [
+      fillFiledMessage,
+      setFillFiledMessage,
+      push,
+      handleOAuth,
+      cosmicUser,
+      idProduct,
+      showDeleteButton],
   );
 
   const handleMailto = () => {

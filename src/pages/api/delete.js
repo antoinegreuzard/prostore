@@ -9,8 +9,12 @@ const cosmic = createBucketClient({
 
 const deleteHandler = async (req, res) => {
   try {
-    const data = await cosmic.objects.deleteOne(req.body);
-    res.status(200).json({ data, messageOK: 'Le cadeau a bien été supprimé' });
+    const data = await cosmic.objects.deleteOne(req.body.id);
+    if (req.body.creator) {
+      res.status(200).json({ data, id: data.id, messageOK: 'Le cadeau a bien été supprimé' });
+    } else {
+      res.status(401).json({ message: 'Accès refusé, vous n\'êtes pas le créateur' });
+    }
   } catch (error) {
     const statusCode = error.status || 500;
     res.status(statusCode).json({ error });
