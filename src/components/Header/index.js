@@ -50,8 +50,8 @@ function Headers({ navigation }) {
         <div className={cn('container', styles.container)} aria-hidden="true">
           <AppLink className={styles.logo} href="/">
             <Image
-              width={64}
-              height={64}
+              width={65}
+              height={65}
               className={styles.pic}
               src={navigation.logo?.imgix_url}
               alt="Logo"
