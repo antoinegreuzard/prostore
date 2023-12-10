@@ -12,6 +12,7 @@
     "@cosmicjs/sdk": "^1.0.9",
     "@microsoft/eslint-formatter-sarif": "2.1.7",
     "@vercel/analytics": "^1.1.1",
+    "@vercel/speed-insights": "^1.0.1",
     "classnames": "^2.3.2",
     "dotenv": "^16.3.1",
     "formidable": "^3.5.0",
