@@ -63,9 +63,10 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
 
       const response = await fetch('/api/delete', {
         method: 'DELETE',
-        body: idProduct,
+        body: JSON.stringify({ id: idProduct, creator: showDeleteButton }),
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
       });
 

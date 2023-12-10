@@ -9,6 +9,7 @@ const useFetchData = (initialData = {}, method = 'GET') => {
     async (url, body) => {
       if (!url) return null;
       setIsLoading(true);
+      setHasError(null);
       if (hasError) { setHasError(false); }
 
       const response = await fetch(url, {

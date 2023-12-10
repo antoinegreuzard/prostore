@@ -3,9 +3,6 @@ import cn from 'classnames';
 import { useRouter } from 'next/router';
 import Slider from 'react-slick';
 import useFetchData from '../../../utils/hooks/useFetchData';
-import useDebounce from '../../../utils/hooks/useDebounce';
-import handleQueryParams from '../../../utils/queryParams';
-
 import Icon from '../../../components/Icon';
 import Card from '../../../components/Card';
 import priceRange from '../../../utils/constants/priceRange';
@@ -59,35 +56,19 @@ function Discover({ info, type }) {
     type ? Object.entries(type)[0]?.[0] : '',
   );
   const [visible] = useState(false);
+  const [isLoad, setLoading] = useState(false);
 
   const [{ min, max }, setRangeValues] = useState(() => priceRange);
-  const debouncedMinTerm = useDebounce(min, 700);
-  const debouncedMaxTerm = useDebounce(max, 700);
 
   const handleClick = (href) => {
     push(href);
   };
 
   const handleFilterDataByParams = useCallback(
-    async ({
-      category = activeIndex,
-      min: minimum = debouncedMinTerm,
-      max: maximum = debouncedMaxTerm,
-    }) => {
-      const params = handleQueryParams({
-        category,
-        min: minimum.trim(),
-        max: maximum.trim(),
-      });
-
-      const filterParam = Object.keys(params).reduce(
-        (acc, key) => `${acc}&${key}=${params[key]}`,
-        '',
-      );
-
-      fetchData(`/api/filter?${filterParam}`);
+    async () => {
+      await fetchData('/api/filter');
     },
-    [activeIndex, debouncedMinTerm, debouncedMaxTerm, fetchData],
+    [fetchData],
   );
 
   const handleChange = ({ target: { name, value } }) => {
@@ -112,18 +93,11 @@ function Discover({ info, type }) {
   });
 
   useEffect(() => {
-    let isMount = true;
-
-    if (isMount && (debouncedMinTerm?.length || debouncedMaxTerm?.length)) {
-      handleFilterDataByParams({ min: debouncedMinTerm, max: debouncedMaxTerm });
-    } else {
-      handleFilterDataByParams({ category: activeIndex });
+    if (!isLoad) {
+      handleFilterDataByParams();
+      setLoading(true);
     }
-
-    return () => {
-      isMount = false;
-    };
-  }, [debouncedMaxTerm, debouncedMinTerm, activeIndex, handleFilterDataByParams]);
+  }, [handleFilterDataByParams, isLoad]);
 
   return (
     <div className={cn('section', styles.section)}>
