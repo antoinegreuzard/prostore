@@ -71,9 +71,6 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
       });
 
       const deleteItem = await response.json();
-
-      console.log(deleteItem);
-
       if (deleteItem.messageOK && deleteItem.messageOK === 'Le cadeau a bien été supprimé') {
         toast.success(deleteItem.messageOK, { position: 'bottom-right' });
         setTimeout(() => { push('/search'); }, 3000);
