@@ -1,5 +1,5 @@
-import { withIronSessionApiRoute } from 'iron-session/next';
-import { APP_KEY } from '../../utils/constants/appConstants';
+import { withIronSessionApiRoute } from 'iron-session/next'
+import { APP_KEY } from '../../utils/constants/appConstants'
 
 const authHandler = withIronSessionApiRoute(
   async (req, res) => {
@@ -13,23 +13,23 @@ const authHandler = withIronSessionApiRoute(
           },
           body: JSON.stringify(req.body),
         },
-      );
-      const data = await auth.json();
+      )
+      const data = await auth.json()
       if (data.user) {
-        req.session.user = data;
-        await req.session.save();
-        res.status(200).json({ data });
+        req.session.user = data
+        await req.session.save()
+        res.status(200).json({ data })
       } else {
-        res.status(409).json('Merci de vous connecter sur CosmicJS');
+        res.status(409).json('Merci de vous connecter sur CosmicJS')
       }
     } catch (error) {
-      res.status(500).json(error.message);
+      res.status(500).json(error.message)
     }
   },
   {
     cookieName: APP_KEY,
     password: process.env.SECRET_KEY,
   },
-);
+)
 
-export default authHandler;
+export default authHandler

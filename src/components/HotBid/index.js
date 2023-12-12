@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cn from 'classnames';
-import Slider from 'react-slick';
-import Icon from '../Icon';
-import Card from '../Card';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cn from 'classnames'
+import Slider from 'react-slick'
+import Icon from '../Icon'
+import Card from '../Card'
 
-import styles from './HotBid.module.sass';
+import styles from './HotBid.module.sass'
 
 function SlickArrow({
   currentSlide, slideCount, children, ...props
@@ -15,20 +15,20 @@ function SlickArrow({
     <button type="button" aria-label="arrow" aria-hidden="true" {...props}>
       {children}
     </button>
-  );
+  )
 }
 
 SlickArrow.propTypes = {
   currentSlide: PropTypes.number,
   slideCount: PropTypes.number,
   children: PropTypes.node,
-};
+}
 
 SlickArrow.defaultProps = {
   currentSlide: 0,
   slideCount: 0,
   children: 0,
-};
+}
 
 const settings = {
   infinite: true,
@@ -66,7 +66,7 @@ const settings = {
       },
     },
   ],
-};
+}
 
 function Hot({ classSection, info }) {
   return (
@@ -85,7 +85,7 @@ function Hot({ classSection, info }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 Hot.propTypes = {
@@ -93,11 +93,11 @@ Hot.propTypes = {
   info: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
   })),
-};
+}
 
 Hot.defaultProps = {
   classSection: '',
   info: [],
-};
+}
 
-export default Hot;
+export default Hot
