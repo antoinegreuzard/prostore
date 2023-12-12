@@ -77,7 +77,7 @@ function Upload({ navigationItems, categoriesType }) {
         const mediaData = await uploadResult.json();
         setUploadMedia(mediaData?.media);
       } catch (error) {
-        Error(error.status);
+        throw new Error(error.status);
       }
     },
     [jwtToken],
