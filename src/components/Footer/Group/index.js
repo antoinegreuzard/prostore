@@ -15,7 +15,10 @@ function Group({ className }) {
     const fetchCategories = async () => {
       try {
         const data = await getAllDataByType('categories');
-        setCategories(data);
+        const uniqueCategories = data.filter(
+          (category, index, self) => index === self.findIndex((t) => t.id === category.id),
+        );
+        setCategories(uniqueCategories);
       } catch (error) {
         throw new Error(error.status);
       }
