@@ -1,7 +1,7 @@
-import React from 'react';
-import Image from 'next/image';
-import useDarkMode from 'use-dark-mode';
-import PropTypes from 'prop-types';
+import React from 'react'
+import Image from 'next/image'
+import useDarkMode from 'use-dark-mode'
+import PropTypes from 'prop-types'
 
 function ImageApp({
   className,
@@ -11,17 +11,17 @@ function ImageApp({
   size,
   priority,
 }) {
-  const darkMode = useDarkMode(false);
+  const darkMode = useDarkMode(false)
   const newSize = {
     width: size.width.replace('px', ''),
     height: size.height.replace('px', ''),
-  };
+  }
 
   if (!Number.isInteger(newSize.width)) {
-    newSize.width = '1000';
+    newSize.width = '1000'
   }
   if (!Number.isInteger(newSize.height)) {
-    newSize.height = '1000';
+    newSize.height = '1000'
   }
 
   return (
@@ -39,7 +39,7 @@ function ImageApp({
         {...priority}
       />
     </div>
-  );
+  )
 }
 
 ImageApp.propTypes = {
@@ -52,7 +52,7 @@ ImageApp.propTypes = {
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   }),
-};
+}
 
 ImageApp.defaultProps = {
   className: '',
@@ -61,6 +61,6 @@ ImageApp.defaultProps = {
   alt: '',
   priority: '',
   size: { width: 'auto', height: 'auto' },
-};
+}
 
-export default ImageApp;
+export default ImageApp

@@ -1,7 +1,7 @@
-import React from 'react';
-import cn from 'classnames';
-import PropTypes from 'prop-types';
-import styles from './Switch.module.sass';
+import React from 'react'
+import cn from 'classnames'
+import PropTypes from 'prop-types'
+import styles from './Switch.module.sass'
 
 function Switch({ className, value, setValue }) {
   return (
@@ -17,19 +17,19 @@ function Switch({ className, value, setValue }) {
         <span className={styles.box} />
       </span>
     </label>
-  );
+  )
 }
 
 Switch.propTypes = {
   className: PropTypes.string,
   value: PropTypes.bool,
   setValue: PropTypes.func,
-};
+}
 
 Switch.defaultProps = {
   className: '',
   value: false,
   setValue: PropTypes.func,
-};
+}
 
-export default Switch;
+export default Switch

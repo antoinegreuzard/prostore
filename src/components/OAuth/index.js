@@ -1,51 +1,51 @@
 import React, {
   useState, useCallback, useEffect, useRef,
-} from 'react';
-import cn from 'classnames';
-import { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
-import AppLink from '../AppLink';
-import Loader from '../Loader';
-import registerFields from '../../utils/constants/registerFields';
-import { useStateContext } from '../../utils/context/StateContext';
-import { setToken } from '../../utils/token';
+} from 'react'
+import cn from 'classnames'
+import { useRouter } from 'next/router'
+import PropTypes from 'prop-types'
+import AppLink from '../AppLink'
+import Loader from '../Loader'
+import registerFields from '../../utils/constants/registerFields'
+import { useStateContext } from '../../utils/context/StateContext'
+import { setToken } from '../../utils/token'
 
-import styles from './OAuth.module.sass';
+import styles from './OAuth.module.sass'
 
 function OAuth({
   className, handleClose, handleOAuth, disable,
 }) {
-  const { setCosmicUser } = useStateContext();
-  const { push } = useRouter();
+  const { setCosmicUser } = useStateContext()
+  const { push } = useRouter()
 
-  const [{ email, password }, setFields] = useState(() => registerFields);
-  const [fillFiledMessage, setFillFiledMessage] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [{ email, password }, setFields] = useState(() => registerFields)
+  const [fillFiledMessage, setFillFiledMessage] = useState('')
+  const [loading, setLoading] = useState(false)
 
-  const inputElement = useRef(null);
+  const inputElement = useRef(null)
 
   useEffect(() => {
     if (inputElement.current) {
-      inputElement.current.focus();
+      inputElement.current.focus()
     }
-  }, [disable]);
+  }, [disable])
 
   const handleGoHome = () => {
-    push('/');
-  };
+    push('/')
+  }
 
   const handleChange = ({ target: { name, value } }) => setFields((prevFields) => ({
     ...prevFields,
     [name]: value,
-  }));
+  }))
 
   const submitForm = useCallback(
     async (e) => {
-      e.preventDefault();
+      e.preventDefault()
       if (fillFiledMessage?.length) {
-        setFillFiledMessage('');
+        setFillFiledMessage('')
       }
-      setLoading(true);
+      setLoading(true)
       if (email && password) {
         const auth = await fetch('/api/auth', {
           method: 'POST',
@@ -54,29 +54,29 @@ function OAuth({
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({ email, password }),
-        });
-        const cosmicUser = await auth.json();
+        })
+        const cosmicUser = await auth.json()
         if (cosmicUser.data?.hasOwnProperty('user')) {
-          setCosmicUser(cosmicUser.data.user);
+          setCosmicUser(cosmicUser.data.user)
           setToken({
             id: cosmicUser.data.user.id,
             first_name: cosmicUser.data.user.first_name,
             avatar_url: cosmicUser.data.user.avatar,
             email: cosmicUser.data.user.email,
             token: cosmicUser.data.token,
-          });
+          })
 
-          setFillFiledMessage('Félécitations !');
-          handleOAuth(cosmicUser.data.user);
-          setFields(registerFields);
-          handleClose();
+          setFillFiledMessage('Félécitations !')
+          handleOAuth(cosmicUser.data.user)
+          setFields(registerFields)
+          handleClose()
         } else {
-          setFillFiledMessage('Merci de s\'enregistrer sur CosmicJS');
+          setFillFiledMessage('Merci de s\'enregistrer sur CosmicJS')
         }
       } else {
-        setFillFiledMessage('Merci de remplir tous les champs');
+        setFillFiledMessage('Merci de remplir tous les champs')
       }
-      setLoading(false);
+      setLoading(false)
     },
     [
       fillFiledMessage?.length,
@@ -86,7 +86,7 @@ function OAuth({
       handleOAuth,
       handleClose,
     ],
-  );
+  )
 
   return (
     <div className={cn(className, styles.transfer)}>
@@ -143,7 +143,7 @@ function OAuth({
         </div>
       </form>
     </div>
-  );
+  )
 }
 
 OAuth.propTypes = {
@@ -151,13 +151,13 @@ OAuth.propTypes = {
   handleClose: PropTypes.func,
   handleOAuth: PropTypes.func,
   disable: PropTypes.bool,
-};
+}
 
 OAuth.defaultProps = {
   className: '',
   handleClose: PropTypes.func,
   handleOAuth: PropTypes.func,
   disable: false,
-};
+}
 
-export default OAuth;
+export default OAuth

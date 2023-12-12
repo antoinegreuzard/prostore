@@ -1,19 +1,19 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import cn from 'classnames';
-import PropTypes from 'prop-types';
-import Layout from '../components/Layout';
-import Image from '../components/Image';
-import { getAllDataByType } from '../lib/cosmic';
+import React from 'react'
+import { useRouter } from 'next/router'
+import cn from 'classnames'
+import PropTypes from 'prop-types'
+import Layout from '../components/Layout'
+import Image from '../components/Image'
+import { getAllDataByType } from '../lib/cosmic'
 
-import styles from '../styles/pages/NotFound.module.sass';
+import styles from '../styles/pages/NotFound.module.sass'
 
 function NotFound({ navigationItems }) {
-  const { push } = useRouter();
+  const { push } = useRouter()
 
   const handleClick = (href) => {
-    push(href);
-  };
+    push(href)
+  }
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
@@ -42,7 +42,7 @@ function NotFound({ navigationItems }) {
         </div>
       </div>
     </Layout>
-  );
+  )
 }
 
 NotFound.propTypes = {
@@ -50,14 +50,14 @@ NotFound.propTypes = {
     metadata: PropTypes.shape({
     }),
   })).isRequired,
-};
+}
 
-export default NotFound;
+export default NotFound
 
 export async function getStaticProps() {
-  const navigationItems = (await getAllDataByType('navigation')) || [];
+  const navigationItems = (await getAllDataByType('navigation')) || []
 
   return {
     props: { navigationItems },
-  };
+  }
 }

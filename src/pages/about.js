@@ -1,23 +1,23 @@
-import React from 'react';
-import { useRouter } from 'next/router';
-import cn from 'classnames';
-import Image from 'next/image';
-import PropTypes from 'prop-types';
-import Layout from '../components/Layout';
-import chooseBySlug from '../utils/chooseBySlug';
-import { getAllDataByType } from '../lib/cosmic';
+import React from 'react'
+import { useRouter } from 'next/router'
+import cn from 'classnames'
+import Image from 'next/image'
+import PropTypes from 'prop-types'
+import Layout from '../components/Layout'
+import chooseBySlug from '../utils/chooseBySlug'
+import { getAllDataByType } from '../lib/cosmic'
 
-import styles from '../styles/pages/NotFound.module.sass';
-import { PageMeta } from '../components/Meta';
+import styles from '../styles/pages/NotFound.module.sass'
+import { PageMeta } from '../components/Meta'
 
 function AboutUs({ navigationItems, landing }) {
-  const { push } = useRouter();
+  const { push } = useRouter()
 
   const handleClick = (href) => {
-    push(href);
-  };
+    push(href)
+  }
 
-  const infoAbout = chooseBySlug(landing, 'about');
+  const infoAbout = chooseBySlug(landing, 'about')
 
   return (
     <Layout navigationPaths={navigationItems[0]?.metadata}>
@@ -58,7 +58,7 @@ function AboutUs({ navigationItems, landing }) {
         </div>
       </div>
     </Layout>
-  );
+  )
 }
 
 AboutUs.propTypes = {
@@ -68,20 +68,20 @@ AboutUs.propTypes = {
   })),
   landing: PropTypes.arrayOf(PropTypes.shape({
   })),
-};
+}
 
 AboutUs.defaultProps = {
   navigationItems: [],
   landing: [],
-};
+}
 
-export default AboutUs;
+export default AboutUs
 
 export async function getServerSideProps() {
-  const navigationItems = (await getAllDataByType('navigation')) || [];
-  const landing = (await getAllDataByType('landings')) || [];
+  const navigationItems = (await getAllDataByType('navigation')) || []
+  const landing = (await getAllDataByType('landings')) || []
 
   return {
     props: { navigationItems, landing },
-  };
+  }
 }

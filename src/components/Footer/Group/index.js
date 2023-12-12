@@ -1,41 +1,41 @@
-import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
-import cn from 'classnames';
-import { getAllDataByType } from '../../../lib/cosmic';
+import PropTypes from 'prop-types'
+import React, { useState, useEffect } from 'react'
+import cn from 'classnames'
+import { getAllDataByType } from '../../../lib/cosmic'
 
-import AppLink from '../../AppLink';
-import Icon from '../../Icon';
-import styles from './Group.module.sass';
+import AppLink from '../../AppLink'
+import Icon from '../../Icon'
+import styles from './Group.module.sass'
 
 function Group({ className }) {
-  const [categories, setCategories] = useState([]);
-  const [visible, setVisible] = useState(false);
+  const [categories, setCategories] = useState([])
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const data = await getAllDataByType('categories');
+        const data = await getAllDataByType('categories')
         const uniqueCategories = data.filter(
           (category, index, self) => index === self.findIndex((t) => t.id === category.id),
-        );
-        setCategories(uniqueCategories);
+        )
+        setCategories(uniqueCategories)
       } catch (error) {
-        throw new Error(error.status);
+        throw new Error(error.status)
       }
-    };
+    }
 
-    fetchCategories();
-  }, []);
+    fetchCategories()
+  }, [])
 
   const toggleVisible = () => {
-    setVisible(!visible);
-  };
+    setVisible(!visible)
+  }
 
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' || event.key === ' ') {
-      toggleVisible();
+      toggleVisible()
     }
-  };
+  }
 
   return (
     <div className={cn(className, styles.group, { [styles.active]: visible })}>
@@ -57,15 +57,15 @@ function Group({ className }) {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
 Group.propTypes = {
   className: PropTypes.string,
-};
+}
 
 Group.defaultProps = {
   className: '',
-};
+}
 
-export default Group;
+export default Group
