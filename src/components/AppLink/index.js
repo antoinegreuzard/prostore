@@ -1,8 +1,8 @@
-import Link from 'next/link';
-import PropTypes from 'prop-types';
+import Link from 'next/link'
+import PropTypes from 'prop-types'
 
 function AppLink({ href, className, children }) {
-  const isExternalLink = href?.startsWith('http');
+  const isExternalLink = href?.startsWith('http')
 
   if (isExternalLink) {
     // Pour les liens externes, utilisez directement une balise <a>
@@ -16,24 +16,24 @@ function AppLink({ href, className, children }) {
       >
         {children}
       </a>
-    );
+    )
   }
   // Pour les liens internes, utilisez le composant <Link> de Next.js
   return (
     <Link href={href} className={className} aria-hidden="true">
       {children}
     </Link>
-  );
+  )
 }
 
 AppLink.propTypes = {
   href: PropTypes.string.isRequired,
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
-};
+}
 
 AppLink.defaultProps = {
   className: '',
-};
+}
 
-export default AppLink;
+export default AppLink

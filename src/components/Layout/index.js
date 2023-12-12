@@ -1,30 +1,30 @@
-import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import Header from '../Header';
-import Footer from '../Footer';
-import { useStateContext } from '../../utils/context/StateContext';
+import React, { useEffect } from 'react'
+import PropTypes from 'prop-types'
+import Header from '../Header'
+import Footer from '../Footer'
+import { useStateContext } from '../../utils/context/StateContext'
 
-import styles from './Layout.module.sass';
-import { Meta, PageMeta } from '../Meta';
+import styles from './Layout.module.sass'
+import { Meta, PageMeta } from '../Meta'
 
 function Layout({ children, navigationPaths }) {
-  const { navigation, setNavigation } = useStateContext();
+  const { navigation, setNavigation } = useStateContext()
 
   useEffect(() => {
-    let isMounted = true;
+    let isMounted = true
 
     if (
       !navigation?.hasOwnProperty('menu')
       && navigationPaths?.hasOwnProperty('menu')
       && isMounted
     ) {
-      setNavigation(navigationPaths);
+      setNavigation(navigationPaths)
     }
 
     return () => {
-      isMounted = false;
-    };
-  }, [navigation, navigationPaths, setNavigation]);
+      isMounted = false
+    }
+  }, [navigation, navigationPaths, setNavigation])
 
   return (
     <>
@@ -39,7 +39,7 @@ function Layout({ children, navigationPaths }) {
         <Footer navigation={navigationPaths || navigation} />
       </div>
     </>
-  );
+  )
 }
 
 Layout.propTypes = {
@@ -50,10 +50,10 @@ Layout.propTypes = {
       name: PropTypes.string,
     })),
   }),
-};
+}
 
 Layout.defaultProps = {
   navigationPaths: {},
-};
+}
 
-export default Layout;
+export default Layout

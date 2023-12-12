@@ -1,13 +1,13 @@
-import React from 'react';
-import cn from 'classnames';
-import PropTypes from 'prop-types';
-import AppLink from '../AppLink';
-import Group from './Group';
-import Theme from '../Theme';
-import Image from '../Image';
-import SocialMedia from '../SocialMedia';
+import React from 'react'
+import cn from 'classnames'
+import PropTypes from 'prop-types'
+import AppLink from '../AppLink'
+import Group from './Group'
+import Theme from '../Theme'
+import Image from '../Image'
+import SocialMedia from '../SocialMedia'
 
-import styles from './Footer.module.sass';
+import styles from './Footer.module.sass'
 
 function Footers({ navigation }) {
   return (
@@ -40,7 +40,7 @@ function Footers({ navigation }) {
         </div>
       </div>
     </footer>
-  );
+  )
 }
 
 Footers.propTypes = {
@@ -49,7 +49,7 @@ Footers.propTypes = {
       imgix_url: PropTypes.string,
     }),
   }),
-};
+}
 
 Footers.defaultProps = {
   navigation: PropTypes.shape({
@@ -57,6 +57,6 @@ Footers.defaultProps = {
       imgix_url: '',
     }),
   }),
-};
+}
 
-export default Footers;
+export default Footers

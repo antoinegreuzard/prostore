@@ -1,5 +1,5 @@
-import Head from 'next/head';
-import PropTypes from 'prop-types';
+import Head from 'next/head'
+import PropTypes from 'prop-types'
 
 export function Meta() {
   return (
@@ -33,7 +33,7 @@ export function Meta() {
       <meta name="theme-color" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
     </Head>
-  );
+  )
 }
 
 export function PageMeta({ title, description }) {
@@ -45,7 +45,7 @@ export function PageMeta({ title, description }) {
       <meta property="og:description" content={description} />
       <meta
         property="og:image"
-        content="https://imgix.cosmicjs.com/5df3a450-0160-11ed-b7be-d956591ad437-unft-2.png?w=1000"
+        content="https://popstore-eds.vercel.app/_next/image?url=https%3A%2F%2Fimgix.cosmicjs.com%2F9ca3b5e0-943b-11ee-b62d-5b90a0a1bade-logo-marche-eds-noel-removebg.png&w=256&q=75"
       />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:site" content="@CosmicJS" />
@@ -53,13 +53,13 @@ export function PageMeta({ title, description }) {
       <meta name="twitter:description" content={description} />
       <meta
         name="twitter:image"
-        content="https://imgix.cosmicjs.com/5df3a450-0160-11ed-b7be-d956591ad437-unft-2.png?w=1000"
+        content="https://popstore-eds.vercel.app/_next/image?url=https%3A%2F%2Fimgix.cosmicjs.com%2F9ca3b5e0-943b-11ee-b62d-5b90a0a1bade-logo-marche-eds-noel-removebg.png&w=256&q=75"
       />
     </Head>
-  );
+  )
 }
 
 PageMeta.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-};
+}
