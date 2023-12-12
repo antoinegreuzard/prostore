@@ -1,5 +1,5 @@
-import Head from 'next/head';
-import PropTypes from 'prop-types';
+import Head from 'next/head'
+import PropTypes from 'prop-types'
 
 export function Meta() {
   return (
@@ -33,7 +33,7 @@ export function Meta() {
       <meta name="theme-color" content="#000" />
       <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
     </Head>
-  );
+  )
 }
 
 export function PageMeta({ title, description }) {
@@ -56,10 +56,10 @@ export function PageMeta({ title, description }) {
         content="https://popstore-eds.vercel.app/_next/image?url=https%3A%2F%2Fimgix.cosmicjs.com%2F9ca3b5e0-943b-11ee-b62d-5b90a0a1bade-logo-marche-eds-noel-removebg.png&w=256&q=75"
       />
     </Head>
-  );
+  )
 }
 
 PageMeta.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-};
+}

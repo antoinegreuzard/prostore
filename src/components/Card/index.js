@@ -1,10 +1,10 @@
-import React from 'react';
-import cn from 'classnames';
-import PropTypes from 'prop-types';
-import AppLink from '../AppLink';
-import styles from './Card.module.sass';
-import Icon from '../Icon';
-import Image from '../Image';
+import React from 'react'
+import cn from 'classnames'
+import PropTypes from 'prop-types'
+import AppLink from '../AppLink'
+import styles from './Card.module.sass'
+import Icon from '../Icon'
+import Image from '../Image'
 
 function Card({ className, item }) {
   return (
@@ -40,7 +40,7 @@ function Card({ className, item }) {
         </div>
       </AppLink>
     </div>
-  );
+  )
 }
 
 Card.propTypes = {
@@ -62,7 +62,7 @@ Card.propTypes = {
     title: PropTypes.string,
     count: PropTypes.string,
   }),
-};
+}
 
 Card.defaultProps = {
   className: '',
@@ -83,6 +83,6 @@ Card.defaultProps = {
     title: '',
     count: '',
   }),
-};
+}
 
-export default Card;
+export default Card

@@ -1,37 +1,37 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import cn from 'classnames';
-import { useRouter } from 'next/router';
-import OutsideClickHandler from 'react-outside-click-handler';
-import Image from '../../Image';
-import styles from './User.module.sass';
-import Icon from '../../Icon';
-import { removeToken } from '../../../utils/token';
-import { useStateContext } from '../../../utils/context/StateContext';
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+import cn from 'classnames'
+import { useRouter } from 'next/router'
+import OutsideClickHandler from 'react-outside-click-handler'
+import Image from '../../Image'
+import styles from './User.module.sass'
+import Icon from '../../Icon'
+import { removeToken } from '../../../utils/token'
+import { useStateContext } from '../../../utils/context/StateContext'
 
 function User({ className, user }) {
-  const { setCosmicUser } = useStateContext();
+  const { setCosmicUser } = useStateContext()
 
-  const [visible, setVisible] = useState(false);
-  const { push } = useRouter();
+  const [visible, setVisible] = useState(false)
+  const { push } = useRouter()
 
   const items = [
     {
       title: 'Déconnexion',
       icon: 'exit',
       callback: () => {
-        setCosmicUser({});
-        push('/');
-        removeToken();
+        setCosmicUser({})
+        push('/')
+        removeToken()
       },
     },
-  ];
+  ]
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      setVisible(!visible);
+      setVisible(!visible)
     }
-  };
+  }
 
   return (
     <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
@@ -74,7 +74,7 @@ function User({ className, user }) {
         )}
       </div>
     </OutsideClickHandler>
-  );
+  )
 }
 
 User.propTypes = {
@@ -83,7 +83,7 @@ User.propTypes = {
     avatar_url: PropTypes.string,
     first_name: PropTypes.string,
   }),
-};
+}
 
 User.defaultProps = {
   className: '',
@@ -91,6 +91,6 @@ User.defaultProps = {
     avatar_url: '',
     first_name: '',
   }),
-};
+}
 
-export default User;
+export default User
