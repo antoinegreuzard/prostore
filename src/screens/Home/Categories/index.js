@@ -1,10 +1,10 @@
-import React from 'react';
-import cn from 'classnames';
-import Slider from 'react-slick';
-import Link from 'next/link';
-import styles from './Categories.module.sass';
-import Icon from '../../../components/Icon';
-import Image from '../../../components/Image';
+import React from 'react'
+import cn from 'classnames'
+import Slider from 'react-slick'
+import Link from 'next/link'
+import styles from './Categories.module.sass'
+import Icon from '../../../components/Icon'
+import Image from '../../../components/Image'
 
 function SlickArrow({
   currentSlide, slideCount, children, ...props
@@ -13,7 +13,7 @@ function SlickArrow({
     <button aria-label="arrow" {...props} type="button">
       {children}
     </button>
-  );
+  )
 }
 
 const settings = {
@@ -45,7 +45,7 @@ const settings = {
       },
     },
   ],
-};
+}
 
 function Categories({ info, type }) {
   return (
@@ -99,7 +99,7 @@ function Categories({ info, type }) {
         </div>
       </div>
     </section>
-  );
+  )
 }
 
-export default Categories;
+export default Categories

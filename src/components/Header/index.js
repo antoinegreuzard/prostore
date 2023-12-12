@@ -1,48 +1,48 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import cn from 'classnames';
-import Image from 'next/image';
-import PropTypes from 'prop-types';
-import AppLink from '../AppLink';
-import Icon from '../Icon';
-import User from './User';
-import Modal from '../Modal';
-import OAuth from '../OAuth';
-import { useStateContext } from '../../utils/context/StateContext';
-import { getToken } from '../../utils/token';
+import React, { useState, useEffect, useCallback } from 'react'
+import cn from 'classnames'
+import Image from 'next/image'
+import PropTypes from 'prop-types'
+import AppLink from '../AppLink'
+import Icon from '../Icon'
+import User from './User'
+import Modal from '../Modal'
+import OAuth from '../OAuth'
+import { useStateContext } from '../../utils/context/StateContext'
+import { getToken } from '../../utils/token'
 
-import styles from './Header.module.sass';
+import styles from './Header.module.sass'
 
 function Headers({ navigation }) {
-  const [visibleNav, setVisibleNav] = useState(false);
-  const [visibleAuthModal, setVisibleAuthModal] = useState(false);
+  const [visibleNav, setVisibleNav] = useState(false)
+  const [visibleAuthModal, setVisibleAuthModal] = useState(false)
 
-  const { cosmicUser, setCosmicUser } = useStateContext();
+  const { cosmicUser, setCosmicUser } = useStateContext()
 
   const handleOAuth = useCallback(
     (user) => {
       if (!cosmicUser.hasOwnProperty('id') && user?.hasOwnProperty('id')) {
-        setCosmicUser(user);
+        setCosmicUser(user)
       }
     },
     [cosmicUser, setCosmicUser],
-  );
+  )
 
   useEffect(() => {
-    let isMounted = true;
-    const uNFTUser = getToken();
+    let isMounted = true
+    const uNFTUser = getToken()
 
     if (
       isMounted
       && !cosmicUser?.hasOwnProperty('id')
       && uNFTUser?.hasOwnProperty('id')
     ) {
-      setCosmicUser(uNFTUser);
+      setCosmicUser(uNFTUser)
     }
 
     return () => {
-      isMounted = false;
-    };
-  }, [cosmicUser, setCosmicUser]);
+      isMounted = false
+    }
+  }, [cosmicUser, setCosmicUser])
 
   return (
     <>
@@ -114,7 +114,7 @@ function Headers({ navigation }) {
         />
       </Modal>
     </>
-  );
+  )
 }
 
 Headers.propTypes = {
@@ -127,7 +127,7 @@ Headers.propTypes = {
       url: PropTypes.string,
     })),
   }),
-};
+}
 
 Headers.defaultProps = {
   navigation: PropTypes.shape({
@@ -139,6 +139,6 @@ Headers.defaultProps = {
       url: '',
     })),
   }),
-};
+}
 
-export default Headers;
+export default Headers

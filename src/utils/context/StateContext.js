@@ -4,67 +4,67 @@ import {
   useState,
   useCallback,
   useMemo,
-} from 'react';
-import { toast } from 'react-hot-toast';
+} from 'react'
+import { toast } from 'react-hot-toast'
 // eslint-disable-next-line import/no-unresolved
-import { Analytics } from '@vercel/analytics/react';
+import { Analytics } from '@vercel/analytics/react'
 // eslint-disable-next-line import/no-unresolved
-import { SpeedInsights } from '@vercel/speed-insights/next';
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
-const Context = createContext();
+const Context = createContext()
 
 export function StateContext({ children }) {
-  const [navigation, setNavigation] = useState([]);
-  const [cosmicUser, setCosmicUser] = useState({});
-  const [cartItems, setCartItems] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [totalQuantities, setTotalQuantities] = useState(0);
+  const [navigation, setNavigation] = useState([])
+  const [cosmicUser, setCosmicUser] = useState({})
+  const [cartItems, setCartItems] = useState([])
+  const [totalPrice, setTotalPrice] = useState(0)
+  const [totalQuantities, setTotalQuantities] = useState(0)
   const [categories, setCategories] = useState({
     groups: [],
     types: {},
-  });
+  })
 
   const onCategoriesChange = useCallback((content) => {
     setCategories((prevFields) => ({
       ...prevFields,
       ...content,
-    }));
-  }, []);
+    }))
+  }, [])
 
   const onAdd = useCallback((product, quantity) => {
-    const checkProductInCart = cartItems.find((item) => item.id === product.id);
+    const checkProductInCart = cartItems.find((item) => item.id === product.id)
 
-    setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price * quantity);
-    setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + quantity);
+    setTotalPrice((prevTotalPrice) => prevTotalPrice + product.price * quantity)
+    setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + quantity)
 
     toast.success(`${quantity} of ${product.title} added to the cart.`, {
       position: 'bottom-right',
-    });
+    })
 
     if (checkProductInCart) {
       const updatedCartItems = cartItems.map((cartProduct) => ((cartProduct.id === product.id)
         ? { ...cartProduct, quantity: cartProduct.quantity + quantity }
-        : cartProduct));
+        : cartProduct))
 
-      setCartItems(updatedCartItems);
-      return updatedCartItems;
+      setCartItems(updatedCartItems)
+      return updatedCartItems
     }
 
-    const newProduct = { ...product, quantity };
-    setCartItems((s) => [...s, newProduct]);
-    return newProduct;
-  }, [cartItems]);
+    const newProduct = { ...product, quantity }
+    setCartItems((s) => [...s, newProduct])
+    return newProduct
+  }, [cartItems])
 
   const onRemove = useCallback((product) => {
-    const foundProduct = cartItems.find((item) => item.id === product.id);
-    if (!foundProduct) return;
+    const foundProduct = cartItems.find((item) => item.id === product.id)
+    if (!foundProduct) return
 
-    const newCartItems = cartItems.filter((item) => item.id !== product.id);
+    const newCartItems = cartItems.filter((item) => item.id !== product.id)
 
-    setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price * foundProduct.quantity);
-    setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - foundProduct.quantity);
-    setCartItems(newCartItems);
-  }, [cartItems]);
+    setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price * foundProduct.quantity)
+    setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - foundProduct.quantity)
+    setCartItems(newCartItems)
+  }, [cartItems])
 
   const contextValues = useMemo(() => ({
     cartItems,
@@ -91,7 +91,7 @@ export function StateContext({ children }) {
     onAdd,
     onRemove,
     onCategoriesChange,
-  ]);
+  ])
 
   return (
     <Context.Provider value={contextValues}>
@@ -99,7 +99,7 @@ export function StateContext({ children }) {
       <Analytics />
       <SpeedInsights />
     </Context.Provider>
-  );
+  )
 }
 
-export const useStateContext = () => useContext(Context);
+export const useStateContext = () => useContext(Context)

@@ -1,13 +1,13 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import cn from 'classnames';
-import { useRouter } from 'next/router';
-import Slider from 'react-slick';
-import useFetchData from '../../../utils/hooks/useFetchData';
-import Icon from '../../../components/Icon';
-import Card from '../../../components/Card';
-import priceRange from '../../../utils/constants/priceRange';
+import React, { useState, useCallback, useEffect } from 'react'
+import cn from 'classnames'
+import { useRouter } from 'next/router'
+import Slider from 'react-slick'
+import useFetchData from '../../../utils/hooks/useFetchData'
+import Icon from '../../../components/Icon'
+import Card from '../../../components/Card'
+import priceRange from '../../../utils/constants/priceRange'
 
-import styles from './Discover.module.sass';
+import styles from './Discover.module.sass'
 
 function SlickArrow({
   currentSlide, slideCount, children, ...props
@@ -16,7 +16,7 @@ function SlickArrow({
     <button aria-label="arrow" aria-hidden="true" {...props} type="button">
       {children}
     </button>
-  );
+  )
 }
 
 const settings = {
@@ -46,58 +46,58 @@ const settings = {
       settings: 'unslick',
     },
   ],
-};
+}
 
 function Discover({ info, type }) {
-  const { push } = useRouter();
-  const { fetchData } = useFetchData([]);
+  const { push } = useRouter()
+  const { fetchData } = useFetchData([])
 
   const [activeIndex] = useState(
     type ? Object.entries(type)[0]?.[0] : '',
-  );
-  const [visible] = useState(false);
-  const [isLoad, setLoading] = useState(false);
+  )
+  const [visible] = useState(false)
+  const [isLoad, setLoading] = useState(false)
 
-  const [{ min, max }, setRangeValues] = useState(() => priceRange);
+  const [{ min, max }, setRangeValues] = useState(() => priceRange)
 
   const handleClick = (href) => {
-    push(href);
-  };
+    push(href)
+  }
 
   const handleFilterDataByParams = useCallback(
     async () => {
-      await fetchData('/api/filter');
+      await fetchData('/api/filter')
     },
     [fetchData],
-  );
+  )
 
   const handleChange = ({ target: { name, value } }) => {
     setRangeValues((prevFields) => ({
       ...prevFields,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   const allProducts = info.reduce((acc, group) => {
-    const products = Object.values(group)[0];
-    return [...acc, ...products];
-  }, []);
+    const products = Object.values(group)[0]
+    return [...acc, ...products]
+  }, [])
 
-  const uniqueProductMap = {};
+  const uniqueProductMap = {}
   const uniqueProducts = allProducts.filter((product) => {
     if (uniqueProductMap.hasOwnProperty(product.id)) {
-      return false;
+      return false
     }
-    uniqueProductMap[product.id] = true;
-    return true;
-  });
+    uniqueProductMap[product.id] = true
+    return true
+  })
 
   useEffect(() => {
     if (!isLoad) {
-      handleFilterDataByParams();
-      setLoading(true);
+      handleFilterDataByParams()
+      setLoading(true)
     }
-  }, [handleFilterDataByParams, isLoad]);
+  }, [handleFilterDataByParams, isLoad])
 
   return (
     <div className={cn('section', styles.section)}>
@@ -162,7 +162,7 @@ function Discover({ info, type }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Discover;
+export default Discover

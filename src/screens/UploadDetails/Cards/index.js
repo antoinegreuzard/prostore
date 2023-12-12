@@ -1,7 +1,7 @@
-import React from 'react';
-import cn from 'classnames';
-import styles from './Cards.module.sass';
-import Icon from '../../../components/Icon';
+import React from 'react'
+import cn from 'classnames'
+import styles from './Cards.module.sass'
+import Icon from '../../../components/Icon'
 
 function Cards({
   className, items, handleChoose, category,
@@ -24,7 +24,7 @@ function Cards({
         </div>
       ))}
     </div>
-  );
+  )
 }
 
-export default Cards;
+export default Cards

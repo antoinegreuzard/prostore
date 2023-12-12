@@ -1,65 +1,65 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import cn from 'classnames';
-import toast from 'react-hot-toast';
-import { useRouter } from 'next/router';
-import PropTypes from 'prop-types';
-import Layout from '../../components/Layout';
-import Discover from '../../screens/Home/Discover';
-import Modal from '../../components/Modal';
-import OAuth from '../../components/OAuth';
-import Image from '../../components/Image';
-import { PageMeta } from '../../components/Meta';
-import { getDataByCategory, getDataBySlug, getAllDataByType } from '../../lib/cosmic';
-import styles from '../../styles/pages/Item.module.sass';
-import { getToken } from '../../utils/token';
-import { useStateContext } from '../../utils/context/StateContext';
+import React, { useCallback, useEffect, useState } from 'react'
+import cn from 'classnames'
+import toast from 'react-hot-toast'
+import { useRouter } from 'next/router'
+import PropTypes from 'prop-types'
+import Layout from '../../components/Layout'
+import Discover from '../../screens/Home/Discover'
+import Modal from '../../components/Modal'
+import OAuth from '../../components/OAuth'
+import Image from '../../components/Image'
+import { PageMeta } from '../../components/Meta'
+import { getDataByCategory, getDataBySlug, getAllDataByType } from '../../lib/cosmic'
+import styles from '../../styles/pages/Item.module.sass'
+import { getToken } from '../../utils/token'
+import { useStateContext } from '../../utils/context/StateContext'
 
 function Item({ itemInfo, categoriesGroup, navigationItems }) {
-  const { cosmicUser } = useStateContext();
-  const { push } = useRouter();
+  const { cosmicUser } = useStateContext()
+  const { push } = useRouter()
 
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [visibleAuthModal, setVisibleAuthModal] = useState(false);
-  const [fillFiledMessage, setFillFiledMessage] = useState(false);
-  const [showDeleteButton, setShowDeleteButton] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [visibleAuthModal, setVisibleAuthModal] = useState(false)
+  const [fillFiledMessage, setFillFiledMessage] = useState(false)
+  const [showDeleteButton, setShowDeleteButton] = useState(false)
 
-  const idProduct = itemInfo[0].id;
+  const idProduct = itemInfo[0].id
 
   const handleOAuth = useCallback(
     async (user) => {
       if (!cosmicUser.id) {
-        setVisibleAuthModal(true);
+        setVisibleAuthModal(true)
       }
 
-      return !(!user || !user.id);
+      return !(!user || !user.id)
     },
     [cosmicUser],
-  );
+  )
 
   useEffect(() => {
     if (cosmicUser.id && itemInfo && cosmicUser.email === itemInfo[0].metadata.email) {
-      setShowDeleteButton(true);
+      setShowDeleteButton(true)
     }
-  }, [cosmicUser, itemInfo]);
+  }, [cosmicUser, itemInfo])
 
   const deleteProduct = useCallback(
     async (e) => {
-      e.preventDefault();
+      e.preventDefault()
 
       if (!cosmicUser.id) {
-        await handleOAuth();
+        await handleOAuth()
       }
 
       if (fillFiledMessage) {
-        setFillFiledMessage(false);
+        setFillFiledMessage(false)
       }
 
       if (!cosmicUser || !idProduct) {
-        setFillFiledMessage(true);
-        return;
+        setFillFiledMessage(true)
+        return
       }
 
-      const token = getToken()?.token;
+      const token = getToken()?.token
 
       const response = await fetch('/api/delete', {
         method: 'DELETE',
@@ -68,12 +68,12 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
-      });
+      })
 
-      const deleteItem = await response.json();
+      const deleteItem = await response.json()
       if (deleteItem.messageOK && deleteItem.messageOK === 'Le cadeau a bien été supprimé') {
-        toast.success(deleteItem.messageOK, { position: 'bottom-right' });
-        setTimeout(() => { push('/search'); }, 3000);
+        toast.success(deleteItem.messageOK, { position: 'bottom-right' })
+        setTimeout(() => { push('/search') }, 3000)
       }
     },
     [
@@ -84,11 +84,11 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
       cosmicUser,
       idProduct,
       showDeleteButton],
-  );
+  )
 
   const handleMailto = () => {
-    window.location.href = `mailto:${itemInfo[0].metadata.email}`;
-  };
+    window.location.href = `mailto:${itemInfo[0].metadata.email}`
+  }
 
   return (
     <Layout navigationPaths={navigationItems[0].metadata}>
@@ -179,7 +179,7 @@ function Item({ itemInfo, categoriesGroup, navigationItems }) {
         />
       </Modal>
     </Layout>
-  );
+  )
 }
 
 Item.propTypes = {
@@ -208,20 +208,20 @@ Item.propTypes = {
     metadata: PropTypes.shape({
     }),
   })).isRequired,
-};
+}
 
-export default Item;
+export default Item
 
 export async function getServerSideProps({ params }) {
-  const itemInfo = await getDataBySlug(params.slug);
+  const itemInfo = await getDataBySlug(params.slug)
 
-  const navigationItems = (await getAllDataByType('navigation')) || [];
-  const categoryTypes = (await getAllDataByType('categories')) || [];
+  const navigationItems = (await getAllDataByType('navigation')) || []
+  const categoryTypes = (await getAllDataByType('categories')) || []
   const categoriesData = await Promise.all(
     categoryTypes.map((category) => getDataByCategory(category.id)),
-  );
+  )
 
-  const categoriesGroups = categoryTypes.map(({ id }, index) => ({ [id]: categoriesData[index] }));
+  const categoriesGroups = categoryTypes.map(({ id }, index) => ({ [id]: categoriesData[index] }))
 
   const categoriesType = categoryTypes.reduce((
     arr,
@@ -231,17 +231,17 @@ export async function getServerSideProps({ params }) {
     [id]:
        title,
   }
-  ), {});
+  ), {})
 
-  const categoriesGroup = { groups: categoriesGroups, type: categoriesType };
+  const categoriesGroup = { groups: categoriesGroups, type: categoriesType }
 
   if (!itemInfo) {
     return {
       notFound: true,
-    };
+    }
   }
 
   return {
     props: { itemInfo, navigationItems, categoriesGroup },
-  };
+  }
 }
