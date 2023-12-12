@@ -40,6 +40,8 @@ function Hot({ classSection, info }) {
     slidesToShow: 4,
     slidesToScroll: 1,
     swipe: true,
+    touchMove: true,
+    swipeToSlide: true,
     nextArrow: (
       <SlickArrow>
         <Icon name="arrow-next" size="14" />
