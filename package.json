@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@cosmicjs/sdk": "^1.0.9",
+    "@cosmicjs/sdk": "^1.0.11",
     "@microsoft/eslint-formatter-sarif": "2.1.7",
     "@vercel/analytics": "^1.1.1",
     "@vercel/speed-insights": "^1.0.1",
