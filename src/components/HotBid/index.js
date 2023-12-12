@@ -76,10 +76,11 @@ function Hot({ classSection, info }) {
           <h2 className={cn('h3', styles.title)}>Nos meilleurs cadeaux</h2>
           <div className={styles.inner}>
             <Slider className="bid-slider" {...settings}>
-              {info && info.length > 0 && info.map((item, index) => (
-                // Replaced index with item.id or a unique identifier
-                <Card key={item.id || index} className={styles.card} item={item} />
-              ))}
+              {info && info.length > 0 && info
+                .filter((item) => item.title !== 'Exemple')
+                .map((item, index) => (
+                  <Card key={item.id || index} className={styles.card} item={item} />
+                ))}
             </Slider>
           </div>
         </div>
