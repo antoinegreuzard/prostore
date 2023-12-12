@@ -1,16 +1,16 @@
-import React from 'react';
-import cn from 'classnames';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
+import React from 'react'
+import cn from 'classnames'
+import { useRouter } from 'next/router'
+import Image from 'next/image'
 
-import styles from './Description.module.sass';
+import styles from './Description.module.sass'
 
 function Description({ info }) {
-  const { push } = useRouter();
+  const { push } = useRouter()
 
   const handleClick = (href) => {
-    push(href);
-  };
+    push(href)
+  }
 
   return (
     <div className={styles.section}>
@@ -57,7 +57,7 @@ function Description({ info }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Description;
+export default Description

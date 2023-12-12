@@ -1,8 +1,8 @@
-import React from 'react';
-import cn from 'classnames';
-import Image from '../../../components/Image';
-import styles from './Preview.module.sass';
-import Icon from '../../../components/Icon';
+import React from 'react'
+import cn from 'classnames'
+import Image from '../../../components/Image'
+import styles from './Preview.module.sass'
+import Icon from '../../../components/Icon'
 
 function Preview({
   className, onClose, info, image,
@@ -64,7 +64,7 @@ function Preview({
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default Preview;
+export default Preview

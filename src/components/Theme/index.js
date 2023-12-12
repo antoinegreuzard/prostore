@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import cn from 'classnames';
-import useDarkMode from 'use-dark-mode';
-import styles from './Theme.module.sass';
+import React from 'react'
+import PropTypes from 'prop-types'
+import cn from 'classnames'
+import useDarkMode from 'use-dark-mode'
+import styles from './Theme.module.sass'
 
 function Theme({ className }) {
-  const darkMode = useDarkMode(false);
+  const darkMode = useDarkMode(false)
 
   return (
     <label
@@ -26,15 +26,15 @@ function Theme({ className }) {
         <span className={styles.box} />
       </span>
     </label>
-  );
+  )
 }
 
 Theme.propTypes = {
   className: PropTypes.string,
-};
+}
 
 Theme.defaultProps = {
   className: '',
-};
+}
 
-export default Theme;
+export default Theme

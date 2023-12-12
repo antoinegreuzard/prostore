@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect } from 'react';
-import { createPortal } from 'react-dom';
-import OutsideClickHandler from 'react-outside-click-handler';
-import cn from 'classnames';
-import PropTypes from 'prop-types';
-import styles from './Modal.module.sass';
-import Icon from '../Icon';
+import React, { useCallback, useEffect } from 'react'
+import { createPortal } from 'react-dom'
+import OutsideClickHandler from 'react-outside-click-handler'
+import cn from 'classnames'
+import PropTypes from 'prop-types'
+import styles from './Modal.module.sass'
+import Icon from '../Icon'
 
 function Modal({
   outerClassName,
@@ -17,21 +17,21 @@ function Modal({
   const escFunction = useCallback(
     (e) => {
       if (e.keyCode === 27) {
-        onClose();
+        onClose()
       }
     },
     [onClose],
-  );
+  )
 
   useEffect(() => {
     if (typeof window === 'object' && !disable) {
-      document.addEventListener('keydown', escFunction, false);
+      document.addEventListener('keydown', escFunction, false)
     }
 
     return () => {
-      document.removeEventListener('keydown', escFunction, false);
-    };
-  }, [escFunction, disable]);
+      document.removeEventListener('keydown', escFunction, false)
+    }
+  }, [escFunction, disable])
 
   return typeof window !== 'undefined' && visible
     ? createPortal(
@@ -51,7 +51,7 @@ function Modal({
       </div>,
       typeof window === 'object' && document.body,
     )
-    : null;
+    : null
 }
 
 Modal.propTypes = {
@@ -61,7 +61,7 @@ Modal.propTypes = {
   onClose: PropTypes.func,
   children: PropTypes.node.isRequired,
   disable: PropTypes.bool,
-};
+}
 
 Modal.defaultProps = {
   outerClassName: '',
@@ -69,6 +69,6 @@ Modal.defaultProps = {
   visible: false,
   onClose: () => {},
   disable: false,
-};
+}
 
-export default Modal;
+export default Modal
