@@ -151,8 +151,8 @@ function Discover({ info, type }) {
             className={cn('discover-slider', styles.slider)}
             {...settings}
           >
-            {uniqueProducts?.length ? (
-              uniqueProducts?.map((product, index) => (
+            {uniqueProducts?.filter((product) => product.title !== 'Exemple').length ? (
+              uniqueProducts?.filter((product) => product.title !== 'Exemple').map((product, index) => (
                 <Card className={styles.card} item={product} key={index} />
               ))
             ) : (

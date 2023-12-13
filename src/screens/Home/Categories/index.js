@@ -56,43 +56,49 @@ function Categories({ info, type }) {
             <h3 className={cn('h3', styles.title)}>Nos meilleures catégories</h3>
             <div className={styles.inner}>
               <Slider className="collection-slider" {...settings}>
-                {info?.length
-                  && info?.map((category) => Object.keys(category)?.map((key, index) => (
-                    <Link
-                      className={styles.item}
-                      href={`/search?category=${key}` || '/'}
-                      key={index}
-                    >
-                      <div className={styles.cart}>
-                        <div className={styles.gallery}>
-                          {category[key]?.slice(0, 7)?.map((intro, indexCat) => (
-                            <div className={styles.preview} key={indexCat}>
-                              <Image
-                                size={{ width: '100%', height: '98px' }}
-                                src={intro?.metadata?.image?.imgix_url}
-                                alt="Catégorie"
-                              />
+                {info?.length && info?.map((category) => (
+                  Object.keys(category)
+                    .filter((key) => !(category[key]?.length === 1 && category[key][0].title === 'Exemple'))
+                    .map((key, index) => (
+                      <Link
+                        className={styles.item}
+                        href={`/search?category=${key}` || '/'}
+                        key={index}
+                      >
+                        <div className={styles.cart}>
+                          <div className={styles.gallery}>
+                            {category[key]
+                              ?.filter((product) => product.title !== 'Exemple')
+                              .slice(0, 7)
+                              .map((intro, indexCat) => (
+                                <div className={styles.preview} key={indexCat}>
+                                  <Image
+                                    size={{ width: '100%', height: '98px' }}
+                                    src={intro?.metadata?.image?.imgix_url}
+                                    alt="Catégorie"
+                                  />
+                                </div>
+                              ))}
+                          </div>
+                          <div className={styles.subtitle}>
+                            {type[key] || ''}
+                          </div>
+                          <div className={styles.line}>
+                            <div
+                              className={cn(
+                                'status-stroke-black',
+                                styles.counter,
+                              )}
+                            >
+                              <span>{category[key]?.length}</span>
+                              {' '}
+                              cadeau(x)
                             </div>
-                          ))}
-                        </div>
-                        <div className={styles.subtitle}>
-                          {type[key] || ''}
-                        </div>
-                        <div className={styles.line}>
-                          <div
-                            className={cn(
-                              'status-stroke-black',
-                              styles.counter,
-                            )}
-                          >
-                            <span>{category[key]?.length}</span>
-                            {' '}
-                            cadeau(x)
                           </div>
                         </div>
-                      </div>
-                    </Link>
-                  )))}
+                      </Link>
+                    ))
+                ))}
               </Slider>
             </div>
           </div>
