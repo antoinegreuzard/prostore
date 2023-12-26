@@ -13,7 +13,7 @@
     "@microsoft/eslint-formatter-sarif": "3.0.0",
     "@vercel/analytics": "^1.1.1",
     "@vercel/speed-insights": "^1.0.2",
-    "classnames": "^2.3.2",
+    "classnames": "^2.3.3",
     "dotenv": "^16.3.1",
     "formidable": "^3.5.0",
     "fs": "^0.0.1-security",
