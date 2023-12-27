@@ -18,8 +18,8 @@ dependencies:
     specifier: ^1.0.2
     version: 1.0.2
   classnames:
-    specifier: ^2.3.2
-    version: 2.3.2
+    specifier: ^2.4.0
+    version: 2.4.0
   dotenv:
     specifier: ^16.3.1
     version: 16.3.1
@@ -845,8 +845,8 @@ packages:
       fsevents: 2.3.2
     dev: false
 
-  /classnames@2.3.2:
-    resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
+  /classnames@2.4.0:
+    resolution: {integrity: sha512-lWxiIlphgAhTLN657pwU/ofFxsUTOWc2CRIFeoV5st0MGRJHStUnWIUJgDHxjUO/F0mXzGufXIM4Lfu/8h+MpA==}
     dev: false
 
   /client-only@0.0.1:
@@ -2508,7 +2508,7 @@ packages:
       react: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
       react-dom: ^0.14.0 || ^15.0.1 || ^16.0.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      classnames: 2.3.2
+      classnames: 2.4.0
       enquire.js: 2.1.6
       json2mq: 0.2.0
       lodash.debounce: 4.0.8
