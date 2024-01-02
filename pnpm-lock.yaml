@@ -27,8 +27,8 @@ dependencies:
     specifier: ^3.5.0
     version: 3.5.1
   fs:
-    specifier: ^0.0.1-security
-    version: 0.0.1-security
+    specifier: ^0.0.2
+    version: 0.0.2
   iron-session:
     specifier: ^6.2.0
     version: 6.3.1(next@13.5.6)
@@ -1633,8 +1633,8 @@ packages:
   /fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
 
-  /fs@0.0.1-security:
-    resolution: {integrity: sha512-3XY9e1pP0CVEUCdj5BmfIZxRBTSDycnbqhIOGec9QYtmVH2fbLpj86CFWkrNOkt/Fvty4KZG5lTglL9j/gJ87w==}
+  /fs@0.0.2:
+    resolution: {integrity: sha512-YAiVokMCrSIFZiroB1oz51hPiPRVcUtSa4x2U5RYXyhS9VAPdiFigKbPTnOSq7XY8wd3FIVPYmXpo5lMzFmxgg==}
     dev: false
 
   /fsevents@2.3.2:
